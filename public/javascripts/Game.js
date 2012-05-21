@@ -1,11 +1,25 @@
+var WIDTH = 200
+var HEIGHT = 200
+
 window.onload = function () {
     var canvas = document.getElementById("game");
     if (canvas) {
-        var context = canvas.getContext("2d");
-        context.fillStyle = "red";
-        context.fillRect(30, 30, 50, 50);
+        var tick = 0;
+        var redraw = function() {
+            tick += 1;
+
+            var context = canvas.getContext("2d");
+
+            context.fillStyle = "white";
+            context.fillRect(0, 0, WIDTH, HEIGHT);
+
+            context.fillStyle = "red";
+            var pos = Trajectory(Position(30, 30)).atTime(tick);
+            context.fillRect(pos.x, pos.y, 50, 50);
+        };
+        setInterval(redraw, 500);
     }
-}
+};
 
 var Hairballistics = function() {
     return {
