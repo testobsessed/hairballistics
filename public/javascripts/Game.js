@@ -13,12 +13,17 @@ window.onload = function () {
             context.fillStyle = "white";
             context.fillRect(0, 0, WIDTH, HEIGHT);
 
-            context.fillStyle = "red";
             var pos = Hairball(30,30).atTime(tick).position;
-            context.fillRect(pos.x, pos.y, 50, 50);
+            drawHairball(context, pos);
         };
         setInterval(redraw, 500);
     }
+};
+
+function drawHairball(context, pos) {
+    var SIZE = 20;
+    context.fillStyle = "red";
+    context.fillRect(pos.x, pos.y, SIZE, SIZE);
 };
 
 var Hairballistics = function() {
