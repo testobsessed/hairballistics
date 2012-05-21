@@ -5,32 +5,35 @@ window.onload = function () {
     var canvas = document.getElementById("game");
     if (canvas) {
         var context = canvas.getContext("2d");
+        var renderer = Renderer(context);
         var hairballistics = Hairballistics();
         hairballistics.launchHairball(0, 0);
         var redraw = function() {
             hairballistics.tick();
-            clearCanvas(context);
-            hairballistics.withHairball(function (h) {
-                drawHairball(context, h);
-            });
+            renderer.clearCanvas();
+            hairballistics.withHairball(renderer.drawHairball);
         };
 
         setInterval(redraw, 500);
     }
 };
 
-function clearCanvas(context) {
-    context.fillStyle = "white";
-    context.fillRect(0, 0, WIDTH, HEIGHT);
-};
 
-function drawHairball(context, hairball) {
-    var SIZE = 20;
-    var pos = hairball.position;
-    context.fillStyle = "red";
-    context.fillRect(pos.x, pos.y, SIZE, SIZE);
-};
+var Renderer = function(context) {
+    var HAIRBALL_SIZE = 20;
+    return {
+        clearCanvas: function() {
+            context.fillStyle = "white";
+            context.fillRect(0, 0, WIDTH, HEIGHT);
+        },
 
+        drawHairball: function(hairball) {
+            var pos = hairball.position;
+            context.fillStyle = "red";
+            context.fillRect(pos.x, pos.y, HAIRBALL_SIZE, HAIRBALL_SIZE);
+        }
+    };
+};
 var Hairballistics = function() {
     var hairball = null;
     var time = 0;
