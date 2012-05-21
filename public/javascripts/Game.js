@@ -4,14 +4,13 @@ var HEIGHT = 200;
 window.onload = function () {
     var canvas = document.getElementById("game");
     if (canvas) {
-        var tick = 0;
+        var context = canvas.getContext("2d");
+        var hairballistics = Hairballistics();
+        hairballistics.launchHairball(0, 0);
         var redraw = function() {
-            tick += 1;
-
-            var context = canvas.getContext("2d");
+            hairballistics.tick();
             clearCanvas(context);
-            var pos = Hairball(30,30).atTime(tick).position;
-            drawHairball(context, pos);
+            drawHairball(context, hairballistics.hairballs()[0].position);
         };
         setInterval(redraw, 500);
     }
@@ -29,7 +28,19 @@ function drawHairball(context, pos) {
 };
 
 var Hairballistics = function() {
+    var hairballs = [];
+    var time = 0;
     return {
+        tick: function() {
+            time += 1;
+            hairballs[0] = hairballs[0].atTime(time);
+        },
+        launchHairball: function(x,y) {
+            hairballs.push(Hairball(x,y));
+        },
+        hairballs: function() {
+            return hairballs;
+        },
         kittens: ['bla']
     };
 };

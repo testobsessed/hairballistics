@@ -1,7 +1,23 @@
 describe('Hairballistics', function() {
-    it("has a kitten in the game", function() {
-        game = Hairballistics();
-        expect(game.kittens.length).toEqual(1);
+
+    describe('the world', function() {
+        it("has a kitten", function() {
+            game = Hairballistics();
+            expect(game.kittens.length).toEqual(1);
+        });
+
+        it("can give us hairballs", function() {
+            var world = Hairballistics();
+            world.launchHairball(5,5);
+            expect(world.hairballs().length).toEqual(1);
+        });
+
+        it("can tick itself", function() {
+            var world = Hairballistics();
+            world.launchHairball(5,5);
+            world.tick();
+            expect(world.hairballs()[0].position).toEqual(Position(6, 5));
+        });
     });
 
     describe('A hairball', function() {
