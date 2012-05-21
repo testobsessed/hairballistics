@@ -1,5 +1,5 @@
-var WIDTH = 200
-var HEIGHT = 200
+var WIDTH = 200;
+var HEIGHT = 200;
 
 window.onload = function () {
     var canvas = document.getElementById("game");
@@ -39,10 +39,11 @@ var Mover = {
     moveX: function(position, offset) {
         return Position(position.x + offset, position.y);
     }
-}
+};
+
 var Position = function(x, y) {
     return {
         x: x,
-        y: y,
+        y: y
     };
 };
