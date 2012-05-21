@@ -5,3 +5,4 @@ spec/generated_runner.html
 .bundle/
 bundler_stubs/
 vendor/
+.DS_Store
