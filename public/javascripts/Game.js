@@ -14,7 +14,7 @@ window.onload = function () {
             context.fillRect(0, 0, WIDTH, HEIGHT);
 
             context.fillStyle = "red";
-            var pos = Trajectory(Position(30, 30)).atTime(tick);
+            var pos = Hairball(30,30).atTime(tick).position;
             context.fillRect(pos.x, pos.y, 50, 50);
         };
         setInterval(redraw, 500);
@@ -27,6 +27,17 @@ var Hairballistics = function() {
     };
 };
 
+var Hairball = function(x,y) {
+    var position = Position(x,y);
+    var trajectory = Trajectory(position);
+    return {
+        position: position,
+        atTime: function(tick) {
+            var position = trajectory.atTime(tick);
+            return Hairball(position.x, position.y);
+        }
+    }
+};
 var Trajectory = function(pos) {
     return {
         atTime: function(tick) {

@@ -8,11 +8,11 @@ describe('Hairballistics', function() {
         it('is at the original position at time = 0', function() {
             var x = 5;
             var y = 5;
-            expect(Trajectory(Position(x, y)).atTime(0)).toEqual(Position(5,5));
+            expect(Hairball(x,y).atTime(0).position).toEqual(Position(5,5));
         });
 
         it('moves in linear fashion', function() {
-            expect(Trajectory(Position(0, 0)).atTime(1)).toEqual(Position(1,0));
+            expect(Hairball(0,0).atTime(1).position).toEqual(Position(1,0));
         });
     });
 });
