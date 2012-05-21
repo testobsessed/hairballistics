@@ -10,8 +10,11 @@ window.onload = function () {
         var redraw = function() {
             hairballistics.tick();
             clearCanvas(context);
-            drawHairball(context, hairballistics.hairballs()[0].position);
+            hairballistics.withHairball(function (h) {
+                drawHairball(context, h);
+            });
         };
+
         setInterval(redraw, 500);
     }
 };
@@ -21,25 +24,26 @@ function clearCanvas(context) {
     context.fillRect(0, 0, WIDTH, HEIGHT);
 };
 
-function drawHairball(context, pos) {
+function drawHairball(context, hairball) {
     var SIZE = 20;
+    var pos = hairball.position;
     context.fillStyle = "red";
     context.fillRect(pos.x, pos.y, SIZE, SIZE);
 };
 
 var Hairballistics = function() {
-    var hairballs = [];
+    var hairball = null;
     var time = 0;
     return {
         tick: function() {
             time += 1;
-            hairballs[0] = hairballs[0].atTime(time);
+            hairball = hairball.atTime(time);
         },
         launchHairball: function(x,y) {
-            hairballs.push(Hairball(x,y));
+            hairball = Hairball(x,y);
         },
-        hairballs: function() {
-            return hairballs;
+        withHairball: function(fn) {
+            fn(hairball);
         },
         kittens: ['bla']
     };
