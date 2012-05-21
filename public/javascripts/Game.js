@@ -9,15 +9,17 @@ window.onload = function () {
             tick += 1;
 
             var context = canvas.getContext("2d");
-
-            context.fillStyle = "white";
-            context.fillRect(0, 0, WIDTH, HEIGHT);
-
+            clearCanvas(context);
             var pos = Hairball(30,30).atTime(tick).position;
             drawHairball(context, pos);
         };
         setInterval(redraw, 500);
     }
+};
+
+function clearCanvas(context) {
+    context.fillStyle = "white";
+    context.fillRect(0, 0, WIDTH, HEIGHT);
 };
 
 function drawHairball(context, pos) {
