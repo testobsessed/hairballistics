@@ -31,4 +31,4 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  jasmine-headless-webkit (= 0.9.0.rc2)
+  jasmine-headless-webkit (= 0.9.0.rc.2)
