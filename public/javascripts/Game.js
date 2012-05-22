@@ -52,8 +52,10 @@ var Hairballistics = function() {
 };
 
 var Physics = {
+    GRAVITY: 1, // in pixels per tick
+
     applyGravity: function(velocity) {
-        return velocity;
+        return Point(velocity.x, velocity.y - Physics.GRAVITY);
     }
 };
 

@@ -42,6 +42,13 @@ describe('Hairballistics', function() {
     });
 });
 
-describe('A hairball', function() {
+describe('Physics', function() {
+    describe("gravity", function() {
+        it('causes an object to fall', function() {
+           var result = Physics.applyGravity(Point(5, 5));
+
+           expect(result).toEqual(Point(5, 4))
+        });
+    });
 });
 
