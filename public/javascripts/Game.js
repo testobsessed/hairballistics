@@ -3,8 +3,6 @@ var WIDTH = 1000;
 var HEIGHT = 600;
 
 var Renderer = function(context) {
-    var HAIRBALL_SIZE = 20;
-    var KITTEN_SIZE = 40;
     var drawImage = function(filename, x, y) {
         var image = new Image();
         image.onload = function() {
@@ -26,7 +24,7 @@ var Renderer = function(context) {
         drawKitten: function(kitten) {
             var pos = kitten.position;
             drawImage('orange_body.png', pos.x, 400-pos.y);
-            drawImage('orange_head.png', pos.x+100, 400-pos.y-80);
+            drawImage('orange_head.png', pos.x+40, 450-pos.y-80);
         }
 
     };
@@ -98,6 +96,6 @@ $(document).ready(function() {
             hairballistics.withKittens(renderer.drawKitten);
         };
 
-        setInterval(redraw, 42); // ~24 fps
+        setInterval(redraw, 1000); // ~24 fps
     }
 });
