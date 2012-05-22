@@ -1,23 +1,6 @@
+
 var WIDTH = 200;
 var HEIGHT = 200;
-
-window.onload = function () {
-    var canvas = document.getElementById("game");
-    if (canvas) {
-        var context = canvas.getContext("2d");
-        var renderer = Renderer(context);
-        var hairballistics = Hairballistics();
-        hairballistics.launchHairball(0, 0);
-        var redraw = function() {
-            hairballistics.tick();
-            renderer.clearCanvas();
-            hairballistics.withHairball(renderer.drawHairball);
-        };
-
-        setInterval(redraw, 500);
-    }
-};
-
 
 var Renderer = function(context) {
     var HAIRBALL_SIZE = 20;
@@ -83,3 +66,20 @@ var Position = function(x, y) {
         y: y
     };
 };
+
+$(document).ready(function() {
+    var canvas = document.getElementById("game");
+    if (canvas) {
+        var context = canvas.getContext("2d");
+        var renderer = Renderer(context);
+        var hairballistics = Hairballistics();
+        hairballistics.launchHairball(0, 0);
+        var redraw = function() {
+            hairballistics.tick();
+            renderer.clearCanvas();
+            hairballistics.withHairball(renderer.drawHairball);
+        };
+
+        setInterval(redraw, 500);
+    }
+});
