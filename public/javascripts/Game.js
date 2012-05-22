@@ -8,6 +8,7 @@ var Renderer = function(context) {
         image.src = 'images/' + filename;
         context.drawImage(image, x, y);
     }
+
     var translate = function(pos) {
         return Point(pos.x, HEIGHT-pos.y);
     };
@@ -42,50 +43,11 @@ var Kitten = function(x, y) {
     };
 };
 
-var Hairballistics = function() {
-    var hairball = null;
-    var kitten = Kitten(25, 70);
-    return {
-        tick: function() {
-            if(hairball) {
-                hairball = hairball.tick();
-            }
-        },
-        launchHairball: function(vector) {
-            hairball = Hairball(kitten.mouthPosition(), vector);
-            return hairball;
-        },
-        withHairball: function(fn) {
-            if (hairball) {
-                fn(hairball);
-            }
-        },
-        withKittens: function(fn) {
-            fn(kitten);
-        }
-    };
-};
-
 var Physics = {
     GRAVITY: 1, // in pixels per tick
 
     applyGravity: function(velocity) {
         return Point(velocity.x, velocity.y - Physics.GRAVITY);
-    }
-};
-
-var Hairball = function(position, velocity) {
-    var applyVelocity = function(position, velocity) {
-        return Point(position.x + velocity.x, position.y + velocity.y);
-    };
-
-    return {
-        position: position,
-        tick: function() {
-            var newVelocity = Physics.applyGravity(velocity);
-            var newPosition = applyVelocity(position, newVelocity)
-            return Hairball(newPosition, newVelocity);
-        },
     }
 };
 
