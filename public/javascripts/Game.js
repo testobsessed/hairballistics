@@ -20,8 +20,7 @@ var Renderer = function(context) {
 
         drawHairball: function(hairball) {
             var pos = hairball.position;
-            context.fillStyle = "red";
-            context.fillRect(pos.x, pos.y, HAIRBALL_SIZE, HAIRBALL_SIZE);
+            drawImage('hairball.png', pos.x, pos.y);
         },
 
         drawKitten: function(kitten) {
