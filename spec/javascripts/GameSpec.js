@@ -31,6 +31,22 @@ describe('Hairballistics', function() {
                     expect(newHairball.position).toNotEqual(oldHairball.position);
                 });
             });
+            it('does not splat before it hits the wall', function() {
+              world.launchHairball(Point(10,10));
+              world.tick();
+              world.withHairball(function(hairball) {
+                expect(hairball.splatted()).toBeFalsy();
+              });
+            });
+            it("splats when it hits the wall", function() {
+                world.launchHairball(Point(10,10));
+                _(10000).times(function() {
+                  world.tick();
+                });
+                world.withHairball(function(hairball) {
+                  expect(hairball.splatted()).toBeTruthy();
+                });
+            });
         });
     });
 

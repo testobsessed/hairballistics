@@ -10,6 +10,7 @@ var Hairball = function(position, velocity) {
           splatted = true;
         },
         tick: function() {
+            if(splatted) { return this }
             var newVelocity = Physics.applyGravity(velocity);
             var newPosition = applyVelocity(position, newVelocity)
             return Hairball(newPosition, newVelocity);

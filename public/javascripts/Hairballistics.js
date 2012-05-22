@@ -1,8 +1,11 @@
 var Hairballistics = function() {
-    var height = HEIGHT;
-    var width = WIDTH;
+    var margin = 25;
+    var right_wall = WIDTH - margin;
+    var left_wall = margin;
+    var ceiling = HEIGHT - margin;
+    var floor = margin;
     var hairball = null;
-    var kitten = Kitten(25, 70);
+    var kitten = Kitten(floor, 70);
 
     var launchHairball = function(vector) {
         hairball = Hairball(kitten.mouthPosition(), vector);
@@ -13,7 +16,11 @@ var Hairballistics = function() {
         tick: function() {
             if(hairball) {
                 hairball = hairball.tick();
+                if(hairball.position.y < floor) {
+                    hairball.splat();
+                }
             }
+
         },
         withHairball: function(fn) {
             if (hairball) {
