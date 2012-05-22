@@ -43,13 +43,13 @@ var Hairballistics = function() {
             }
         },
         withKittens: function(fn) {
-            fn({position: Position(10, 10)});
+            fn({position: Point(10, 10)});
         }
     };
 };
 
 var Hairball = function(x,y) {
-    var position = Position(x,y);
+    var position = Point(x,y);
     var trajectory = Trajectory(position);
     return {
         position: position,
@@ -69,11 +69,11 @@ var Trajectory = function(pos) {
 
 var Mover = {
     moveX: function(position, offset) {
-        return Position(position.x + offset, position.y);
+        return Point(position.x + offset, position.y);
     }
 };
 
-var Position = function(x, y) {
+var Point = function(x, y) {
     return {
         x: x,
         y: y
