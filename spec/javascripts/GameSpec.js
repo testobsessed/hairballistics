@@ -33,6 +33,16 @@ describe('Hairballistics', function() {
             });
         });
     });
+
+    describe("keydownHandler", function() {
+        it("launches a hairball on space", function() {
+            world.keydownHandler({ keyCode: 32 })
+
+            var hairball = world.hairballs()[0]
+            expect(hairball).toBeDefined();
+            expect(hairball).not.toBeNull();
+        });
+    });
 });
 
 describe('Physics', function() {

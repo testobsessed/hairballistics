@@ -3,15 +3,17 @@ var Hairballistics = function() {
     var width = WIDTH;
     var hairball = null;
     var kitten = Kitten(25, 70);
+
+    var launchHairball = function(vector) {
+        hairball = Hairball(kitten.mouthPosition(), vector);
+        return hairball;
+    };
+
     return {
         tick: function() {
             if(hairball) {
                 hairball = hairball.tick();
             }
-        },
-        launchHairball: function(vector) {
-            hairball = Hairball(kitten.mouthPosition(), vector);
-            return hairball;
         },
         withHairball: function(fn) {
             if (hairball) {
@@ -20,7 +22,14 @@ var Hairballistics = function() {
         },
         withKittens: function(fn) {
             fn(kitten);
-        }
+        },
+        keydownHandler: function(event) {
+            if (event.keyCode == 32) {
+                launchHairball(Point(20, 20));
+            }
+        },
+        launchHairball: launchHairball,
+        hairballs: function() { return [hairball]; },
     };
 };
 

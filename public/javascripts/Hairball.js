@@ -16,6 +16,6 @@ var Hairball = function(position, velocity) {
         },
         splatted: function() {
           return splatted;
-        }
+        },
     }
 };

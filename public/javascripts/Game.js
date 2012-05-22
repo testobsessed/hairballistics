@@ -66,9 +66,7 @@ $(document).ready(function() {
         var context = canvas.getContext("2d");
         var renderer = Renderer(context);
         var hairballistics = Hairballistics();
-        $(document).on('keypress', function() {
-            hairballistics.launchHairball(Point(10, 10));
-        });
+        $(document).on('keydown', hairballistics.keydownHandler);
         var redraw = function() {
             hairballistics.tick();
             renderer.clearCanvas();
@@ -76,6 +74,6 @@ $(document).ready(function() {
             hairballistics.withKittens(renderer.drawKitten);
         };
 
-        setInterval(redraw, 42); // ~24 fps
+        setInterval(redraw, 24); // ~48 fps
     }
 });
