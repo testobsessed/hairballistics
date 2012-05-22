@@ -1,6 +1,6 @@
 
-var WIDTH = 200;
-var HEIGHT = 200;
+var WIDTH = 1000;
+var HEIGHT = 600;
 
 var Renderer = function(context) {
     var HAIRBALL_SIZE = 20;
@@ -19,8 +19,16 @@ var Renderer = function(context) {
 
         drawKitten: function(kitten) {
             var pos = kitten.position;
-            context.fillStyle = "pink";
-            context.fillRect(pos.x, pos.y, KITTEN_SIZE, KITTEN_SIZE);
+            var body = new Image();
+            body.onload = function() {
+                context.drawImage(body, pos.x, 400-pos.y);
+            };
+            body.src = 'images/orange_body.png';
+            var head = new Image();
+            head.onload = function() {
+                context.drawImage(head, pos.x+100, 400-pos.y-80);
+            };
+            head.src = 'images/orange_head.png';
         }
     };
 };
