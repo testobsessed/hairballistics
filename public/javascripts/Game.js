@@ -103,6 +103,6 @@ $(document).ready(function() {
             hairballistics.withKittens(renderer.drawKitten);
         };
 
-        setInterval(redraw, 500);
+        setInterval(redraw, 42); // ~24 fps
     }
 });
