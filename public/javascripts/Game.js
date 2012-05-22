@@ -83,6 +83,8 @@ var Point = function(x, y) {
 $(document).ready(function() {
     var canvas = document.getElementById("game");
     if (canvas) {
+        canvas.width = WIDTH;
+        canvas.height = HEIGHT;
         var context = canvas.getContext("2d");
         var renderer = Renderer(context);
         var hairballistics = Hairballistics();
