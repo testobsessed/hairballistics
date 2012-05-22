@@ -5,6 +5,13 @@ var HEIGHT = 600;
 var Renderer = function(context) {
     var HAIRBALL_SIZE = 20;
     var KITTEN_SIZE = 40;
+    var drawImage = function(context, path, x, y) {
+        var image = new Image();
+        image.onload = function() {
+            context.drawImage(image, x, y);
+        };
+        image.src = path;
+    }
     return {
         clearCanvas: function() {
             context.fillStyle = "white";
@@ -19,17 +26,10 @@ var Renderer = function(context) {
 
         drawKitten: function(kitten) {
             var pos = kitten.position;
-            var body = new Image();
-            body.onload = function() {
-                context.drawImage(body, pos.x, 400-pos.y);
-            };
-            body.src = 'images/orange_body.png';
-            var head = new Image();
-            head.onload = function() {
-                context.drawImage(head, pos.x+100, 400-pos.y-80);
-            };
-            head.src = 'images/orange_head.png';
+            drawImage(context, 'images/orange_body.png', pos.x, 400-pos.y);
+            drawImage(context, 'images/orange_head.png', pos.x+100, 400-pos.y-80);
         }
+
     };
 };
 var Hairballistics = function() {
