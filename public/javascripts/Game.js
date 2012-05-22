@@ -22,7 +22,7 @@ var Renderer = function(context) {
         drawKitten: function(kitten) {
             var pos = kitten.position;
             drawImage('orange_body.png', pos.x, 400-pos.y);
-            drawImage('orange_head.png', pos.x+40, 450-pos.y-80);
+            drawImage('orange_head.png', pos.x+25, 450-pos.y-70);
         }
 
     };
@@ -46,7 +46,7 @@ var Hairballistics = function() {
             }
         },
         withKittens: function(fn) {
-            fn({position: Point(10, 10)});
+            fn({position: Point(25, 10)});
         }
     };
 };
@@ -94,6 +94,6 @@ $(document).ready(function() {
             hairballistics.withKittens(renderer.drawKitten);
         };
 
-        setInterval(redraw, 1000); // ~24 fps
+        setInterval(redraw, 42); // ~24 fps
     }
 });
