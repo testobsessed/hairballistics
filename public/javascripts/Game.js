@@ -32,9 +32,20 @@ var Renderer = function(context) {
 
     };
 };
+
+var Kitten = function(x, y) {
+    return {
+        position: Point(x, y),
+        mouthPosition: function() {
+            return Point(x+50, y+25);
+        },
+    };
+};
+
 var Hairballistics = function() {
     var hairball = null;
     var time = 0;
+    var kitten = Kitten(25, 70);
     return {
         tick: function() {
             time += 1;
@@ -43,7 +54,7 @@ var Hairballistics = function() {
             }
         },
         launchHairball: function(vector) {
-            hairball = Hairball(Point(75, 95), vector);
+            hairball = Hairball(kitten.mouthPosition(), vector);
             return hairball;
         },
         withHairball: function(fn) {
@@ -52,7 +63,7 @@ var Hairballistics = function() {
             }
         },
         withKittens: function(fn) {
-            fn({position: Point(25, 70)});
+            fn(kitten);
         }
     };
 };
