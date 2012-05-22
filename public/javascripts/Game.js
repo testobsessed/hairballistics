@@ -1,6 +1,6 @@
 
 var WIDTH = 1000;
-var HEIGHT = 600;
+var HEIGHT = 500;
 
 var Renderer = function(context) {
     var drawImage = function(filename, x, y) {
