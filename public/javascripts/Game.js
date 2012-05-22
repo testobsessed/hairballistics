@@ -34,8 +34,8 @@ var Hairballistics = function() {
                 hairball = hairball.atTime(time);
             }
         },
-        launchHairball: function(x,y) {
-            hairball = Hairball(x,y);
+        launchHairball: function(position, vector) {
+            hairball = Hairball(position, vector);
         },
         withHairball: function(fn) {
             if (hairball) {
@@ -48,18 +48,17 @@ var Hairballistics = function() {
     };
 };
 
-var Hairball = function(x,y) {
-    var position = Point(x,y);
-    var trajectory = Trajectory(position);
+var Hairball = function(position, vector) {
+    var trajectory = Trajectory(position, vector);
     return {
         position: position,
         atTime: function(tick) {
             var position = trajectory.atTime(tick);
-            return Hairball(position.x, position.y);
+            return Hairball(position, vector);
         }
     }
 };
-var Trajectory = function(pos) {
+var Trajectory = function(pos, vector) {
     return {
         atTime: function(tick) {
             return Mover.moveX(pos, tick);
@@ -87,7 +86,7 @@ $(document).ready(function() {
         var renderer = Renderer(context);
         var hairballistics = Hairballistics();
         $(document).on('keypress', function() {
-            hairballistics.launchHairball(0, 0);
+            hairballistics.launchHairball(Point(0, 0), Point(10, 10));
         });
         var redraw = function() {
             hairballistics.tick();
