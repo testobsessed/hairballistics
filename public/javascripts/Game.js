@@ -4,6 +4,7 @@ var HEIGHT = 200;
 
 var Renderer = function(context) {
     var HAIRBALL_SIZE = 20;
+    var KITTEN_SIZE = 40;
     return {
         clearCanvas: function() {
             context.fillStyle = "white";
@@ -14,6 +15,12 @@ var Renderer = function(context) {
             var pos = hairball.position;
             context.fillStyle = "red";
             context.fillRect(pos.x, pos.y, HAIRBALL_SIZE, HAIRBALL_SIZE);
+        },
+
+        drawKitten: function(kitten) {
+            var pos = kitten.position;
+            context.fillStyle = "pink";
+            context.fillRect(pos.x, pos.y, KITTEN_SIZE, KITTEN_SIZE);
         }
     };
 };
@@ -31,7 +38,9 @@ var Hairballistics = function() {
         withHairball: function(fn) {
             fn(hairball);
         },
-        kittens: ['bla']
+        withKittens: function(fn) {
+            fn({position: Position(10, 10)});
+        }
     };
 };
 
@@ -78,6 +87,7 @@ $(document).ready(function() {
             hairballistics.tick();
             renderer.clearCanvas();
             hairballistics.withHairball(renderer.drawHairball);
+            hairballistics.withKittens(renderer.drawKitten);
         };
 
         setInterval(redraw, 500);

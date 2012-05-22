@@ -2,8 +2,12 @@ describe('Hairballistics', function() {
 
     describe('the world', function() {
         it("has a kitten", function() {
-            game = Hairballistics();
-            expect(game.kittens.length).toEqual(1);
+            var game = Hairballistics();
+            var numKittens = 0;
+            game.withKittens(function() {
+                numKittens += 1;
+            });
+            expect(numKittens).toEqual(1);
         });
 
         it("can tick itself", function() {
