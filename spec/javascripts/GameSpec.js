@@ -23,10 +23,10 @@ describe('Hairballistics', function() {
     });
 
     it("can tick itself", function() {
-        world.launchHairball(5,5);
+        world.launchHairball(Point(5,5), null);
         world.tick();
         world.withHairball(function(h) {
-            expect(h.position).toEqual(Position(6, 5));
+            expect(h.position).toEqual(Point(6, 5));
         });
     });
 });
@@ -35,11 +35,11 @@ describe('A hairball', function() {
     it('is at the original position at time = 0', function() {
         var x = 5;
         var y = 5;
-        expect(Hairball(x,y).atTime(0).position).toEqual(Position(5,5));
+        expect(Hairball(Point(x,y), null).atTime(0).position).toEqual(Point(5,5));
     });
 
     it('moves in linear fashion', function() {
-        expect(Hairball(0,0).atTime(1).position).toEqual(Position(1,0));
+        expect(Hairball(Point(0,0), null).atTime(1).position).toEqual(Point(1,0));
     });
 });
 
