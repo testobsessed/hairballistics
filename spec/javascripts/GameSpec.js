@@ -31,11 +31,11 @@ describe('Hairballistics', function() {
                 });
             });
 
-            it("based on it's velocity", function() {
+            it("somewhere after a tick()", function() {
                 world.launchHairball(Point(5,5), Point(10,10));
                 world.tick();
                 world.withHairball(function(h) {
-                    expect(h.position).toEqual(Point(15, 15));
+                    expect(h.position).toNotEqual(Point(5, 5));
                 });
             });
         });
