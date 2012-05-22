@@ -8,6 +8,10 @@ var Renderer = function(context) {
         image.src = 'images/' + filename;
         context.drawImage(image, x, y);
     }
+    var translate = function(pos) {
+        return Point(pos.x, HEIGHT-pos.y);
+    };
+
     return {
         clearCanvas: function() {
             context.fillStyle = "white";
@@ -15,14 +19,15 @@ var Renderer = function(context) {
         },
 
         drawHairball: function(hairball) {
-            var pos = hairball.position;
+            var pos = translate(hairball.position);
             drawImage('hairball.png', pos.x, pos.y);
         },
 
         drawKitten: function(kitten) {
-            var pos = kitten.position;
-            drawImage('orange_body.png', pos.x, 400-pos.y);
-            drawImage('orange_head.png', pos.x+25, 450-pos.y-70);
+            var headPos = translate(Point(kitten.position.x+25, kitten.position.y+20));
+            var bodyPos = translate(kitten.position);
+            drawImage('orange_head.png', headPos.x, headPos.y);
+            drawImage('orange_body.png', bodyPos.x, bodyPos.y);
         }
 
     };
@@ -46,7 +51,7 @@ var Hairballistics = function() {
             }
         },
         withKittens: function(fn) {
-            fn({position: Point(25, 10)});
+            fn({position: Point(25, 70)});
         }
     };
 };
