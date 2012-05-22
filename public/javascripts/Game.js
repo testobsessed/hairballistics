@@ -51,13 +51,24 @@ var Hairballistics = function() {
     };
 };
 
-var Hairball = function(position, vector) {
+var Physics = {
+    applyGravity: function(velocity) {
+        return velocity;
+    }
+};
+
+var Hairball = function(position, velocity) {
+    var applyVelocity = function(position, velocity) {
+        return Point(position.x + velocity.x, position.y + velocity.y);
+    };
+
     return {
         position: position,
         tick: function() {
-            var newPosition = Point(position.x + vector.x, position.y + vector.y);
-            return Hairball(newPosition, vector);
-        }
+            var newVelocity = Physics.applyGravity(velocity);
+            var newPosition = applyVelocity(position, newVelocity)
+            return Hairball(newPosition, newVelocity);
+        },
     }
 };
 
