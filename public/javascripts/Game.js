@@ -51,12 +51,12 @@ var Hairballistics = function() {
     };
 };
 
-var Hairball = function(position, vector) {
+var Hairball = function(position, velocity) {
     return {
         position: position,
         tick: function() {
-            var newPosition = Point(position.x + vector.x, position.y + vector.y);
-            return Hairball(newPosition, vector);
+            var newPosition = Point(position.x + velocity.x, position.y + velocity.y);
+            return Hairball(newPosition, velocity);
         }
     }
 };
