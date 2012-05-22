@@ -69,15 +69,9 @@ var Hairball = function(position, vector) {
 var Trajectory = function(pos, vector) {
     return {
         atTime: function(tick) {
-            return Mover.moveX(pos, tick);
+            return Point(pos.x + vector.x, pos.y + vector.y);
         }
     };
-};
-
-var Mover = {
-    moveX: function(position, offset) {
-        return Point(position.x + offset, position.y);
-    }
 };
 
 var Point = function(x, y) {
