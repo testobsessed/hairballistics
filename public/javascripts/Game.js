@@ -30,13 +30,17 @@ var Hairballistics = function() {
     return {
         tick: function() {
             time += 1;
-            hairball = hairball.atTime(time);
+            if(hairball) {
+                hairball = hairball.atTime(time);
+            }
         },
         launchHairball: function(x,y) {
             hairball = Hairball(x,y);
         },
         withHairball: function(fn) {
-            fn(hairball);
+            if (hairball) {
+                fn(hairball);
+            }
         },
         withKittens: function(fn) {
             fn({position: Position(10, 10)});
@@ -82,7 +86,9 @@ $(document).ready(function() {
         var context = canvas.getContext("2d");
         var renderer = Renderer(context);
         var hairballistics = Hairballistics();
-        hairballistics.launchHairball(0, 0);
+        $(document).on('keypress', function() {
+            hairballistics.launchHairball(0, 0);
+        });
         var redraw = function() {
             hairballistics.tick();
             renderer.clearCanvas();

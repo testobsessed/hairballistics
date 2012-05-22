@@ -9,6 +9,12 @@ describe('Hairballistics', function() {
             });
             expect(numKittens).toEqual(1);
         });
+        describe('Ticking with a new hairballistic', function() {
+            it('doesnt throw an exception', function() {
+                var game = Hairballistics();
+                game.tick();
+            });
+        });
 
         it("can tick itself", function() {
             var world = Hairballistics();
@@ -16,6 +22,16 @@ describe('Hairballistics', function() {
             world.tick();
             world.withHairball(function(h) {
                 expect(h.position).toEqual(Position(6, 5));
+            });
+        });
+        describe('withHairball', function() {
+            describe('with no hairball', function() {
+                it('does not call the callback', function() {
+                    var callback = jasmine.createSpy();
+                    var world = Hairballistics();
+                    world.withHairball(callback);
+                    expect(callback).not.toHaveBeenCalled();
+                });
             });
         });
     });
