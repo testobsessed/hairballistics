@@ -44,11 +44,9 @@ var Kitten = function(x, y) {
 
 var Hairballistics = function() {
     var hairball = null;
-    var time = 0;
     var kitten = Kitten(25, 70);
     return {
         tick: function() {
-            time += 1;
             if(hairball) {
                 hairball = hairball.tick();
             }
