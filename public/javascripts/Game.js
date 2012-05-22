@@ -34,7 +34,7 @@ var Hairballistics = function() {
         tick: function() {
             time += 1;
             if(hairball) {
-                hairball = hairball.atTime(time);
+                hairball = hairball.tick();
             }
         },
         launchHairball: function(position, vector) {
@@ -52,21 +52,13 @@ var Hairballistics = function() {
 };
 
 var Hairball = function(position, vector) {
-    var trajectory = Trajectory(position, vector);
     return {
         position: position,
-        atTime: function(tick) {
-            var position = trajectory.atTime(tick);
-            return Hairball(position, vector);
+        tick: function() {
+            var newPosition = Point(position.x + vector.x, position.y + vector.y);
+            return Hairball(newPosition, vector);
         }
     }
-};
-var Trajectory = function(pos, vector) {
-    return {
-        atTime: function(tick) {
-            return Point(pos.x + vector.x, pos.y + vector.y);
-        }
-    };
 };
 
 var Point = function(x, y) {
