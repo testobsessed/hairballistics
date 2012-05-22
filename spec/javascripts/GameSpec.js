@@ -25,17 +25,17 @@ describe('Hairballistics', function() {
     describe("tick", function() {
         describe("moves a hairball", function() {
             it('nowhere until tick() is called', function() {
-                world.launchHairball(Point(5,5), Point(10,10));
-                world.withHairball(function(h) {
-                    expect(h.position).toEqual(Point(5, 5));
+                var oldHairball = world.launchHairball(Point(10,10));
+                world.withHairball(function(newHairball) {
+                    expect(newHairball.position).toEqual(oldHairball.position);
                 });
             });
 
             it("somewhere after a tick()", function() {
-                world.launchHairball(Point(5,5), Point(10,10));
+                var oldHairball = world.launchHairball(Point(10,10));
                 world.tick();
-                world.withHairball(function(h) {
-                    expect(h.position).toNotEqual(Point(5, 5));
+                world.withHairball(function(newHairball) {
+                    expect(newHairball.position).toNotEqual(oldHairball.position);
                 });
             });
         });

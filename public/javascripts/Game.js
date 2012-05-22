@@ -42,8 +42,9 @@ var Hairballistics = function() {
                 hairball = hairball.tick();
             }
         },
-        launchHairball: function(position, vector) {
-            hairball = Hairball(position, vector);
+        launchHairball: function(vector) {
+            hairball = Hairball(Point(75, 95), vector);
+            return hairball;
         },
         withHairball: function(fn) {
             if (hairball) {
@@ -95,7 +96,7 @@ $(document).ready(function() {
         var renderer = Renderer(context);
         var hairballistics = Hairballistics();
         $(document).on('keypress', function() {
-            hairballistics.launchHairball(Point(0, 0), Point(10, 10));
+            hairballistics.launchHairball(Point(10, 10));
         });
         var redraw = function() {
             hairballistics.tick();
