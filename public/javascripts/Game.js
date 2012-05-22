@@ -25,7 +25,7 @@ var Renderer = function(context) {
         },
 
         drawKitten: function(kitten) {
-            var headPos = translate(Point(kitten.position.x+25, kitten.position.y+20));
+            var headPos = translate(Vector.add(kitten.position, Point(25, 20)));
             var bodyPos = translate(kitten.position);
             drawImage('orange_head.png', headPos.x, headPos.y);
             drawImage('orange_body.png', bodyPos.x, bodyPos.y);
@@ -43,11 +43,17 @@ var Kitten = function(x, y) {
     };
 };
 
+var Vector = {
+    add : function(v1, v2) {
+        return Point(v1.x + v2.x, v1.y + v2.y);
+    },
+}
+
 var Physics = {
     GRAVITY: 1, // in pixels per tick
 
     applyGravity: function(velocity) {
-        return Point(velocity.x, velocity.y - Physics.GRAVITY);
+        return Vector.add(velocity, Point(0, Physics.GRAVITY * -1))
     }
 };
 
