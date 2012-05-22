@@ -7,10 +7,8 @@ var Renderer = function(context) {
     var KITTEN_SIZE = 40;
     var drawImage = function(filename, x, y) {
         var image = new Image();
-        image.onload = function() {
-            context.drawImage(image, x, y);
-        };
         image.src = 'images/' + filename;
+        context.drawImage(image, x, y);
     }
     return {
         clearCanvas: function() {
