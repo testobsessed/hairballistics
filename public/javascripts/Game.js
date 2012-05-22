@@ -43,25 +43,12 @@ var Kitten = function(x, y) {
     };
 };
 
-var Vector = {
-    add : function(v1, v2) {
-        return Point(v1.x + v2.x, v1.y + v2.y);
-    },
-}
-
 var Physics = {
     GRAVITY: 1, // in pixels per tick
 
     applyGravity: function(velocity) {
         return Vector.add(velocity, Point(0, Physics.GRAVITY * -1))
     }
-};
-
-var Point = function(x, y) {
-    return {
-        x: x,
-        y: y
-    };
 };
 
 $(document).ready(function() {
