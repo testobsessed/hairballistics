@@ -30,6 +30,15 @@ var Hairballistics = function() {
                 }
             }
 
+            if (hairball) {
+                var hairballRect = Rect(hairball.position.x, hairball.position.y, 10, 10);
+                var kittenRect = Rect(kitten1.position.x, kitten1.position.y, 300, 300);
+
+                if (Collision.overlap(hairballRect, kittenRect)) {
+                    currentKitten().faint();
+                }
+            }
+
             if(spacePressed) {
                 currentKitten().incrementPower();
             }
@@ -61,6 +70,12 @@ var Hairballistics = function() {
         },
         currentKitten: currentKitten,
         hairballs: function() { return [hairball]; },
+        setHairball: function(newHairball) {
+            hairball = newHairball;
+        },
+        setCurrentKitten: function(newKitten) {
+            kitten1 = newKitten;
+        },
     };
 };
 
