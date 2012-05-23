@@ -15,7 +15,7 @@ rm release.tar.gz
 mv public game
 
 git add --all
-git commit -m "$release_message"
+git commit -m "$release_message (automated release)"
 git push origin gh-pages
 
 git checkout master
