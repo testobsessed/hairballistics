@@ -6,17 +6,22 @@ if [ -z "$1" ]; then
 fi
 release_message="$1"
 
-tar czf release.tar.gz public
+archive_filename="release.tar.gz"
+directory_to_release_from="public"
+release_branch="gh-pages"
+directory_to_release_to="game"
 
-git checkout gh-pages
-rm -rf game
-tar xzf release.tar.gz
-rm release.tar.gz
-mv public game
+tar czf "$archive_filename" "$directory_to_release_from"
+
+git checkout "$release_branch"
+rm -rf "$directory_to_release_to"
+tar xzf "$archive_filename"
+rm "$archive_filename"
+mv "$directory_to_release_from" "$directory_to_release_to"
 
 git add --all
 git commit -m "$release_message (automated release)"
-git push origin gh-pages
+git push origin "$release_branch"
 
 git checkout master
 
