@@ -85,7 +85,7 @@ var Kitten = function(x, y, color) {
         },
         incrementPower: function() {
            mag = Vector.magnitude(targettingLine);
-           targettingLine = Vector.setMagnitude(targettingLine, ((mag + 1) % 150) + 1)
+           targettingLine = Vector.setMagnitude(targettingLine, ((mag + .2) % 50) + 1)
         },
         resetPower: resetPower,
     };
