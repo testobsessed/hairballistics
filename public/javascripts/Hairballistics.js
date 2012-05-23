@@ -5,9 +5,12 @@ var Hairballistics = function() {
     var left_wall = margin;
     var ceiling = HEIGHT - margin;
     var floor = margin;
+
     var hairball = null;
-    var kitten1 = Kitten(left_wall, 70);
-    var kitten2 = Kitten(right_wall-kittenWidth, 70);
+    var kitten1 = Kitten(left_wall, 70, "yellow");
+    var kitten2 = Kitten(right_wall-kittenWidth, 70, "gray");
+
+    var spacePressed = false;
 
     var launchHairball = function(vector) {
         hairball = Hairball(kitten1.mouthPosition(), vector);
@@ -23,7 +26,9 @@ var Hairballistics = function() {
                 }
             }
 
-            kitten1 = kitten1.tick();
+            if(spacePressed) {
+                kitten1.incrementPower();
+            }
         },
         withHairball: function(fn) {
             if (hairball) {
@@ -34,12 +39,22 @@ var Hairballistics = function() {
             fn(kitten1);
             fn(kitten2);
         },
-        keydownHandler: function(event) {
+        keyDownHandler: function(event) {
             if (event.keyCode == 32) {
+                spacePressed = true;
+            }
+        },
+        keyUpHandler: function(event) {
+            if (event.keyCode == 32) {
+                spacePressed = false;
                 launchHairball(kitten1.targettingLine());
+                kitten1.resetPower();
             }
         },
         launchHairball: launchHairball,
+        currentPower: function() {
+            return kitten1.targettingLine();
+        },
         hairballs: function() { return [hairball]; },
     };
 };
