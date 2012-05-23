@@ -59,10 +59,10 @@ var Renderer = function(context, world) {
             var prop = kittenProperties[kitten.color];
             var headPos = translate(Vector.add(kitten.position, prop.headOffset));
             var bodyPos = translate(kitten.position);
-            drawTargettingLine(kitten)
             drawImage(prop.bodyImage, bodyPos.x, bodyPos.y);
             drawImage(prop.headImage, headPos.x, headPos.y);
-        }
+        },
+        drawTargettingLine: drawTargettingLine
 
     };
 };
@@ -116,6 +116,7 @@ $(document).ready(function() {
             renderer.clearCanvas();
             hairballistics.withHairball(renderer.drawHairball);
             hairballistics.withKittens(renderer.drawKitten);
+            renderer.drawTargettingLine(hairballistics.currentKitten())
         };
 
         setInterval(redraw, 24); // ~48 fps

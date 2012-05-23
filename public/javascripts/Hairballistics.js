@@ -13,8 +13,12 @@ var Hairballistics = function() {
     var spacePressed = false;
 
     var launchHairball = function(vector) {
-        hairball = Hairball(kitten1.mouthPosition(), vector);
+        hairball = Hairball(currentKitten().mouthPosition(), vector);
         return hairball;
+    };
+
+    var currentKitten = function() {
+        return kitten1;
     };
 
     return {
@@ -27,7 +31,7 @@ var Hairballistics = function() {
             }
 
             if(spacePressed) {
-                kitten1.incrementPower();
+                currentKitten().incrementPower();
             }
         },
         withHairball: function(fn) {
@@ -47,14 +51,15 @@ var Hairballistics = function() {
         keyUpHandler: function(event) {
             if (event.keyCode == 32) {
                 spacePressed = false;
-                launchHairball(kitten1.targettingLine());
-                kitten1.resetPower();
+                launchHairball(currentKitten().targettingLine());
+                currentKitten().resetPower();
             }
         },
         launchHairball: launchHairball,
         currentPower: function() {
-            return kitten1.targettingLine();
+            return currentKitten().targettingLine();
         },
+        currentKitten: currentKitten,
         hairballs: function() { return [hairball]; },
     };
 };
