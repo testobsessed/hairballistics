@@ -2,11 +2,18 @@
 var WIDTH = 1000;
 var HEIGHT = 500;
 
-var Renderer = function(context, world) {
+var Renderer = function(world, ocanvas) {
     var drawImage = function(filename, x, y) {
-        var image = new Image();
-        image.src = 'images/' + filename;
-        context.drawImage(image, x, y);
+        path = 'images/' + filename;
+        //context.drawImage(image, x, y);
+        var image = ocanvas.display.image({
+            x: x,
+            y: y,
+            //origin: { x: "center", y: "center" }, //FIXME: LATER
+            image: path
+        });
+
+        ocanvas.addChild(image, false);
     }
 
     var convertToCanvasCoords = function(pos) {
@@ -14,6 +21,7 @@ var Renderer = function(context, world) {
     };
 
     var drawTargettingLine = function(kitten) {
+        /*
         context.beginPath();
         var mouthPos = kitten.mouthPosition();
 
@@ -29,6 +37,7 @@ var Renderer = function(context, world) {
         context.lineTo(screenEndPos.x, screenEndPos.y);
 
         context.stroke();
+        */
     };
 
     var kittenProperties = {
@@ -46,8 +55,7 @@ var Renderer = function(context, world) {
 
     return {
         clearCanvas: function() {
-            context.fillStyle = "white";
-            context.fillRect(0, 0, WIDTH, HEIGHT);
+            ocanvas.clear();
         },
 
         drawHairball: function(hairball) {
@@ -101,13 +109,15 @@ var Physics = {
 };
 
 $(document).ready(function() {
-    var canvas = document.getElementById("game");
-    if (canvas) {
-        canvas.width = WIDTH;
-        canvas.height = HEIGHT;
-        var context = canvas.getContext("2d");
+    var domCanvas = document.getElementById("game");
+    if (domCanvas) {
+        var ocanvas = oCanvas.create({
+            canvas: '#game'
+        });
+        domCanvas.width = WIDTH;
+        domCanvas.height = HEIGHT;
         var hairballistics = Hairballistics();
-        var renderer = Renderer(context, hairballistics);
+        var renderer = Renderer(hairballistics, ocanvas);
 
         $(document).on('keydown', hairballistics.keyDownHandler);
         $(document).on('keyup', hairballistics.keyUpHandler);
@@ -115,6 +125,7 @@ $(document).ready(function() {
         var redraw = function() {
             hairballistics.tick();
             renderer.clearCanvas();
+            ocanvas.redraw();
             hairballistics.withHairball(renderer.drawHairball);
             hairballistics.withKittens(renderer.drawKitten);
             renderer.drawTargettingLine(hairballistics.currentKitten())
