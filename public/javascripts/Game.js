@@ -13,6 +13,24 @@ var Renderer = function(context) {
         return Point(pos.x, HEIGHT-pos.y);
     };
 
+    var drawTargettingLine = function(kitten) {
+        context.beginPath();
+        var mouthPos = kitten.mouthPosition();
+
+        //fudge positioning to look good
+        mouthPos.x += 10
+        mouthPos.y -= 15
+
+        var endPos = Vector.add(mouthPos, kitten.targettingLine());
+        var screenMouthPos = translate(mouthPos);
+        var screenEndPos = translate(endPos);
+
+        context.moveTo(screenMouthPos.x, screenMouthPos.y);
+        context.lineTo(screenEndPos.x, screenEndPos.y);
+
+        context.stroke();
+    };
+
     return {
         clearCanvas: function() {
             context.fillStyle = "white";
@@ -27,6 +45,7 @@ var Renderer = function(context) {
         drawKitten: function(kitten) {
             var headPos = translate(Vector.add(kitten.position, Point(25, 20)));
             var bodyPos = translate(kitten.position);
+            drawTargettingLine(kitten)
             drawImage('orange_head.png', headPos.x, headPos.y);
             drawImage('orange_body.png', bodyPos.x, bodyPos.y);
         }
@@ -35,10 +54,21 @@ var Renderer = function(context) {
 };
 
 var Kitten = function(x, y) {
+    var targettingLine = Point(30, 30);
+
     return {
         position: Point(x, y),
         mouthPosition: function() {
             return Point(x+50, y+25);
+        },
+        targettingLine: function() {
+            return targettingLine;
+        },
+        tick: function() {
+           mag = Vector.magnitude(targettingLine);
+           targettingLine = Vector.setMagnitude(targettingLine, ((mag + 1) % 150) + 1)
+
+           return this;
         },
     };
 };

@@ -21,6 +21,7 @@ var Hairballistics = function() {
                 }
             }
 
+            kitten = kitten.tick();
         },
         withHairball: function(fn) {
             if (hairball) {
@@ -32,7 +33,7 @@ var Hairballistics = function() {
         },
         keydownHandler: function(event) {
             if (event.keyCode == 32) {
-                launchHairball(Point(10, 30));
+                launchHairball(kitten.targettingLine());
             }
         },
         launchHairball: launchHairball,
