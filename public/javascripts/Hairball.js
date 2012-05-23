@@ -23,3 +23,11 @@ var Hairball = function(position, velocity) {
         },
     }
 };
+
+var Physics = {
+    GRAVITY: 1, // in pixels per tick
+
+    applyGravity: function(velocity) {
+        return Vector.add(velocity, Point(0, Physics.GRAVITY * -1))
+    }
+};

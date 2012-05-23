@@ -1,4 +1,3 @@
-
 var WIDTH = 1000;
 var HEIGHT = 500;
 
@@ -71,14 +70,6 @@ var Renderer = function(context, world) {
         drawTargettingLine: drawTargettingLine,
 
     };
-};
-
-var Physics = {
-    GRAVITY: 1, // in pixels per tick
-
-    applyGravity: function(velocity) {
-        return Vector.add(velocity, Point(0, Physics.GRAVITY * -1))
-    }
 };
 
 $(document).ready(function() {
