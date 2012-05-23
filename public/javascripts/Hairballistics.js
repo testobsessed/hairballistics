@@ -14,9 +14,9 @@ var Hairballistics = function() {
 
     return {
         tick: function() {
-            if(hairball) {
+            if(hairball && !hairball.splatted()) {
                 hairball = hairball.tick();
-                if(hairball.position.y < floor) {
+                if(hairball.position.y <= (floor + margin) || hairball.position.x >= (right_wall - margin)) {
                     hairball.splat();
                 }
             }
@@ -32,7 +32,7 @@ var Hairballistics = function() {
         },
         keydownHandler: function(event) {
             if (event.keyCode == 32) {
-                launchHairball(Point(20, 20));
+                launchHairball(Point(10, 30));
             }
         },
         launchHairball: launchHairball,
