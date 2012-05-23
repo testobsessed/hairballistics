@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+    echo "Please provide a release message." $red
+    exit 1
+fi
+release_message="$1"
+
+tar czf release.tar.gz public
+
+git checkout gh-pages
+rm -rf game
+tar xzf release.tar.gz
+mv public game
+
+git add --all
+git commit -m "$release_message"
+git push origin gh-pages
+
+git checkout master
+
