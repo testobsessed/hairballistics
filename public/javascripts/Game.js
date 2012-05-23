@@ -62,6 +62,11 @@ var Renderer = function(context, world) {
 
             var headPos = convertToCanvasCoords(Vector.add(kitten.position, prop.headOffset));
             drawImage(prop.headImage, headPos.x, headPos.y);
+
+            if (kitten.fainted()) {
+                context.fillStyle = "rgb(200,0,0)";
+                context.fillRect(headPos.x, headPos.y, 55, 50);
+            }
         },
         drawTargettingLine: drawTargettingLine,
 
@@ -74,10 +79,14 @@ var Kitten = function(x, y, color) {
         targettingLine = Point(1, 1);
     }
     resetPower();
+    var fainted = false;
 
     return {
         position: Point(x, y),
         color: color,
+        boundingRectangle: function() {
+            return Rect(x, y+20, 60, 70);
+        },
         mouthPosition: function() {
             return Point(x+50, y+25);
         },
@@ -89,6 +98,12 @@ var Kitten = function(x, y, color) {
            targettingLine = Vector.setMagnitude(targettingLine, ((mag + .2) % 50) + 1)
         },
         resetPower: resetPower,
+        faint: function() {
+            fainted = true;
+        },
+        fainted: function() {
+            return fainted;
+        },
     };
 };
 
