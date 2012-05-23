@@ -31,6 +31,17 @@ var Renderer = function(context) {
         context.stroke();
     };
 
+    var kittenImageMap = {
+        yellow: {
+            head: "orange_head.png",
+            body: "orange_body.png",
+        },
+        gray: {
+            head: "black_head.png",
+            body: "black_body.png",
+        },
+    };
+
     return {
         clearCanvas: function() {
             context.fillStyle = "white";
@@ -46,18 +57,20 @@ var Renderer = function(context) {
             var headPos = translate(Vector.add(kitten.position, Point(25, 20)));
             var bodyPos = translate(kitten.position);
             drawTargettingLine(kitten)
-            drawImage('orange_head.png', headPos.x, headPos.y);
-            drawImage('orange_body.png', bodyPos.x, bodyPos.y);
+            var kittenImage = kittenImageMap[kitten.color];
+            drawImage(kittenImage.head, headPos.x, headPos.y);
+            drawImage(kittenImage.body, bodyPos.x, bodyPos.y);
         }
 
     };
 };
 
-var Kitten = function(x, y) {
+var Kitten = function(x, y, color) {
     var targettingLine = Point(30, 30);
 
     return {
         position: Point(x, y),
+        color: color,
         mouthPosition: function() {
             return Point(x+50, y+25);
         },

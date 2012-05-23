@@ -6,8 +6,8 @@ var Hairballistics = function() {
     var ceiling = HEIGHT - margin;
     var floor = margin;
     var hairball = null;
-    var kitten1 = Kitten(left_wall, 70);
-    var kitten2 = Kitten(right_wall-kittenWidth, 70);
+    var kitten1 = Kitten(left_wall, 70, "yellow");
+    var kitten2 = Kitten(right_wall-kittenWidth, 70, "gray");
 
     var launchHairball = function(vector) {
         hairball = Hairball(kitten1.mouthPosition(), vector);
