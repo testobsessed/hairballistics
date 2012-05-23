@@ -60,8 +60,8 @@ var Renderer = function(context, world) {
             var headPos = translate(Vector.add(kitten.position, prop.headOffset));
             var bodyPos = translate(kitten.position);
             drawTargettingLine(kitten)
-            drawImage(prop.headImage, headPos.x, headPos.y);
             drawImage(prop.bodyImage, bodyPos.x, bodyPos.y);
+            drawImage(prop.headImage, headPos.x, headPos.y);
         }
 
     };
