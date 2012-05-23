@@ -21,6 +21,12 @@ var Hairballistics = function() {
         return kitten1;
     };
 
+    var detectCollision = function(object1, object2) {
+        var obj1Rect = Rect(object1.position.x, object1.position.y, 10, 10);
+        var obj2Rect = Rect(object2.position.x, object2.position.y, 300, 300);
+        return Collision.overlap(obj1Rect, obj2Rect);
+    };
+
     return {
         tick: function() {
             if(hairball && !hairball.splatted()) {
@@ -31,11 +37,8 @@ var Hairballistics = function() {
             }
 
             if (hairball) {
-                var hairballRect = Rect(hairball.position.x, hairball.position.y, 10, 10);
-                var kittenRect = Rect(kitten1.position.x, kitten1.position.y, 300, 300);
-
-                if (Collision.overlap(hairballRect, kittenRect)) {
-                    currentKitten().faint();
+                if (detectCollision(hairball, kitten1)) {
+                    kitten1.faint();
                 }
             }
 
