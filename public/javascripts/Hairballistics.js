@@ -21,6 +21,10 @@ var Hairballistics = function() {
         return kitten1;
     };
 
+    var opponentKitten = function() {
+        return kitten2;
+    };
+
     var detectCollision = function(object1, object2) {
         var obj1Rect = Rect(object1.position.x, object1.position.y, 10, 10);
         var obj2Rect = Rect(object2.position.x, object2.position.y, 300, 300);
@@ -37,8 +41,8 @@ var Hairballistics = function() {
             }
 
             if (hairball) {
-                if (detectCollision(hairball, kitten1)) {
-                    kitten1.faint();
+                if (detectCollision(hairball, opponentKitten())) {
+                    opponentKitten().faint();
                 }
             }
 
@@ -78,6 +82,9 @@ var Hairballistics = function() {
         },
         setCurrentKitten: function(newKitten) {
             kitten1 = newKitten;
+        },
+        setOpponentKitten: function(newKitten) {
+            kitten2 = newKitten;
         },
     };
 };

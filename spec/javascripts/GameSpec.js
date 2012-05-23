@@ -59,18 +59,20 @@ describe('Hairballistics', function() {
                 });
             });
 
-            it("faints the kitten when it hits it", function() {
-                var newKitten = Kitten(1,1,'black');
-                world.setHairball(Hairball(newKitten.position,Point(1,1)));
-                world.setCurrentKitten(newKitten);
+            it("faints the opponent kitten when it hits it", function() {
+                var kitten1 = Kitten(1,1,'orange');
+                var kitten2 = Kitten(1,1,'black');
+                world.setCurrentKitten(kitten1);
+                world.setOpponentKitten(kitten2);
+                world.setHairball(Hairball(kitten2.position,Point(1,1)));
                 world.tick();
-                expect(newKitten.fainted()).toBeTruthy();
+                expect(kitten2.fainted()).toBeTruthy();
             });
 
             it("kitten not fainted if not hairball launched", function() {
                 var newKitten = Kitten(1,1,'black');
                 world.setHairball(Hairball(newKitten.position,Point(1,1)));
-                world.setCurrentKitten(newKitten);
+                world.setOpponentKitten(newKitten);
                 expect(newKitten.fainted()).toBeFalsy();
             });
         });
