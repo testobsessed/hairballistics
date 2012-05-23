@@ -6,6 +6,9 @@ var Hairball = function(position, velocity) {
 
     return {
         position: position,
+        boundingRectangle: function() {
+            return Rect(position.x, position.y, 28, 28);
+        },
         splat: function() {
           splatted = true;
         },

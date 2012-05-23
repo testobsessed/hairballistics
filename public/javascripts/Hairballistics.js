@@ -26,9 +26,7 @@ var Hairballistics = function() {
     };
 
     var detectCollision = function(object1, object2) {
-        var obj1Rect = Rect(object1.position.x, object1.position.y, 10, 10);
-        var obj2Rect = Rect(object2.position.x, object2.position.y, 300, 300);
-        return Collision.overlap(obj1Rect, obj2Rect);
+        return Collision.overlap(object1.boundingRectangle(), object2.boundingRectangle());
     };
 
     return {

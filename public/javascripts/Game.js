@@ -84,6 +84,9 @@ var Kitten = function(x, y, color) {
     return {
         position: Point(x, y),
         color: color,
+        boundingRectangle: function() {
+            return Rect(x, y+20, 60, 70);
+        },
         mouthPosition: function() {
             return Point(x+50, y+25);
         },
