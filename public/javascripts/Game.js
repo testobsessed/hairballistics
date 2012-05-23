@@ -2,7 +2,7 @@
 var WIDTH = 1000;
 var HEIGHT = 500;
 
-var Renderer = function(context) {
+var Renderer = function(context, world) {
     var drawImage = function(filename, x, y) {
         var image = new Image();
         image.src = 'images/' + filename;
@@ -21,7 +21,7 @@ var Renderer = function(context) {
         mouthPos.x += 10
         mouthPos.y -= 15
 
-        var endPos = Vector.add(mouthPos, kitten.targettingLine());
+        var endPos = Vector.add(mouthPos, world.currentPower());
         var screenMouthPos = translate(mouthPos);
         var screenEndPos = translate(endPos);
 
@@ -66,7 +66,11 @@ var Renderer = function(context) {
 };
 
 var Kitten = function(x, y, color) {
-    var targettingLine = Point(30, 30);
+    var targettingLine = null;
+    var resetPower = function() {
+        targettingLine = Point(1, 1);
+    }
+    resetPower();
 
     return {
         position: Point(x, y),
@@ -77,12 +81,11 @@ var Kitten = function(x, y, color) {
         targettingLine: function() {
             return targettingLine;
         },
-        tick: function() {
+        incrementPower: function() {
            mag = Vector.magnitude(targettingLine);
            targettingLine = Vector.setMagnitude(targettingLine, ((mag + 1) % 150) + 1)
-
-           return this;
         },
+        resetPower: resetPower,
     };
 };
 
@@ -100,9 +103,12 @@ $(document).ready(function() {
         canvas.width = WIDTH;
         canvas.height = HEIGHT;
         var context = canvas.getContext("2d");
-        var renderer = Renderer(context);
         var hairballistics = Hairballistics();
-        $(document).on('keydown', hairballistics.keydownHandler);
+        var renderer = Renderer(context, hairballistics);
+
+        $(document).on('keydown', hairballistics.keyDownHandler);
+        $(document).on('keyup', hairballistics.keyUpHandler);
+
         var redraw = function() {
             hairballistics.tick();
             renderer.clearCanvas();

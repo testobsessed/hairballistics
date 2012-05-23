@@ -59,10 +59,42 @@ describe('Hairballistics', function() {
         });
     });
 
-    describe("keydownHandler", function() {
-        it("launches a hairball on space", function() {
-            world.keydownHandler({ keyCode: 32 })
+    describe("Launching a hairball", function() {
+        it("does not launch while holding space", function() {
+            world.keyDownHandler({ keyCode: 32 })
+            var hairball = world.hairballs()[0]
+            expect(hairball).toBeNull();
+        });
 
+        it("increases power while space is pressed", function() {
+            oldMagnitude = Vector.magnitude(world.currentPower())
+            world.keyDownHandler({ keyCode: 32 })
+            world.tick();
+            expect(Vector.magnitude(world.currentPower())).toBeGreaterThan(oldMagnitude);
+        });
+
+        it("keeps power constant when space is not pressed", function() {
+            oldMagnitude = Vector.magnitude(world.currentPower())
+            world.tick();
+            expect(Vector.magnitude(world.currentPower())).toEqual(oldMagnitude);
+        });
+
+        it("starts the power at some small value", function() {
+            expect(Vector.magnitude(world.currentPower())).toBeLessThan(2);
+        });
+
+        it("resets the power when space is released", function() {
+            world.keyDownHandler({ keyCode: 32 })
+            _(10).times(function() {
+              world.tick();
+            })
+            world.keyUpHandler({ keyCode: 32 })
+            expect(Vector.magnitude(world.currentPower())).toBeLessThan(2);
+        });
+
+        it("launches after holding then releasing space", function() {
+            world.keyDownHandler({ keyCode: 32 })
+            world.keyUpHandler({ keyCode: 32 })
             var hairball = world.hairballs()[0]
             expect(hairball).toBeDefined();
             expect(hairball).not.toBeNull();
