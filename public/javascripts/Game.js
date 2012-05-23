@@ -31,14 +31,16 @@ var Renderer = function(context, world) {
         context.stroke();
     };
 
-    var kittenImageMap = {
+    var kittenProperties = {
         yellow: {
-            head: "orange_head.png",
-            body: "orange_body.png",
+            headImage: "orange_head.png",
+            bodyImage: "orange_body.png",
+            headOffset: Point(25, 20),
         },
         gray: {
-            head: "black_head.png",
-            body: "black_body.png",
+            headImage: "black_head.png",
+            bodyImage: "black_body.png",
+            headOffset: Point(0, 20),
         },
     };
 
@@ -54,12 +56,12 @@ var Renderer = function(context, world) {
         },
 
         drawKitten: function(kitten) {
-            var headPos = translate(Vector.add(kitten.position, Point(25, 20)));
+            var prop = kittenProperties[kitten.color];
+            var headPos = translate(Vector.add(kitten.position, prop.headOffset));
             var bodyPos = translate(kitten.position);
             drawTargettingLine(kitten)
-            var kittenImage = kittenImageMap[kitten.color];
-            drawImage(kittenImage.head, headPos.x, headPos.y);
-            drawImage(kittenImage.body, bodyPos.x, bodyPos.y);
+            drawImage(prop.headImage, headPos.x, headPos.y);
+            drawImage(prop.bodyImage, bodyPos.x, bodyPos.y);
         }
 
     };
