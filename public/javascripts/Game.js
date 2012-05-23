@@ -9,7 +9,7 @@ var Renderer = function(context, world) {
         context.drawImage(image, x, y);
     }
 
-    var translate = function(pos) {
+    var convertToCanvasCoords = function(pos) {
         return Point(pos.x, HEIGHT-pos.y);
     };
 
@@ -22,8 +22,8 @@ var Renderer = function(context, world) {
         mouthPos.y -= 15
 
         var endPos = Vector.add(mouthPos, world.currentPower());
-        var screenMouthPos = translate(mouthPos);
-        var screenEndPos = translate(endPos);
+        var screenMouthPos = convertToCanvasCoords(mouthPos);
+        var screenEndPos = convertToCanvasCoords(endPos);
 
         context.moveTo(screenMouthPos.x, screenMouthPos.y);
         context.lineTo(screenEndPos.x, screenEndPos.y);
@@ -51,18 +51,19 @@ var Renderer = function(context, world) {
         },
 
         drawHairball: function(hairball) {
-            var pos = translate(hairball.position);
+            var pos = convertToCanvasCoords(hairball.position);
             drawImage('hairball.png', pos.x, pos.y);
         },
 
         drawKitten: function(kitten) {
             var prop = kittenProperties[kitten.color];
-            var headPos = translate(Vector.add(kitten.position, prop.headOffset));
-            var bodyPos = translate(kitten.position);
+            var bodyPos = convertToCanvasCoords(kitten.position);
             drawImage(prop.bodyImage, bodyPos.x, bodyPos.y);
+
+            var headPos = convertToCanvasCoords(Vector.add(kitten.position, prop.headOffset));
             drawImage(prop.headImage, headPos.x, headPos.y);
         },
-        drawTargettingLine: drawTargettingLine
+        drawTargettingLine: drawTargettingLine,
 
     };
 };
