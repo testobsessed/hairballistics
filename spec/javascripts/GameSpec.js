@@ -19,7 +19,7 @@ describe('Hairballistics', function() {
         world.withKittens(function() {
             numKittens += 1;
         });
-        expect(numKittens).toEqual(1);
+        expect(numKittens).toEqual(2);
     });
 
     describe("tick", function() {
