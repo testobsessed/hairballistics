@@ -3,6 +3,8 @@ var HEIGHT = 500;
 
 $(document).ready(function() {
     var world = Hairballistics();
+    var ticker = Ticker(world.worldState);
+    var detector = CollisionDetector(world.worldState);
 
     $(document).on('keydown', world.keyDownHandler);
     $(document).on('keyup', world.keyUpHandler);
@@ -12,8 +14,8 @@ $(document).ready(function() {
         var renderer = Renderer("game", world);
 
         var redraw = function() {
-            world.tick();
-
+            detector.checkCollisions();
+            ticker.tick();
             renderer.redraw();
         };
         world.onRotateClockwise(renderer.rotateKittenHeadClockwise);

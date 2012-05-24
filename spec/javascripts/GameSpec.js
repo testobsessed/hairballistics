@@ -7,31 +7,36 @@ describe('Hairballistics', function() {
     var world;
     var kitten1;
     var kitten2;
-    
+    var ticker;
+    var detector;
+
+    var advanceWorld = function() {
+        detector.checkCollisions();
+        ticker.tick();
+    };
+
     var splatHairBallToward = function(point) {
       // point value will determine number of ticks needed to splat
       // hairball hits floor immediately if kitten is at y=0
       world.launchHairball(point);
-      world.tick();            
+      advanceWorld();
     };
-    
+
     var setUpDefaultGame = function() {
       kitten1 = Kitten(0, 0, someProperties);
       kitten2 = Kitten(0, 0, someProperties);
       world.setCurrentKitten(kitten1);
-      world.setOpponentKitten(kitten2);                      
+      world.setOpponentKitten(kitten2);
     }
-    
+
     beforeEach(function() {
         world = Hairballistics();
+        ticker = Ticker(world.worldState);
+        detector = CollisionDetector(world.worldState);
     });
-    
+
     describe('with no hairballs', function() {
-      
-        it("doesn't throw an exception on 'tick'", function() {
-            world.tick();
-        });
-        
+
         it("does not call the callback in 'withHairball'", function() {
             var callback = jasmine.createSpy();
             world.withHairball(callback);
@@ -47,10 +52,10 @@ describe('Hairballistics', function() {
         expect(numKittens).toEqual(2);
     });
 
-    describe("tick", function() {
+    describe("advancing the world", function() {
         it("moves a hairball somewhere", function() {
             var oldHairball = world.launchHairball(Point(10,10));
-            world.tick();
+            advanceWorld();
             world.withHairball(function(newHairball) {
                 expect(newHairball.position).toNotEqual(oldHairball.position);
             });
@@ -65,7 +70,7 @@ describe('Hairballistics', function() {
         it("splats when it hits the floor", function() {
             world.launchHairball(Point(10,10));
             _(10000).times(function() {
-              world.tick();
+              advanceWorld();
             });
             world.withHairball(function(hairball) {
               expect(hairball.splatted()).toBeTruthy();
@@ -75,7 +80,7 @@ describe('Hairballistics', function() {
         it("splats when it hits the wall", function() {
             world.launchHairball(Point(490,900));
             _(10).times(function() {
-              world.tick();
+              advanceWorld();
             });
             world.withHairball(function(hairball) {
               expect(hairball.splatted()).toBeTruthy();
@@ -94,13 +99,13 @@ describe('Hairballistics', function() {
         it("increases power while space is pressed", function() {
             oldMagnitude = Vector.magnitude(world.currentPower())
             world.keyDownHandler({ keyCode: 32 })
-            world.tick();
+            advanceWorld();
             expect(Vector.magnitude(world.currentPower())).toBeGreaterThan(oldMagnitude);
         });
 
         it("keeps power constant when space is not pressed", function() {
             oldMagnitude = Vector.magnitude(world.currentPower())
-            world.tick();
+            advanceWorld();
             expect(Vector.magnitude(world.currentPower())).toEqual(oldMagnitude);
         });
 
@@ -111,7 +116,7 @@ describe('Hairballistics', function() {
         it("resets the power when space is released", function() {
             world.keyDownHandler({ keyCode: 32 })
             _(10).times(function() {
-              world.tick();
+              advanceWorld();
             })
             world.keyUpHandler({ keyCode: 32 })
             expect(Vector.magnitude(world.currentPower())).toBeLessThan(2);

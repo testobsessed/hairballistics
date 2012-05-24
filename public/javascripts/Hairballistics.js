@@ -148,10 +148,7 @@ var Hairballistics = function() {
     var ticker = Ticker(worldState);
 
     var world = {
-        tick: function() {
-            detector.checkCollisions();
-            ticker.tick();
-        },
+        worldState: worldState,
         withHairball: worldState.withHairball,
         withKittens: worldState.withKittens,
         launchHairball: worldState.launchHairball,
