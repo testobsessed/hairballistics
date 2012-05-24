@@ -1,8 +1,9 @@
 var Kitten = function(x, y, properties) {
     var targettingLine = null;
-    var angle = 45;
+    var angle = Vector.angleInDegrees(properties.targettingLine);
     var resetPower = function() {
-        targettingLine = properties.targettingLine;
+        targettingLine = Vector.turnToDegrees(
+                properties.targettingLine, angle);
     }
     resetPower();
     var fainted = false;
