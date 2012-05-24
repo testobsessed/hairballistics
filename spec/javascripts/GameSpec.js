@@ -45,7 +45,7 @@ describe('Hairballistics', function() {
         });
         it('is invisible after any keypress', function() {
             var anyKey = { keyCode: 22 };
-            keyHandler.keyDownHandler(anyKey);
+            keyHandler.keyUpHandler(anyKey);
             expect(worldState.introScreenVisible).toBeFalsy();
         });
     });

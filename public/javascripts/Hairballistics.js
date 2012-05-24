@@ -98,12 +98,12 @@ var KeyHandler = function(worldState, triggerEvent) {
 
     return {
         keyDownHandler: function(event) {
-            worldState.introScreenVisible = false;
             if (keyDownEvents[event.keyCode]) {
                 keyDownEvents[event.keyCode]();
             }
         },
         keyUpHandler: function(event) {
+            worldState.introScreenVisible = false;
             if (keyUpEvents[event.keyCode]) {
                 keyUpEvents[event.keyCode]();
             }
