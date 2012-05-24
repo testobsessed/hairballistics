@@ -73,7 +73,7 @@ var Renderer = function(container, world) {
     };
 
     var setCurrentPlayer = function(name) {
-        document.getElementById('current_player').innerHTML = name;
+        document.getElementById('current_player').src = "images/" + name;
     };
 
     var setScoreMessage = function(score) {

@@ -14,7 +14,7 @@ var Hairballistics = function() {
         bodyImage: "orange_body.png",
         headOffset: Point(25, 20),
         mouthOffset: Point(50, 25),
-        targettingLine: Point(1, 1),
+        targetingLine: Point(1, 1),
     });
 
     var positioningFudgeFactor = 30;
@@ -23,8 +23,32 @@ var Hairballistics = function() {
         bodyImage: "black_body.png",
         headOffset: Point(0, 20),
         mouthOffset: Point(-10, 25),
-        targettingLine: Point(-1, 1),
+        targetingLine: Point(-1, 1),
     });
+
+    var SPACE = 32;
+    var LEFT_ARROW = 37;
+    var RIGHT_ARROW = 39;
+    var keyUpEvents = {};
+    var keyDownEvents = {};
+
+    keyDownEvents[SPACE] = function() {
+        spacePressed = true;
+    };
+    keyUpEvents[SPACE] = function() {
+        spacePressed = false;
+        launchHairball(currentKitten().targetingLine());
+        currentKitten().resetPower();
+    };
+
+    keyDownEvents[LEFT_ARROW] = function() {
+        $(world).trigger({ type: 'rotateCounterClockwise'});
+        currentKitten().rotateTargetingLineCounterClockwise();
+    };
+    keyDownEvents[RIGHT_ARROW] = function() {
+        $(world).trigger({ type: 'rotateClockwise'});
+        currentKitten().rotateTargetingLineClockwise();
+    };
 
     var spacePressed = false;
 
@@ -83,7 +107,7 @@ var Hairballistics = function() {
         },
         launchHairball: launchHairball,
         currentPower: function() {
-            return currentKitten().targettingLine();
+            return currentKitten().targetingLine();
         },
         currentKitten: currentKitten,
         hairballs: function() { return [hairball]; },
@@ -98,23 +122,13 @@ var Hairballistics = function() {
         },
     };
     world.keyDownHandler = function(event) {
-        var LEFT_ARROW = 37;
-        var RIGHT_ARROW = 39;
-        if (event.keyCode == 32) {
-            spacePressed = true;
-        } else if (event.keyCode == LEFT_ARROW) {
-            $(world).trigger({ type: 'rotateCounterClockwise'});
-            currentKitten().rotateTargetingLineCounterClockwise();
-        } else if (event.keyCode == RIGHT_ARROW) {
-            $(world).trigger({ type: 'rotateClockwise'});
-            currentKitten().rotateTargetingLineClockwise();
+        if (keyDownEvents[event.keyCode]) {
+            keyDownEvents[event.keyCode]();
         }
     };
     world.keyUpHandler = function(event) {
-        if (event.keyCode == 32) {
-            spacePressed = false;
-            launchHairball(currentKitten().targettingLine());
-            currentKitten().resetPower();
+        if (keyUpEvents[event.keyCode]) {
+            keyUpEvents[event.keyCode]();
         }
     };
     world.onRotateClockwise = function(handler) {
