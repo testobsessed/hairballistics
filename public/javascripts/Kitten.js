@@ -1,17 +1,17 @@
 var Kitten = function(x, y, properties) {
-    var targettingLine = null;
+    var targetingLine = null;
     var ANGLE_INCREMENT = 1;
-    var angle = Vector.angleInDegrees(properties.targettingLine);
+    var angle = Vector.angleInDegrees(properties.targetingLine);
     var resetPower = function() {
-        targettingLine = Vector.turnToDegrees(
-                properties.targettingLine, angle);
+        targetingLine = Vector.turnToDegrees(
+                properties.targetingLine, angle);
     }
     resetPower();
     var fainted = false;
     var score = 0;
 
     var updateTargetingLine = function() {
-        targettingLine = Vector.turnToDegrees(targettingLine, angle);
+        targetingLine = Vector.turnToDegrees(targetingLine, angle);
     };
 
     return {
@@ -23,16 +23,12 @@ var Kitten = function(x, y, properties) {
         mouthPosition: function() {
             return Point(x+properties.mouthOffset.x, y+properties.mouthOffset.y);
         },
-        targettingLine: function() {
-            //deprecated because of misspelling
-            return targettingLine;
-        },
         targetingLine: function() {
-            return targettingLine;
+            return targetingLine;
         },
         incrementPower: function() {
-           mag = Vector.magnitude(targettingLine);
-           targettingLine = Vector.setMagnitude(targettingLine, ((mag + .2) % 50) + 1);
+           mag = Vector.magnitude(targetingLine);
+           targetingLine = Vector.setMagnitude(targetingLine, ((mag + .2) % 50) + 1);
         },
         resetPower: resetPower,
         faint: function() {

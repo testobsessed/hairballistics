@@ -14,7 +14,7 @@ var Hairballistics = function() {
         bodyImage: "orange_body.png",
         headOffset: Point(25, 20),
         mouthOffset: Point(50, 25),
-        targettingLine: Point(1, 1),
+        targetingLine: Point(1, 1),
     });
 
     var positioningFudgeFactor = 30;
@@ -23,7 +23,7 @@ var Hairballistics = function() {
         bodyImage: "black_body.png",
         headOffset: Point(0, 20),
         mouthOffset: Point(-10, 25),
-        targettingLine: Point(-1, 1),
+        targetingLine: Point(-1, 1),
     });
 
     var SPACE = 32;
@@ -37,7 +37,7 @@ var Hairballistics = function() {
     };
     keyUpEvents[SPACE] = function() {
         spacePressed = false;
-        launchHairball(currentKitten().targettingLine());
+        launchHairball(currentKitten().targetingLine());
         currentKitten().resetPower();
     };
 
@@ -107,7 +107,7 @@ var Hairballistics = function() {
         },
         launchHairball: launchHairball,
         currentPower: function() {
-            return currentKitten().targettingLine();
+            return currentKitten().targetingLine();
         },
         currentKitten: currentKitten,
         hairballs: function() { return [hairball]; },

@@ -1,5 +1,5 @@
 var someProperties = {
-    targettingLine: Point(0, 0),
+    targetingLine: Point(0, 0),
     mouthOffset: Point(0, 0),
 };
 

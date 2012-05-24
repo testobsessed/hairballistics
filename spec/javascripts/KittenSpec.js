@@ -15,7 +15,7 @@ describe('Kitten', function() {
     describe('#resetPower', function() {
         it('keeps the targeting angle', function() {
             var kitten = Kitten(undefined, undefined, {
-                targettingLine: Point(-1, 1),
+                targetingLine: Point(-1, 1),
             });
             _(90).times(function() {
                 kitten.rotateTargetingLineClockwise();
@@ -29,7 +29,7 @@ describe('Kitten', function() {
 
     it('rotates targeting line starting with the angle of the initial targeting line', function() {
         var kitten = Kitten(undefined, undefined, {
-            targettingLine: Point(-1, 1),
+            targetingLine: Point(-1, 1),
         });
         _(90).times(function() {
             kitten.rotateTargetingLineClockwise();
