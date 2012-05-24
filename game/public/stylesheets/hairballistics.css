@@ -1,0 +1,8 @@
+canvas {
+    border: 1px solid grey;
+}
+
+#game {
+    background-image : url('../images/hairbaillistics_roomBG.png');
+    background-repeat: no-repeat;
+}
