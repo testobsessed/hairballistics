@@ -7,10 +7,32 @@ var Hairballistics = function() {
     var floor = margin;
 
     var hairball = null;
-    var kitten1 = Kitten(left_wall, 70, "yellow");
-    var kitten2 = Kitten(right_wall-kittenWidth, 70, "gray");
+
+    var positioningFudgeFactor = 70;
+    var kitten1 = Kitten(left_wall + positioningFudgeFactor, 70, {
+        headImage: "orange_head.png",
+        bodyImage: "orange_body.png",
+        headOffset: Point(25, 20),
+        mouthOffset: Point(50, 25),
+        targettingLine: Point(1, 1),
+    });
+
+    var positioningFudgeFactor = 30;
+    var kitten2 = Kitten(right_wall-kittenWidth - positioningFudgeFactor, 70, {
+        headImage: "black_head.png",
+        bodyImage: "black_body.png",
+        headOffset: Point(0, 20),
+        mouthOffset: Point(-10, 25),
+        targettingLine: Point(-1, 1),
+    });
 
     var spacePressed = false;
+
+    var switchPlayer = function() {
+        var tmp = kitten1;
+        kitten1 = kitten2;
+        kitten2 = tmp;
+    };
 
     var launchHairball = function(vector) {
         hairball = Hairball(currentKitten().mouthPosition(), vector);
@@ -31,16 +53,17 @@ var Hairballistics = function() {
 
     return {
         tick: function() {
+            if (hairball) {
+                if (detectCollision(hairball, opponentKitten())) {
+                    opponentKitten().faint();
+                }
+            }
+
             if(hairball && !hairball.splatted()) {
                 hairball = hairball.tick();
                 if(hairball.position.y <= (floor + margin) || hairball.position.x >= (right_wall - margin)) {
                     hairball.splat();
-                }
-            }
-
-            if (hairball) {
-                if (detectCollision(hairball, opponentKitten())) {
-                    opponentKitten().faint();
+                    switchPlayer();
                 }
             }
 

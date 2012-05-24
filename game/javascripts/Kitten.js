@@ -1,19 +1,19 @@
-var Kitten = function(x, y, color) {
+var Kitten = function(x, y, properties) {
     var targettingLine = null;
     var resetPower = function() {
-        targettingLine = Point(1, 1);
+        targettingLine = properties.targettingLine;
     }
     resetPower();
     var fainted = false;
 
     return {
         position: Point(x, y),
-        color: color,
+        properties: properties,
         boundingRectangle: function() {
             return Rect(x, y+20, 60, 70);
         },
         mouthPosition: function() {
-            return Point(x+50, y+25);
+            return Point(x+properties.mouthOffset.x, y+properties.mouthOffset.y);
         },
         targettingLine: function() {
             return targettingLine;
