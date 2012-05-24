@@ -6,6 +6,9 @@ var floor = margin;
 var positioningFudgeFactor = 30;
 
 var WorldState = function() {
+    var getHairball = function() {
+        return stateObject.hairball;
+    };
     var stateObject = {
         hairball: null,
         spacePressed: false,
@@ -60,11 +63,10 @@ var WorldState = function() {
         setHairball: function(newHairball) {
             stateObject.hairball = newHairball;
         },
+        getHairball: getHairball,
+        hairballsExist: getHairball,
         currentPower: function() {
             return stateObject.currentKitten().targetingLine();
-        },
-        hairballs: function() {
-            return [stateObject.hairball];
         },
     };
     return stateObject;
@@ -83,7 +85,9 @@ var KeyHandler = function(worldState, triggerEvent) {
     };
     keyUpEvents[SPACE] = function() {
         worldState.spacePressed = false;
-        worldState.launchHairball(worldState.currentKitten().targetingLine());
+        if (!worldState.getHairball() || worldState.getHairball().splatted()) {
+            worldState.launchHairball(worldState.currentKitten().targetingLine());
+        }
         worldState.currentKitten().resetPower();
     };
 
@@ -98,14 +102,20 @@ var KeyHandler = function(worldState, triggerEvent) {
 
     return {
         keyDownHandler: function(event) {
-            worldState.introScreenVisible = false;
+            if (worldState.introScreenVisible) {
+                return;
+            }
             if (keyDownEvents[event.keyCode]) {
                 keyDownEvents[event.keyCode]();
             }
         },
         keyUpHandler: function(event) {
-            if (keyUpEvents[event.keyCode]) {
-                keyUpEvents[event.keyCode]();
+            if (worldState.introScreenVisible) {
+                worldState.introScreenVisible = false;
+            } else {
+                if (keyUpEvents[event.keyCode]) {
+                    keyUpEvents[event.keyCode]();
+                }
             }
         },
     };
@@ -149,8 +159,6 @@ var Ticker = function(world) {
 
 var Hairballistics = function() {
     var worldState = WorldState();
-    var detector = CollisionDetector(worldState);
-    var ticker = Ticker(worldState);
 
     var world = {
         worldState: worldState,
