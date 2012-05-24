@@ -17,9 +17,14 @@ function create_release_archive() {
     tar czf "$archive_filename" "$directory_to_release_from"
 }
 
+function clean_up_release_branch() {
+    git clean -xdf
+    rm -rf "$directory_to_release_to"
+}
+
 function extract_archive_on_release_branch() {
     git checkout "$release_branch"
-    rm -rf "$directory_to_release_to"
+    clean_up_release_branch
     tar xzf "$archive_filename"
     rm "$archive_filename"
     mv "$directory_to_release_from" "$directory_to_release_to"
