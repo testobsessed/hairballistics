@@ -1,5 +1,6 @@
 var Kitten = function(x, y, properties) {
     var targettingLine = null;
+    var angle = 45;
     var resetPower = function() {
         targettingLine = properties.targettingLine;
     }
@@ -16,6 +17,10 @@ var Kitten = function(x, y, properties) {
             return Point(x+properties.mouthOffset.x, y+properties.mouthOffset.y);
         },
         targettingLine: function() {
+            //deprecated because of misspelling
+            return targettingLine;
+        },
+        targetingLine: function() {
             return targettingLine;
         },
         incrementPower: function() {
@@ -28,6 +33,16 @@ var Kitten = function(x, y, properties) {
         },
         fainted: function() {
             return fainted;
+        },
+        rotateTargetingLineClockwise: function() {
+            angle = angle - 1;
+
+            distance = Vector.magnitude(targettingLine);
+
+            angleInPi = angle/180*Math.PI;
+            var newX = distance * Math.cos(angleInPi);
+            var newY = distance * Math.sin(angleInPi);
+            targettingLine = Point(newX, newY);
         },
     };
 };
