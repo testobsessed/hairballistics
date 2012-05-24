@@ -5,4 +5,4 @@ A turn-based artillary game featuring kittens and hairballs. Because we can. (Cr
 
 The released version can be found at <http://ehendri.github.com/hairballistics/game/>.
 
-![Build status](https://secure.travis-ci.org/ehendri/hairballistics.png?branch=master)
+[![Build Status](https://secure.travis-ci.org/ehendri/hairballistics.png?branch=master)](http://travis-ci.org/ehendri/hairballistics)
