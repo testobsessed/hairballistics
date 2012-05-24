@@ -41,4 +41,11 @@ describe('Vector', function() {
             expect(newVector.y).toBeCloseTo(1);
         });
     });
+
+    describe('#angleInDegrees', function() {
+        it('extract the angle', function() {
+            var vector = Point(-1, 1);
+            expect(Vector.angleInDegrees(vector)).toEqual(45+90);
+        });
+    });
 });
