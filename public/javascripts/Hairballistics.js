@@ -14,14 +14,14 @@ var WorldState = function() {
             bodyImage: "orange_body.png",
             headOffset: Point(39, 0),
             mouthOffset: Point(50, 25),
-            targetingLine: Point(1, 1),
+            targetingLine: Point(2, 1),
         }),
         kitten2: Kitten(right_wall-kittenWidth - positioningFudgeFactor, 70, {
             headImage: "black_head.png",
             bodyImage: "black_body.png",
             headOffset: Point(12, 0),
             mouthOffset: Point(-10, 25),
-            targetingLine: Point(-1, 1),
+            targetingLine: Point(-2, 1),
         }),
         switchPlayer: function() {
             var tmp = stateObject.kitten1;
