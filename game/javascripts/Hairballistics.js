@@ -83,6 +83,8 @@ var Hairballistics = function() {
         keyDownHandler: function(event) {
             if (event.keyCode == 32) {
                 spacePressed = true;
+            } else if (event.keyCode == 39) {
+                currentKitten().rotateTargetingLineClockwise();
             }
         },
         keyUpHandler: function(event) {
