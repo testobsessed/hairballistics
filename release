@@ -25,7 +25,15 @@ function clean_up_release_branch() {
     rm -rf "$directory_to_release_to"
 }
 
+function branch_exists() {
+    local branch_name="$1"
+    git show-ref --verify --quiet "refs/heads/$branch_name"
+}
+
 function extract_archive_on_release_branch() {
+    if branch_exists "$release_branch"; then
+        git branch -D "$release_branch"
+    fi
     git checkout "$release_branch"
     clean_up_release_branch
     mkdir "$directory_to_release_to"
