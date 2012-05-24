@@ -32,4 +32,13 @@ describe('Vector', function() {
             expect(Vector.magnitude(Vector.setMagnitude(Point(2, 7), 42))).toEqual(42)
         });
     });
+
+    describe('#turnTo', function() {
+        it('turns the vector', function() {
+            var vector = Point(1, 1);
+            var newVector = Vector.turnToDegrees(vector, 45+90);
+            expect(newVector.x).toBeCloseTo(-1);
+            expect(newVector.y).toBeCloseTo(1);
+        });
+    });
 });
