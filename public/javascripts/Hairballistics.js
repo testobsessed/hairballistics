@@ -151,7 +151,6 @@ var Hairballistics = function() {
         worldState: worldState,
         withHairball: worldState.withHairball,
         withKittens: worldState.withKittens,
-        launchHairball: worldState.launchHairball,
         currentPower: worldState.currentPower,
         currentKitten: worldState.currentKitten,
         hairballs: worldState.hairballs,
