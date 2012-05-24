@@ -9,6 +9,7 @@ var WorldState = function() {
     var stateObject = {
         hairball: null,
         spacePressed: false,
+        introScreenVisible: true,
         kitten1: Kitten(left_wall + positioningFudgeFactor, 70, {
             headImage: "orange_head.png",
             bodyImage: "orange_body.png",
@@ -35,7 +36,10 @@ var WorldState = function() {
             return stateObject.kitten2;
         },
         launchHairball: function(vector) {
-            stateObject.hairball = Hairball(stateObject.currentKitten().mouthPosition(), vector);
+            var hairballPos = stateObject.currentKitten().headPosition();
+            var hairballOffset = Point(-15, 15);
+
+            stateObject.hairball = Hairball(Vector.add(hairballPos, hairballOffset), vector);
             return stateObject.hairball;
         },
         withHairball: function(fn) {
@@ -94,6 +98,7 @@ var KeyHandler = function(worldState, triggerEvent) {
 
     return {
         keyDownHandler: function(event) {
+            worldState.introScreenVisible = false;
             if (keyDownEvents[event.keyCode]) {
                 keyDownEvents[event.keyCode]();
             }
@@ -148,19 +153,7 @@ var Hairballistics = function() {
     var ticker = Ticker(worldState);
 
     var world = {
-        tick: function() {
-            detector.checkCollisions();
-            ticker.tick();
-        },
-        withHairball: worldState.withHairball,
-        withKittens: worldState.withKittens,
-        launchHairball: worldState.launchHairball,
-        currentPower: worldState.currentPower,
-        currentKitten: worldState.currentKitten,
-        hairballs: worldState.hairballs,
-        setHairball: worldState.setHairball,
-        setCurrentKitten: worldState.setCurrentKitten,
-        setOpponentKitten: worldState.setOpponentKitten,
+        worldState: worldState,
     };
 
     var keyHandler = KeyHandler(worldState, function(e) {
