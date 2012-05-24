@@ -129,18 +129,13 @@ var Renderer = function(container, world) {
     };
 
     var drawTargettingLine = function(kitten) {
-
-        var mouthPos = kitten.mouthPosition();
-
-        //fudge positioning to look good
-        mouthPos.x += 10
-        mouthPos.y -= 15
-
-        var endPos = Vector.add(mouthPos, world.currentPower());
-        var screenMouthPos = convertToCanvasCoords(mouthPos);
+        var endPos = Vector.add(
+                kitten.headPosition(),
+                Vector.scale(world.currentPower(), 3));
+        var screenHeadPos = convertToCanvasCoords(kitten.headPosition());
         var screenEndPos = convertToCanvasCoords(endPos);
 
-        line.setPoints([screenMouthPos.x, screenMouthPos.y, screenEndPos.x, screenEndPos.y]);
+        line.setPoints([screenHeadPos.x, screenHeadPos.y, screenEndPos.x, screenEndPos.y]);
     };
 
     var drawHairball = function(hairball) {
@@ -153,7 +148,13 @@ var Renderer = function(container, world) {
         var bodyPos = convertToCanvasCoords(kitten.position);
         drawImage(prop.bodyImage, bodyPos.x, bodyPos.y);
 
-        var headPos = convertToCanvasCoords(Vector.add(kitten.position, prop.headOffset));
+        var kittenHeadWidth = 28;
+        var kittenHeadHeight = 40;
+
+        kineticImages[kitten.properties.headImage].setCenterOffset([kittenHeadWidth / 2, kittenHeadHeight / 2]);
+
+        var headPos = convertToCanvasCoords(kitten.headPosition());
+
         drawImage(prop.headImage, headPos.x, headPos.y);
 
         if (kitten.fainted()) {
@@ -163,14 +164,8 @@ var Renderer = function(container, world) {
 
     var rotateKittenHead = function(degrees) {
         var kitten = world.currentKitten();
-        var headImage = kineticImages[kitten.properties.headImage];
 
-        if(headImage.getCenterOffset().x != 14) {
-            kitten.properties.headOffset.x += 14;
-            kitten.properties.headOffset.y -= 20;
-            headImage.setCenterOffset([14, 20]);
-        }
-        headImage.rotate(Math.degreeInRadians(degrees));
+        kineticImages[kitten.properties.headImage].rotate(Math.degreeInRadians(degrees));
     }
 
     var rotateKittenHeadClockwise = function() {
