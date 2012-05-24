@@ -1,5 +1,5 @@
 var Kitten = function(x, y, properties) {
-    var targetingLine = null;
+    var targetingLine;
     var ANGLE_INCREMENT = 1;
     var angle = Vector.angleInDegrees(properties.targetingLine);
     var resetPower = function() {
