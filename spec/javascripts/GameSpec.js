@@ -5,13 +5,33 @@ var someProperties = {
 
 describe('Hairballistics', function() {
     var world;
+    var kitten1;
+    var kitten2;
+    
+    var splatHairBallToward = function(point) {
+      // point value will determine number of ticks needed to splat
+      // hairball hits floor immediately if kitten is at y=0
+      world.launchHairball(point);
+      world.tick();            
+    };
+    
+    var setUpDefaultGame = function() {
+      kitten1 = Kitten(0, 0, someProperties);
+      kitten2 = Kitten(0, 0, someProperties);
+      world.setCurrentKitten(kitten1);
+      world.setOpponentKitten(kitten2);                      
+    }
+    
     beforeEach(function() {
         world = Hairballistics();
     });
+    
     describe('with no hairballs', function() {
+      
         it("doesn't throw an exception on 'tick'", function() {
             world.tick();
         });
+        
         it("does not call the callback in 'withHairball'", function() {
             var callback = jasmine.createSpy();
             world.withHairball(callback);
@@ -36,8 +56,7 @@ describe('Hairballistics', function() {
             });
         });
         it('does not splat before it hits anything', function() {
-          world.launchHairball(Point(10,10));
-          world.tick();
+          splatHairBallToward(Point(10,10));
           world.withHairball(function(hairball) {
             expect(hairball.splatted()).toBeFalsy();
           });
@@ -63,22 +82,6 @@ describe('Hairballistics', function() {
             });
         });
 
-        it("faints the opponent kitten when it hits it", function() {
-            var kitten1 = Kitten(1, 1, someProperties);
-            var kitten2 = Kitten(1, 1, someProperties);
-            world.setCurrentKitten(kitten1);
-            world.setOpponentKitten(kitten2);
-            world.setHairball(Hairball(kitten2.position,Point(1,1)));
-            world.tick();
-            expect(kitten2.fainted()).toBeTruthy();
-        });
-
-        it("kitten not fainted if not hairball launched", function() {
-            var newKitten = Kitten(1, 1, someProperties);
-            world.setHairball(Hairball(newKitten.position,Point(1,1)));
-            world.setOpponentKitten(newKitten);
-            expect(newKitten.fainted()).toBeFalsy();
-        });
     });
 
     describe("Launching a hairball", function() {
@@ -121,21 +124,35 @@ describe('Hairballistics', function() {
             expect(hairball).toBeDefined();
             expect(hairball).not.toBeNull();
         });
+        
+        it("faints the opponent kitten when it hits it", function() {
+            setUpDefaultGame();
+            splatHairBallToward(Point(1,1));
+            expect(kitten2.fainted()).toBeTruthy();
+        });
+
+        it("kitten not fainted if not hairball launched", function() {
+            var newKitten = Kitten(1, 1, someProperties);
+            world.setHairball(Hairball(newKitten.position,Point(1,1)));
+            world.setOpponentKitten(newKitten);
+            expect(newKitten.fainted()).toBeFalsy();
+        });
     });
 
     describe("turns", function() {
+      
+        beforeEach(function(){
+          setUpDefaultGame();
+        })
+
         it("changes after launched hairball hits something", function() {
-            var kitten1 = Kitten(0, 0, someProperties);
-            var kitten2 = Kitten(0, 0, someProperties);
             world.setCurrentKitten(kitten1);
             world.setOpponentKitten(kitten2);
-            world.launchHairball(Point(0, 1));
-            world.tick(); // hairball hits floor immediately because kitten is at y=0
+            splatHairBallToward(Point(0,1))
             expect(world.currentKitten()).toBe(kitten2);
         });
+        
         it("does not change until hairball hits something", function() {
-            var kitten1 = Kitten(0, 0, someProperties);
-            var kitten2 = Kitten(0, 0, someProperties);
             world.setCurrentKitten(kitten1);
             world.setOpponentKitten(kitten2);
             world.launchHairball(Point(1, 1));
@@ -143,15 +160,23 @@ describe('Hairballistics', function() {
         });
     });
     
-    describe("scores", function() {
+    describe("scores", function() { 
+       
+        beforeEach(function(){
+          setUpDefaultGame();
+        });
+        
         it("registers kitty score on direct hit", function() {
-            var kitten1 = Kitten(0, 0, someProperties);
-            var kitten2 = Kitten(0, 0, someProperties);
-            world.setCurrentKitten(kitten1);
-            world.setOpponentKitten(kitten2);
-            world.launchHairball(Point(0, 1));
-            world.tick(); // hairball hits floor immediately because kitten is at y=0 
+            splatHairBallToward(Point(0,1));
             expect(kitten1.score()).toEqual(1);
+        }); 
+        
+        it("does not register kitty score on no hit", function() {
+            var farAwayKitty = Kitten(100, 100, someProperties);
+            world.setCurrentKitten(kitten1);
+            world.setOpponentKitten(farAwayKitty);
+            splatHairBallToward(Point(0, 0));
+            expect(kitten1.score()).toEqual(0);
         });
     });
     
