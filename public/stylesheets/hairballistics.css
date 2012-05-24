@@ -6,3 +6,18 @@ canvas {
     background-image : url('../images/hairbaillistics_roomBG.png');
     background-repeat: no-repeat;
 }
+
+#header {
+    width: 1000px;
+    height: 100px;
+    text-align: right;
+}
+
+#header .logo {
+    width: 600px;
+    float: left;
+}
+
+#header .player {
+    display: block;
+}
