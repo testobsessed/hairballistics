@@ -71,11 +71,11 @@ var Renderer = function(container, world) {
         kineticImages[filename].setY(y);
         kineticImages[filename].show();
     };
-    
+
     var setCurrentPlayer = function(name) {
         document.getElementById('current_player').innerHTML = name;
     };
-    
+
     var setScoreMessage = function(score) {
         document.getElementById('scores').innerHTML = score;
     };
@@ -161,6 +161,25 @@ var Renderer = function(container, world) {
         }
     };
 
+    var rotateKittenHead = function(degrees) {
+        var kitten = world.currentKitten();
+        var headImage = kineticImages[kitten.properties.headImage];
+
+        if(headImage.getCenterOffset().x != 14) {
+            kitten.properties.headOffset.x += 14;
+            kitten.properties.headOffset.y -= 20;
+            headImage.setCenterOffset([14, 20]);
+        }
+        headImage.rotate(Math.degreeInRadians(degrees));
+    }
+
+    var rotateKittenHeadClockwise = function() {
+        rotateKittenHead(1);
+    };
+
+    var rotateKittenHeadCounterClockwise = function() {
+        rotateKittenHead(-1);
+    };
 
     initializeCanvas();
     var animator = Animator();
@@ -174,7 +193,9 @@ var Renderer = function(container, world) {
             world.withKittens(drawKitten);
             drawTargettingLine(world.currentKitten());
             layer.draw();
-        }
+        },
+        rotateKittenHeadClockwise: rotateKittenHeadClockwise,
+        rotateKittenHeadCounterClockwise: rotateKittenHeadCounterClockwise,
     };
 };
 

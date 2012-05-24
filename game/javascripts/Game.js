@@ -16,6 +16,8 @@ $(document).ready(function() {
 
             renderer.redraw();
         };
+        world.onRotateClockwise(renderer.rotateKittenHeadClockwise);
+        world.onRotateCounterClockwise(renderer.rotateKittenHeadCounterClockwise);
         setInterval(redraw, 24); // ~48 fps
     }
 });

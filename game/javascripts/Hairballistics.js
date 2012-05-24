@@ -51,7 +51,7 @@ var Hairballistics = function() {
         return Collision.overlap(object1.boundingRectangle(), object2.boundingRectangle());
     };
 
-    return {
+    var world = {
         tick: function() {
             if (hairball) {
                 if (detectCollision(hairball, opponentKitten())) {
@@ -81,24 +81,6 @@ var Hairballistics = function() {
             fn(kitten1);
             fn(kitten2);
         },
-        keyDownHandler: function(event) {
-            var LEFT_ARROW = 37;
-            var RIGHT_ARROW = 39;
-            if (event.keyCode == 32) {
-                spacePressed = true;
-            } else if (event.keyCode == LEFT_ARROW) {
-                currentKitten().rotateTargetingLineCounterClockwise();
-            } else if (event.keyCode == RIGHT_ARROW) {
-                currentKitten().rotateTargetingLineClockwise();
-            }
-        },
-        keyUpHandler: function(event) {
-            if (event.keyCode == 32) {
-                spacePressed = false;
-                launchHairball(currentKitten().targettingLine());
-                currentKitten().resetPower();
-            }
-        },
         launchHairball: launchHairball,
         currentPower: function() {
             return currentKitten().targettingLine();
@@ -115,5 +97,32 @@ var Hairballistics = function() {
             kitten2 = newKitten;
         },
     };
+    world.keyDownHandler = function(event) {
+        var LEFT_ARROW = 37;
+        var RIGHT_ARROW = 39;
+        if (event.keyCode == 32) {
+            spacePressed = true;
+        } else if (event.keyCode == LEFT_ARROW) {
+            $(world).trigger({ type: 'rotateCounterClockwise'});
+            currentKitten().rotateTargetingLineCounterClockwise();
+        } else if (event.keyCode == RIGHT_ARROW) {
+            $(world).trigger({ type: 'rotateClockwise'});
+            currentKitten().rotateTargetingLineClockwise();
+        }
+    };
+    world.keyUpHandler = function(event) {
+        if (event.keyCode == 32) {
+            spacePressed = false;
+            launchHairball(currentKitten().targettingLine());
+            currentKitten().resetPower();
+        }
+    };
+    world.onRotateClockwise = function(handler) {
+        $(world).on('rotateClockwise', handler);
+    };
+    world.onRotateCounterClockwise = function(handler) {
+        $(world).on('rotateCounterClockwise', handler);
+    };
+    return world;
 };
 

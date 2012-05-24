@@ -31,5 +31,9 @@ var Vector = {
         var newY = mag * Math.sin(angleInRadiants);
         return Point(newX, newY);
     },
-}
+
+    angleInDegrees: function(v) {
+        return Math.atan2(v.y, v.x)/Math.PI*180;
+    },
+};
 
