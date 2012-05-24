@@ -146,15 +146,11 @@ describe('Hairballistics', function() {
         })
 
         it("changes after launched hairball hits something", function() {
-            world.setCurrentKitten(kitten1);
-            world.setOpponentKitten(kitten2);
             splatHairBallToward(Point(0,1))
             expect(world.currentKitten()).toBe(kitten2);
         });
         
         it("does not change until hairball hits something", function() {
-            world.setCurrentKitten(kitten1);
-            world.setOpponentKitten(kitten2);
             world.launchHairball(Point(1, 1));
             expect(world.currentKitten()).toBe(kitten1);
         });
@@ -173,7 +169,6 @@ describe('Hairballistics', function() {
         
         it("does not register kitty score on no hit", function() {
             var farAwayKitty = Kitten(100, 100, someProperties);
-            world.setCurrentKitten(kitten1);
             world.setOpponentKitten(farAwayKitty);
             splatHairBallToward(Point(0, 0));
             expect(kitten1.score()).toEqual(0);
