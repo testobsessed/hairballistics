@@ -1,4 +1,26 @@
 var Renderer = function(container, world) {
+    var IMAGES_ARRAY = [
+        'black_body.png',
+        'black_head.png',
+        'hairbaillistics_roomBG.png',
+        'hairball.png',
+        'its_full_of_stars.gif',
+        'orange_body.png',
+        'orange_head.png',
+        'splat.gif',
+        'stars_01.png',
+        'stars_02.png',
+        'stars_03.png',
+        'stars_04.png',
+        'stars_05.png',
+        'stars_06.png',
+        'stars_07.png',
+        'stars_08.png',
+        'terrain_high.png',
+        'terrain_low.png',
+        'terrain_medium.png',
+    ]
+
     var stage = new Kinetic.Stage({
         container: container,
         width: WIDTH,
@@ -6,23 +28,51 @@ var Renderer = function(container, world) {
     });
 
     var layer = new Kinetic.Layer();
-
     stage.add(layer)
-    var drawImage = function(filename, x, y) {
+
+    var kinetic_images = {};
+
+    _.each(IMAGES_ARRAY, function(filename) {
         var imageObj = new Image();
         imageObj.src = 'images/' + filename;
 
         var image = new Kinetic.Image({
-          x: x,
-          y: y,
-          image: imageObj,
+            image: imageObj,
         });
 
+        kinetic_images[filename] = image;
+        image.hide();
+
         layer.add(image);
-    }
+    });
+
+    var line = new Kinetic.Line({
+        points: [0, 0, 0, 0],
+        stroke: "black",
+        strokeWidth: 1,
+        lineCap: "butt"
+    });
+
+    layer.add(line);
+
+    var drawImage = function(filename, x, y) {
+        kinetic_images[filename].setX(x);
+        kinetic_images[filename].setY(y);
+        kinetic_images[filename].show();
+    };
 
     var Animator = function() {
         var DELAY = 10;
+        var STAR_IMAGES = [
+            'stars_01.png',
+            'stars_02.png',
+            'stars_03.png',
+            'stars_04.png',
+            'stars_05.png',
+            'stars_06.png',
+            'stars_07.png',
+            'stars_08.png'];
+
         var animations = {};
 
         var incrementAnimation = function(id) {
@@ -46,6 +96,9 @@ var Renderer = function(container, world) {
                 };
             },
             draw: function(id, x, y) {
+                _.each(STAR_IMAGES, function(path) {
+                    kinetic_images[path].hide();
+                });
                 incrementAnimation(id);
                 drawImage(id + '_0' + animations[id].imageNumber + '.png', x, y);
             },
@@ -71,14 +124,7 @@ var Renderer = function(container, world) {
         var screenMouthPos = convertToCanvasCoords(mouthPos);
         var screenEndPos = convertToCanvasCoords(endPos);
 
-        var line = new Kinetic.Line({
-          points: [screenMouthPos.x, screenMouthPos.y, screenEndPos.x, screenEndPos.y],
-          stroke: "black",
-          strokeWidth: 1,
-          lineCap: "butt"
-        });
-
-        layer.add(line);
+        line.setPoints([screenMouthPos.x, screenMouthPos.y, screenEndPos.x, screenEndPos.y]);
     };
 
     var drawHairball = function(hairball) {
@@ -100,13 +146,10 @@ var Renderer = function(container, world) {
     };
     return {
         redraw: function() {
-            var oldLayer = layer;
-            layer = new Kinetic.Layer();
             world.withHairball(drawHairball);
             world.withKittens(drawKitten);
             drawTargettingLine(world.currentKitten());
-            stage.add(layer);
-            stage.remove(oldLayer);
+            layer.draw();
         }
     };
 };
