@@ -11,7 +11,7 @@ $(document).ready(function() {
     // If we are in test, do not set the game loop/create a renderer
     if(document.getElementById('game')) {
 
-        var renderer = Renderer("game", world);
+        var renderer = Renderer("game", world.worldState);
 
         var redraw = function() {
             detector.checkCollisions();
