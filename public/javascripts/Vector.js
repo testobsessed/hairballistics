@@ -30,9 +30,9 @@ var Vector = {
 
     turnToDegrees: function(v, degrees) {
         var mag = Vector.magnitude(v);
-        var angleInRadiants = degrees/180*Math.PI;
-        var newX = mag * Math.cos(angleInRadiants);
-        var newY = mag * Math.sin(angleInRadiants);
+        var angleInRadians = Math.degreeInRadians(degrees);
+        var newX = mag * Math.cos(angleInRadians);
+        var newY = mag * Math.sin(angleInRadians);
         return Point(newX, newY);
     },
 
