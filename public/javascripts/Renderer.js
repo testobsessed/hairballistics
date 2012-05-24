@@ -130,17 +130,13 @@ var Renderer = function(container, world) {
 
     var drawTargettingLine = function(kitten) {
 
-        var mouthPos = kitten.mouthPosition();
+        var headPos = Vector.add(kitten.position, kitten.properties.headOffset);
 
-        //fudge positioning to look good
-        mouthPos.x += 10
-        mouthPos.y -= 15
-
-        var endPos = Vector.add(mouthPos, world.currentPower());
-        var screenMouthPos = convertToCanvasCoords(mouthPos);
+        var endPos = Vector.add(headPos, Vector.scale(world.currentPower(), 3));
+        var screenHeadPos = convertToCanvasCoords(headPos);
         var screenEndPos = convertToCanvasCoords(endPos);
 
-        line.setPoints([screenMouthPos.x, screenMouthPos.y, screenEndPos.x, screenEndPos.y]);
+        line.setPoints([screenHeadPos.x, screenHeadPos.y, screenEndPos.x, screenEndPos.y]);
     };
 
     var drawHairball = function(hairball) {

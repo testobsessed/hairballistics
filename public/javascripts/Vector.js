@@ -14,6 +14,10 @@ var Vector = {
         return Math.sqrt(Math.pow(v1.x, 2) + Math.pow(v1.y, 2));
     },
 
+    scale: function(vector, scalar) {
+        return Vector.setMagnitude(vector, Vector.magnitude(vector) * scalar);
+    },
+
     setMagnitude: function(v, mag) {
         var unitVector = Vector.unitVector(v);
         return Point(unitVector.x * mag, unitVector.y * mag);
