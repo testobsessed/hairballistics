@@ -1,11 +1,18 @@
 var WIDTH = 1000;
 var HEIGHT = 500;
 
-var Renderer = function(context, world) {
+var Renderer = function(layer, world) {
     var drawImage = function(filename, x, y) {
-        var image = new Image();
-        image.src = 'images/' + filename;
-        context.drawImage(image, x, y);
+        var imageObj = new Image();
+        imageObj.src = 'images/' + filename;
+
+        var image = new Kinetic.Image({
+          x: x,
+          y: y,
+          image: imageObj,
+        });
+
+        layer.add(image);
     }
 
     var Animator = function() {
@@ -34,7 +41,7 @@ var Renderer = function(context, world) {
     };
 
     var drawTargettingLine = function(kitten) {
-        context.beginPath();
+
         var mouthPos = kitten.mouthPosition();
 
         //fudge positioning to look good
@@ -45,10 +52,14 @@ var Renderer = function(context, world) {
         var screenMouthPos = convertToCanvasCoords(mouthPos);
         var screenEndPos = convertToCanvasCoords(endPos);
 
-        context.moveTo(screenMouthPos.x, screenMouthPos.y);
-        context.lineTo(screenEndPos.x, screenEndPos.y);
+        var line = new Kinetic.Line({
+          points: [screenMouthPos.x, screenMouthPos.y, screenEndPos.x, screenEndPos.y],
+          stroke: "black",
+          strokeWidth: 1,
+          lineCap: "butt"
+        });
 
-        context.stroke();
+        layer.add(line);
     };
 
     var kittenProperties = {
@@ -65,11 +76,6 @@ var Renderer = function(context, world) {
     };
 
     return {
-        clearCanvas: function() {
-            context.fillStyle = "white";
-            context.fillRect(0, 0, WIDTH, HEIGHT);
-        },
-
         drawHairball: function(hairball) {
             var pos = convertToCanvasCoords(hairball.position);
             drawImage('hairball.png', pos.x, pos.y);
@@ -88,29 +94,41 @@ var Renderer = function(context, world) {
             }
         },
         drawTargettingLine: drawTargettingLine,
+        currentLayer: function () { return layer; },
+        setCurrentLayer: function(newLayer) { layer = newLayer; },
     };
 };
 
 $(document).ready(function() {
-    var canvas = document.getElementById("game");
-    if (canvas) {
-        canvas.width = WIDTH;
-        canvas.height = HEIGHT;
-        var context = canvas.getContext("2d");
-        var hairballistics = Hairballistics();
-        var renderer = Renderer(context, hairballistics);
+    var hairballistics = Hairballistics();
 
-        $(document).on('keydown', hairballistics.keyDownHandler);
-        $(document).on('keyup', hairballistics.keyUpHandler);
+    var stage = new Kinetic.Stage({
+        container: "game",
+        width: WIDTH,
+        height: HEIGHT,
+    });
 
-        var redraw = function() {
-            hairballistics.tick();
-            renderer.clearCanvas();
-            hairballistics.withHairball(renderer.drawHairball);
-            hairballistics.withKittens(renderer.drawKitten);
-            renderer.drawTargettingLine(hairballistics.currentKitten())
-        };
+    var layer = new Kinetic.Layer();
 
-        setInterval(redraw, 24); // ~48 fps
-    }
+    stage.add(layer)
+    var renderer = Renderer(layer, hairballistics);
+
+    $(document).on('keydown', hairballistics.keyDownHandler);
+    $(document).on('keyup', hairballistics.keyUpHandler);
+
+    var redraw = function() {
+        hairballistics.tick();
+        var oldLayer = renderer.currentLayer();
+        renderer.setCurrentLayer(new Kinetic.Layer());
+
+        hairballistics.withHairball(renderer.drawHairball);
+        hairballistics.withKittens(renderer.drawKitten);
+
+        renderer.drawTargettingLine(hairballistics.currentKitten())
+
+        stage.add(renderer.currentLayer());
+        stage.remove(oldLayer);
+    };
+
+    setInterval(redraw, 24); // ~48 fps
 });
