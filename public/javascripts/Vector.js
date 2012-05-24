@@ -23,5 +23,13 @@ var Vector = {
         var mag = Vector.magnitude(v);
         return Point(v.x / mag, v.y / mag);
     },
+
+    turnToDegrees: function(v, degrees) {
+        var mag = Vector.magnitude(v);
+        var angleInRadiants = degrees/180*Math.PI;
+        var newX = mag * Math.cos(angleInRadiants);
+        var newY = mag * Math.sin(angleInRadiants);
+        return Point(newX, newY);
+    },
 }
 

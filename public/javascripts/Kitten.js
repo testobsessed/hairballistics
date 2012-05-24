@@ -36,13 +36,7 @@ var Kitten = function(x, y, properties) {
         },
         rotateTargetingLineClockwise: function() {
             angle = angle - 1;
-
-            distance = Vector.magnitude(targettingLine);
-
-            angleInPi = angle/180*Math.PI;
-            var newX = distance * Math.cos(angleInPi);
-            var newY = distance * Math.sin(angleInPi);
-            targettingLine = Point(newX, newY);
+            targettingLine = Vector.turnToDegrees(targettingLine, angle);
         },
     };
 };
