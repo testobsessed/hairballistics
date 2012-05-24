@@ -14,14 +14,19 @@ var Kitten = function(x, y, properties) {
         targetingLine = Vector.turnToDegrees(targetingLine, angle);
     };
 
+    var position = Point(x, y);
+
     return {
-        position: Point(x, y),
+        position: position,
         properties: properties,
         boundingRectangle: function() {
             return Rect(x, y+20, 60, 70);
         },
         mouthPosition: function() {
             return Point(x+properties.mouthOffset.x, y+properties.mouthOffset.y);
+        },
+        headPosition: function() {
+            return Vector.add(position, properties.headOffset);
         },
         targetingLine: function() {
             return targetingLine;
