@@ -104,17 +104,14 @@ describe('Hairballistics', function() {
             expect(Vector.magnitude(world.currentPower())).toEqual(oldMagnitude);
         });
 
-        it("starts the power at some small value", function() {
-            expect(Vector.magnitude(world.currentPower())).toBeLessThan(2);
-        });
-
         it("resets the power when space is released", function() {
+            var oldPower = Vector.magnitude(world.currentPower());
             world.keyDownHandler({ keyCode: 32 })
             _(10).times(function() {
               world.tick();
             })
             world.keyUpHandler({ keyCode: 32 })
-            expect(Vector.magnitude(world.currentPower())).toBeLessThan(2);
+            expect(Vector.magnitude(world.currentPower())).toEqual(oldPower);
         });
 
         it("launches after holding and then releasing space", function() {
