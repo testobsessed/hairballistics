@@ -19,7 +19,8 @@ var Renderer = function(container, world) {
         'terrain_high.png',
         'terrain_low.png',
         'terrain_medium.png',
-    ]
+        'hairballistics_intro.png',
+    ];
 
     var stage = null;
     var layer = null;
@@ -138,6 +139,14 @@ var Renderer = function(container, world) {
         line.setPoints([screenHeadPos.x, screenHeadPos.y, screenEndPos.x, screenEndPos.y]);
     };
 
+    var drawIntroScreen = function() {
+        if (world.introScreenVisible) {
+            drawImage("hairballistics_intro.png", 0, 0);
+        } else {
+            kineticImages["hairballistics_intro.png"].hide();
+        }
+    };
+
     var drawHairball = function(hairball) {
         var pos = convertToCanvasCoords(hairball.position);
         drawImage('hairball.png', pos.x, pos.y);
@@ -187,10 +196,10 @@ var Renderer = function(container, world) {
             world.withHairball(drawHairball);
             world.withKittens(drawKitten);
             drawTargettingLine(world.currentKitten());
+            drawIntroScreen();
             layer.draw();
         },
         rotateKittenHeadClockwise: rotateKittenHeadClockwise,
         rotateKittenHeadCounterClockwise: rotateKittenHeadCounterClockwise,
     };
 };
-

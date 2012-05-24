@@ -9,6 +9,7 @@ var WorldState = function() {
     var stateObject = {
         hairball: null,
         spacePressed: false,
+        introScreenVisible: true,
         kitten1: Kitten(left_wall + positioningFudgeFactor, 70, {
             headImage: "orange_head.png",
             bodyImage: "orange_body.png",
@@ -97,6 +98,7 @@ var KeyHandler = function(worldState, triggerEvent) {
 
     return {
         keyDownHandler: function(event) {
+            worldState.introScreenVisible = false;
             if (keyDownEvents[event.keyCode]) {
                 keyDownEvents[event.keyCode]();
             }

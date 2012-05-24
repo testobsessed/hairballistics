@@ -10,6 +10,7 @@ describe('Hairballistics', function() {
     var ticker;
     var detector;
     var worldState;
+    var keyHandler;
 
     var advanceWorld = function() {
         detector.checkCollisions();
@@ -35,6 +36,18 @@ describe('Hairballistics', function() {
         ticker = Ticker(world.worldState);
         detector = CollisionDetector(world.worldState);
         worldState = world.worldState;
+        keyHandler = KeyHandler(worldState, function() {});
+    });
+
+    describe('intro screen', function() {
+        it('is visible at start of game', function() {
+            expect(worldState.introScreenVisible).toBeTruthy();
+        });
+        it('is invisible after any keypress', function() {
+            var anyKey = { keyCode: 22 };
+            keyHandler.keyDownHandler(anyKey);
+            expect(worldState.introScreenVisible).toBeFalsy();
+        });
     });
 
     describe('with no hairballs', function() {
