@@ -4,12 +4,11 @@ var someProperties = {
 };
 
 describe('Hairballistics', function() {
-    var world;
+    var worldState;
     var kitten1;
     var kitten2;
     var ticker;
     var detector;
-    var worldState;
     var keyHandler;
 
     var advanceWorld = function() {
@@ -36,7 +35,7 @@ describe('Hairballistics', function() {
     }
 
     beforeEach(function() {
-        world = Hairballistics();
+        var world = Hairballistics();
         ticker = Ticker(world.worldState);
         detector = CollisionDetector(world.worldState);
         worldState = world.worldState;
@@ -114,14 +113,14 @@ describe('Hairballistics', function() {
         });
 
         it("does not launch while holding space", function() {
-            world.keyDownHandler({ keyCode: 32 })
+            keyHandler.keyDownHandler({ keyCode: 32 })
             var hairball = worldState.hairballs()[0]
             expect(hairball).toBeNull();
         });
 
         it("increases power while space is pressed", function() {
             oldMagnitude = Vector.magnitude(worldState.currentPower())
-            world.keyDownHandler({ keyCode: 32 })
+            keyHandler.keyDownHandler({ keyCode: 32 })
             advanceWorld();
             expect(Vector.magnitude(worldState.currentPower())).toBeGreaterThan(oldMagnitude);
         });
@@ -134,17 +133,17 @@ describe('Hairballistics', function() {
 
         it("resets the power when space is released", function() {
             var oldPower = Vector.magnitude(worldState.currentPower());
-            world.keyDownHandler({ keyCode: 32 })
+            keyHandler.keyDownHandler({ keyCode: 32 })
             _(10).times(function() {
               advanceWorld();
             })
-            world.keyUpHandler({ keyCode: 32 })
+            keyHandler.keyUpHandler({ keyCode: 32 })
             expect(Vector.magnitude(worldState.currentPower())).toEqual(oldPower);
         });
 
         it("launches after holding and then releasing space", function() {
-            world.keyDownHandler({ keyCode: 32 })
-            world.keyUpHandler({ keyCode: 32 })
+            keyHandler.keyDownHandler({ keyCode: 32 })
+            keyHandler.keyUpHandler({ keyCode: 32 })
             var hairball = worldState.hairballs()[0]
             expect(hairball).toBeDefined();
             expect(hairball).not.toBeNull();
