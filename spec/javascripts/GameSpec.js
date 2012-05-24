@@ -17,6 +17,10 @@ describe('Hairballistics', function() {
         ticker.tick();
     };
 
+    var givenWorldInGameState = function() {
+        worldState.introScreenVisible = false;
+    };
+
     var splatHairBallToward = function(point) {
       // point value will determine number of ticks needed to splat
       // hairball hits floor immediately if kitten is at y=0
@@ -105,6 +109,10 @@ describe('Hairballistics', function() {
     });
 
     describe("Launching a hairball", function() {
+        beforeEach(function() {
+            givenWorldInGameState();
+        });
+
         it("does not launch while holding space", function() {
             world.keyDownHandler({ keyCode: 32 })
             var hairball = worldState.hairballs()[0]
@@ -141,7 +149,7 @@ describe('Hairballistics', function() {
             expect(hairball).toBeDefined();
             expect(hairball).not.toBeNull();
         });
-        
+
         it("faints the opponent kitten when it hits it", function() {
             setUpDefaultGame();
             splatHairBallToward(Point(1,1));
@@ -157,7 +165,7 @@ describe('Hairballistics', function() {
     });
 
     describe("turns", function() {
-      
+
         beforeEach(function(){
           setUpDefaultGame();
         })
@@ -166,24 +174,24 @@ describe('Hairballistics', function() {
             splatHairBallToward(Point(0,1))
             expect(worldState.currentKitten()).toBe(kitten2);
         });
-        
+
         it("does not change until hairball hits something", function() {
             worldState.launchHairball(Point(1, 1));
             expect(worldState.currentKitten()).toBe(kitten1);
         });
     });
-    
-    describe("scores", function() { 
-       
+
+    describe("scores", function() {
+
         beforeEach(function(){
           setUpDefaultGame();
         });
-        
+
         it("registers kitty score on direct hit", function() {
             splatHairBallToward(Point(0,1));
             expect(kitten1.score()).toEqual(1);
-        }); 
-        
+        });
+
         it("does not register kitty score on no hit", function() {
             var farAwayKitty = Kitten(100, 100, someProperties);
             worldState.setOpponentKitten(farAwayKitty);
@@ -191,7 +199,7 @@ describe('Hairballistics', function() {
             expect(kitten1.score()).toEqual(0);
         });
     });
-    
+
 });
 
 describe('Physics', function() {
@@ -203,4 +211,3 @@ describe('Physics', function() {
         });
     });
 });
-

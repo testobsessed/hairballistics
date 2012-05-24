@@ -98,14 +98,20 @@ var KeyHandler = function(worldState, triggerEvent) {
 
     return {
         keyDownHandler: function(event) {
+            if (worldState.introScreenVisible) {
+                return;
+            }
             if (keyDownEvents[event.keyCode]) {
                 keyDownEvents[event.keyCode]();
             }
         },
         keyUpHandler: function(event) {
-            worldState.introScreenVisible = false;
-            if (keyUpEvents[event.keyCode]) {
-                keyUpEvents[event.keyCode]();
+            if (worldState.introScreenVisible) {
+                worldState.introScreenVisible = false;
+            } else {
+                if (keyUpEvents[event.keyCode]) {
+                    keyUpEvents[event.keyCode]();
+                }
             }
         },
     };
