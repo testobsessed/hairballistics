@@ -28,7 +28,6 @@ function clean_up_release_branch() {
 function extract_archive_on_release_branch() {
     git checkout "$release_branch"
     clean_up_release_branch
-    git pull origin "$release_branch"
     tar xzf "$archive_path"
     rm "$archive_path"
     mv "$directory_to_release_from" "$directory_to_release_to"
@@ -37,6 +36,8 @@ function extract_archive_on_release_branch() {
 function publish_release() {
     git add --all
     git commit -m "$release_message (automated release)"
+
+    git pull origin "$release_branch"
     git push origin "$release_branch"
 
     git checkout master
