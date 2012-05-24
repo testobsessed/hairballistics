@@ -21,12 +21,26 @@ var Hairballistics = function() {
         return kitten1;
     };
 
+    var opponentKitten = function() {
+        return kitten2;
+    };
+
+    var detectCollision = function(object1, object2) {
+        return Collision.overlap(object1.boundingRectangle(), object2.boundingRectangle());
+    };
+
     return {
         tick: function() {
             if(hairball && !hairball.splatted()) {
                 hairball = hairball.tick();
                 if(hairball.position.y <= (floor + margin) || hairball.position.x >= (right_wall - margin)) {
                     hairball.splat();
+                }
+            }
+
+            if (hairball) {
+                if (detectCollision(hairball, opponentKitten())) {
+                    opponentKitten().faint();
                 }
             }
 
@@ -61,6 +75,15 @@ var Hairballistics = function() {
         },
         currentKitten: currentKitten,
         hairballs: function() { return [hairball]; },
+        setHairball: function(newHairball) {
+            hairball = newHairball;
+        },
+        setCurrentKitten: function(newKitten) {
+            kitten1 = newKitten;
+        },
+        setOpponentKitten: function(newKitten) {
+            kitten2 = newKitten;
+        },
     };
 };
 

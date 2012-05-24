@@ -6,6 +6,9 @@ var Hairball = function(position, velocity) {
 
     return {
         position: position,
+        boundingRectangle: function() {
+            return Rect(position.x, position.y, 28, 28);
+        },
         splat: function() {
           splatted = true;
         },
@@ -18,5 +21,13 @@ var Hairball = function(position, velocity) {
         splatted: function() {
           return splatted;
         },
+    }
+};
+
+var Physics = {
+    GRAVITY: 1, // in pixels per tick
+
+    applyGravity: function(velocity) {
+        return Vector.add(velocity, Point(0, Physics.GRAVITY * -1))
     }
 };

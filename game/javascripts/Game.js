@@ -1,4 +1,3 @@
-
 var WIDTH = 1000;
 var HEIGHT = 500;
 
@@ -8,6 +7,27 @@ var Renderer = function(context, world) {
         image.src = 'images/' + filename;
         context.drawImage(image, x, y);
     }
+
+    var Animator = function() {
+        var animations = {};
+        return {
+            addAnimation: function(id, numFrames) {
+                animations[id] = {
+                    id: id,
+                    numFrames: numFrames,
+                    counter: 0
+                };
+            },
+            draw: function(id, x, y) {
+                animations[id].counter += 1;
+                animations[id].counter = (animations[id].counter % 80) + 1;
+                drawImage(id + '_0' + (Math.floor(animations[id].counter/10)) + '.png', x, y);
+            },
+        };
+    };
+
+    var animator = Animator();
+    animator.addAnimation("stars", 8);
 
     var convertToCanvasCoords = function(pos) {
         return Point(pos.x, HEIGHT-pos.y);
@@ -62,42 +82,13 @@ var Renderer = function(context, world) {
 
             var headPos = convertToCanvasCoords(Vector.add(kitten.position, prop.headOffset));
             drawImage(prop.headImage, headPos.x, headPos.y);
+
+            if (kitten.fainted()) {
+                animator.draw("stars", bodyPos.x, bodyPos.y - 20);
+            }
         },
         drawTargettingLine: drawTargettingLine,
-
     };
-};
-
-var Kitten = function(x, y, color) {
-    var targettingLine = null;
-    var resetPower = function() {
-        targettingLine = Point(1, 1);
-    }
-    resetPower();
-
-    return {
-        position: Point(x, y),
-        color: color,
-        mouthPosition: function() {
-            return Point(x+50, y+25);
-        },
-        targettingLine: function() {
-            return targettingLine;
-        },
-        incrementPower: function() {
-           mag = Vector.magnitude(targettingLine);
-           targettingLine = Vector.setMagnitude(targettingLine, ((mag + .2) % 50) + 1)
-        },
-        resetPower: resetPower,
-    };
-};
-
-var Physics = {
-    GRAVITY: 1, // in pixels per tick
-
-    applyGravity: function(velocity) {
-        return Vector.add(velocity, Point(0, Physics.GRAVITY * -1))
-    }
 };
 
 $(document).ready(function() {
