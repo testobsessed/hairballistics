@@ -60,6 +60,12 @@ describe('Hairballistics', function() {
             worldState.withHairball(callback);
             expect(callback).not.toHaveBeenCalled();
         });
+
+        describe("the worldState", function () {
+          it("reports that there are no hairballs", function() {
+            expect(worldState.hairballsExist()).toBeFalsy();
+          });
+        });
     });
 
     it("has a kitten", function() {
@@ -107,15 +113,30 @@ describe('Hairballistics', function() {
 
     });
 
-    describe("Launching a hairball", function() {
+    describe("launching a hairball", function() {
         beforeEach(function() {
             givenWorldInGameState();
         });
 
+        describe("the worldState", function() {
+          it("reports that there is a hairball after launching", function() {
+            worldState.launchHairball(Point(1, 1));
+            expect(worldState.hairballsExist()).toBeTruthy();
+          });
+        });
+
         it("does not launch while holding space", function() {
             keyHandler.keyDownHandler({ keyCode: 32 })
-            var hairball = worldState.hairballs()[0]
-            expect(hairball).toBeNull();
+            expect(worldState.hairballsExist()).toBeFalsy();
+        });
+
+        it("does not launch when there is a hairball already in the air", function() {
+            spyOn(worldState, 'getHairball').andReturn({splatted: function() { false; }});
+            spyOn(worldState, 'launchHairball');
+
+            keyHandler.keyUpHandler({ keyCode: 32 });
+
+            expect(worldState.launchHairball).not.toHaveBeenCalled();
         });
 
         it("increases power while space is pressed", function() {
@@ -144,9 +165,7 @@ describe('Hairballistics', function() {
         it("launches after holding and then releasing space", function() {
             keyHandler.keyDownHandler({ keyCode: 32 })
             keyHandler.keyUpHandler({ keyCode: 32 })
-            var hairball = worldState.hairballs()[0]
-            expect(hairball).toBeDefined();
-            expect(hairball).not.toBeNull();
+            expect(worldState.hairballsExist()).toBeTruthy();
         });
 
         it("faints the opponent kitten when it hits it", function() {
