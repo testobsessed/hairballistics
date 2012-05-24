@@ -1,5 +1,6 @@
 var Kitten = function(x, y, properties) {
     var targettingLine = null;
+    var ANGLE_INCREMENT = 1;
     var angle = Vector.angleInDegrees(properties.targettingLine);
     var resetPower = function() {
         targettingLine = Vector.turnToDegrees(
@@ -8,6 +9,10 @@ var Kitten = function(x, y, properties) {
     resetPower();
     var fainted = false;
     var score = 0;
+
+    var updateTargetingLine = function() {
+        targettingLine = Vector.turnToDegrees(targettingLine, angle);
+    };
 
     return {
         position: Point(x, y),
@@ -27,7 +32,7 @@ var Kitten = function(x, y, properties) {
         },
         incrementPower: function() {
            mag = Vector.magnitude(targettingLine);
-           targettingLine = Vector.setMagnitude(targettingLine, ((mag + .2) % 50) + 1)
+           targettingLine = Vector.setMagnitude(targettingLine, ((mag + .2) % 50) + 1);
         },
         resetPower: resetPower,
         faint: function() {
@@ -43,12 +48,12 @@ var Kitten = function(x, y, properties) {
             score += 1;
         },
         rotateTargetingLineCounterClockwise: function() {
-            angle = angle + 1;
-            targettingLine = Vector.turnToDegrees(targettingLine, angle);
+            angle = angle + ANGLE_INCREMENT;
+            updateTargetingLine();
         },
         rotateTargetingLineClockwise: function() {
-            angle = angle - 1;
-            targettingLine = Vector.turnToDegrees(targettingLine, angle);
+            angle = angle - ANGLE_INCREMENT;
+            updateTargetingLine();
         },
     };
 };
