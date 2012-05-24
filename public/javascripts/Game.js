@@ -8,6 +8,27 @@ var Renderer = function(context, world) {
         context.drawImage(image, x, y);
     }
 
+    var Animator = function() {
+        var animations = {};
+        return {
+            addAnimation: function(id, numFrames) {
+                animations[id] = {
+                    id: id,
+                    numFrames: numFrames,
+                    counter: 0
+                };
+            },
+            draw: function(id, x, y) {
+                animations[id].counter += 1;
+                animations[id].counter = (animations[id].counter % 80) + 1;
+                drawImage(id + '_0' + (Math.floor(animations[id].counter/10)) + '.png', x, y);
+            },
+        };
+    };
+
+    var animator = Animator();
+    animator.addAnimation("stars", 8);
+
     var convertToCanvasCoords = function(pos) {
         return Point(pos.x, HEIGHT-pos.y);
     };
@@ -63,12 +84,10 @@ var Renderer = function(context, world) {
             drawImage(prop.headImage, headPos.x, headPos.y);
 
             if (kitten.fainted()) {
-                context.fillStyle = "rgb(200,0,0)";
-                context.fillRect(headPos.x, headPos.y, 55, 50);
+                animator.draw("stars", bodyPos.x, bodyPos.y - 20);
             }
         },
         drawTargettingLine: drawTargettingLine,
-
     };
 };
 
