@@ -149,14 +149,6 @@ var Hairballistics = function() {
 
     var world = {
         worldState: worldState,
-        withHairball: worldState.withHairball,
-        withKittens: worldState.withKittens,
-        currentPower: worldState.currentPower,
-        currentKitten: worldState.currentKitten,
-        hairballs: worldState.hairballs,
-        setHairball: worldState.setHairball,
-        setCurrentKitten: worldState.setCurrentKitten,
-        setOpponentKitten: worldState.setOpponentKitten,
     };
 
     var keyHandler = KeyHandler(worldState, function(e) {
