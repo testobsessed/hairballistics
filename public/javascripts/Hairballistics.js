@@ -72,7 +72,7 @@ var WorldState = function() {
     return stateObject;
 };
 
-var KeyHandler = function(worldState, triggerEvent) {
+var KeyHandler = function(world, triggerEvent) {
     var SPACE = 32;
     var LEFT_ARROW = 37;
     var RIGHT_ARROW = 39;
@@ -81,28 +81,28 @@ var KeyHandler = function(worldState, triggerEvent) {
     var keyDownEvents = {};
 
     keyDownEvents[SPACE] = function() {
-        worldState.spacePressed = true;
+        world.spacePressed = true;
     };
     keyUpEvents[SPACE] = function() {
-        worldState.spacePressed = false;
-        if (!worldState.getHairball() || worldState.getHairball().splatted()) {
-            worldState.launchHairball(worldState.currentKitten().targetingLine());
+        world.spacePressed = false;
+        if (!world.getHairball() || world.getHairball().splatted()) {
+            world.launchHairball(world.currentKitten().targetingLine());
         }
-        worldState.currentKitten().resetPower();
+        world.currentKitten().resetPower();
     };
 
     keyDownEvents[LEFT_ARROW] = function() {
         triggerEvent({ type: 'rotateCounterClockwise'});
-        worldState.currentKitten().rotateTargetingLineCounterClockwise();
+        world.currentKitten().rotateTargetingLineCounterClockwise();
     };
     keyDownEvents[RIGHT_ARROW] = function() {
         triggerEvent({ type: 'rotateClockwise'});
-        worldState.currentKitten().rotateTargetingLineClockwise();
+        world.currentKitten().rotateTargetingLineClockwise();
     };
 
     return {
         keyDownHandler: function(event) {
-            if (worldState.introScreenVisible) {
+            if (world.introScreenVisible) {
                 return;
             }
             if (keyDownEvents[event.keyCode]) {
@@ -110,8 +110,8 @@ var KeyHandler = function(worldState, triggerEvent) {
             }
         },
         keyUpHandler: function(event) {
-            if (worldState.introScreenVisible) {
-                worldState.introScreenVisible = false;
+            if (world.introScreenVisible) {
+                world.introScreenVisible = false;
             } else {
                 if (keyUpEvents[event.keyCode]) {
                     keyUpEvents[event.keyCode]();
