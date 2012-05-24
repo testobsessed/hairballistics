@@ -21,44 +21,55 @@ var Renderer = function(container, world) {
         'terrain_medium.png',
     ]
 
-    var stage = new Kinetic.Stage({
-        container: container,
-        width: WIDTH,
-        height: HEIGHT,
-    });
+    var stage = null;
+    var layer = null;
+    var line = null;
+    var kineticImages = null;
 
-    var layer = new Kinetic.Layer();
-    stage.add(layer)
+    initializeImages = function() {
+        var kineticImages = {};
+        _.each(IMAGES_ARRAY, function(filename) {
+            var imageObj = new Image();
+            imageObj.src = 'images/' + filename;
 
-    var kinetic_images = {};
+            var image = new Kinetic.Image({
+                image: imageObj,
+            });
 
-    _.each(IMAGES_ARRAY, function(filename) {
-        var imageObj = new Image();
-        imageObj.src = 'images/' + filename;
+            kineticImages[filename] = image;
+            image.hide();
 
-        var image = new Kinetic.Image({
-            image: imageObj,
+            layer.add(image);
         });
 
-        kinetic_images[filename] = image;
-        image.hide();
+        return kineticImages;
+    };
 
-        layer.add(image);
-    });
+    var initializeCanvas = function() {
+        stage = new Kinetic.Stage({
+            container: container,
+            width: WIDTH,
+            height: HEIGHT,
+        });
+        layer = new Kinetic.Layer();
+        stage.add(layer)
 
-    var line = new Kinetic.Line({
-        points: [0, 0, 0, 0],
-        stroke: "black",
-        strokeWidth: 1,
-        lineCap: "butt"
-    });
+        kineticImages = initializeImages(layer);
 
-    layer.add(line);
+        line = new Kinetic.Line({
+            points: [0, 0, 0, 0],
+            stroke: "black",
+            strokeWidth: 1,
+            lineCap: "butt"
+        });
+
+        layer.add(line);
+    };
 
     var drawImage = function(filename, x, y) {
-        kinetic_images[filename].setX(x);
-        kinetic_images[filename].setY(y);
-        kinetic_images[filename].show();
+        kineticImages[filename].setX(x);
+        kineticImages[filename].setY(y);
+        kineticImages[filename].show();
     };
 
     var Animator = function() {
@@ -97,16 +108,13 @@ var Renderer = function(container, world) {
             },
             draw: function(id, x, y) {
                 _.each(STAR_IMAGES, function(path) {
-                    kinetic_images[path].hide();
+                    kineticImages[path].hide();
                 });
                 incrementAnimation(id);
                 drawImage(id + '_0' + animations[id].imageNumber + '.png', x, y);
             },
         };
     };
-
-    var animator = Animator();
-    animator.addAnimation("stars", 8);
 
     var convertToCanvasCoords = function(pos) {
         return Point(pos.x, HEIGHT-pos.y);
@@ -144,6 +152,12 @@ var Renderer = function(container, world) {
             animator.draw("stars", bodyPos.x, bodyPos.y - 20);
         }
     };
+
+
+    initializeCanvas();
+    var animator = Animator();
+    animator.addAnimation("stars", 8);
+
     return {
         redraw: function() {
             world.withHairball(drawHairball);
