@@ -34,6 +34,10 @@ var Kitten = function(x, y, properties) {
         fainted: function() {
             return fainted;
         },
+        rotateTargetingLineCounterClockwise: function() {
+            angle = angle + 1;
+            targettingLine = Vector.turnToDegrees(targettingLine, angle);
+        },
         rotateTargetingLineClockwise: function() {
             angle = angle - 1;
             targettingLine = Vector.turnToDegrees(targettingLine, angle);
