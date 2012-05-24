@@ -1,1 +1,0 @@
-{"#add":[2],"sets magnitude":[28],"gets the magnitude for a zero vector":[14],"#magnitude":[13],"gets the magnitude for nonzero vectors":[18],"adds two simple vectors":[3],"#setMagnitude":[27],"Vector":[1]}
