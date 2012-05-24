@@ -153,7 +153,13 @@ var Renderer = function(container, world) {
         var bodyPos = convertToCanvasCoords(kitten.position);
         drawImage(prop.bodyImage, bodyPos.x, bodyPos.y);
 
+        var kittenHeadWidth = 28;
+        var kittenHeadHeight = 40;
+
+        kineticImages[kitten.properties.headImage].setCenterOffset([kittenHeadWidth / 2, kittenHeadHeight / 2]);
+
         var headPos = convertToCanvasCoords(Vector.add(kitten.position, prop.headOffset));
+
         drawImage(prop.headImage, headPos.x, headPos.y);
 
         if (kitten.fainted()) {
@@ -163,14 +169,8 @@ var Renderer = function(container, world) {
 
     var rotateKittenHead = function(degrees) {
         var kitten = world.currentKitten();
-        var headImage = kineticImages[kitten.properties.headImage];
 
-        if(headImage.getCenterOffset().x != 14) {
-            kitten.properties.headOffset.x += 14;
-            kitten.properties.headOffset.y -= 20;
-            headImage.setCenterOffset([14, 20]);
-        }
-        headImage.rotate(Math.degreeInRadians(degrees));
+        kineticImages[kitten.properties.headImage].rotate(Math.degreeInRadians(degrees));
     }
 
     var rotateKittenHeadClockwise = function() {
