@@ -129,11 +129,10 @@ var Renderer = function(container, world) {
     };
 
     var drawTargettingLine = function(kitten) {
-
-        var headPos = Vector.add(kitten.position, kitten.properties.headOffset);
-
-        var endPos = Vector.add(headPos, Vector.scale(world.currentPower(), 3));
-        var screenHeadPos = convertToCanvasCoords(headPos);
+        var endPos = Vector.add(
+                kitten.headPosition(),
+                Vector.scale(world.currentPower(), 3));
+        var screenHeadPos = convertToCanvasCoords(kitten.headPosition());
         var screenEndPos = convertToCanvasCoords(endPos);
 
         line.setPoints([screenHeadPos.x, screenHeadPos.y, screenEndPos.x, screenEndPos.y]);
@@ -154,7 +153,7 @@ var Renderer = function(container, world) {
 
         kineticImages[kitten.properties.headImage].setCenterOffset([kittenHeadWidth / 2, kittenHeadHeight / 2]);
 
-        var headPos = convertToCanvasCoords(Vector.add(kitten.position, prop.headOffset));
+        var headPos = convertToCanvasCoords(kitten.headPosition());
 
         drawImage(prop.headImage, headPos.x, headPos.y);
 
