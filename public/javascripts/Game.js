@@ -6,13 +6,16 @@ $(document).ready(function() {
 
     $(document).on('keydown', world.keyDownHandler);
     $(document).on('keyup', world.keyUpHandler);
-    var renderer = Renderer("game", world);
+    // If we are in test, do not set the game loop/create a renderer
+    if(document.getElementById('game')) {
 
-    var redraw = function() {
-        world.tick();
+        var renderer = Renderer("game", world);
 
-        renderer.redraw();
-    };
+        var redraw = function() {
+            world.tick();
 
-    setInterval(redraw, 24); // ~48 fps
+            renderer.redraw();
+        };
+        setInterval(redraw, 24); // ~48 fps
+    }
 });
