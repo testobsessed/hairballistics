@@ -12,6 +12,12 @@ var Hairballistics = function() {
 
     var spacePressed = false;
 
+    var switchPlayer = function() {
+        var tmp = kitten1;
+        kitten1 = kitten2;
+        kitten2 = tmp;
+    };
+
     var launchHairball = function(vector) {
         hairball = Hairball(currentKitten().mouthPosition(), vector);
         return hairball;
@@ -31,16 +37,17 @@ var Hairballistics = function() {
 
     return {
         tick: function() {
+            if (hairball) {
+                if (detectCollision(hairball, opponentKitten())) {
+                    opponentKitten().faint();
+                }
+            }
+
             if(hairball && !hairball.splatted()) {
                 hairball = hairball.tick();
                 if(hairball.position.y <= (floor + margin) || hairball.position.x >= (right_wall - margin)) {
                     hairball.splat();
-                }
-            }
-
-            if (hairball) {
-                if (detectCollision(hairball, opponentKitten())) {
-                    opponentKitten().faint();
+                    switchPlayer();
                 }
             }
 
