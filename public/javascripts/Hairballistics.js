@@ -35,7 +35,10 @@ var WorldState = function() {
             return stateObject.kitten2;
         },
         launchHairball: function(vector) {
-            stateObject.hairball = Hairball(stateObject.currentKitten().mouthPosition(), vector);
+            var hairballPos = stateObject.currentKitten().headPosition();
+            var hairballOffset = Point(-15, 15);
+
+            stateObject.hairball = Hairball(Vector.add(hairballPos, hairballOffset), vector);
             return stateObject.hairball;
         },
         withHairball: function(fn) {

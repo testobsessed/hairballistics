@@ -1,6 +1,6 @@
 var someProperties = {
     targetingLine: Point(0, 0),
-    mouthOffset: Point(0, 0),
+    headOffset: Point(0, 0),
 };
 
 describe('Hairballistics', function() {
