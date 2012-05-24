@@ -155,8 +155,6 @@ var Ticker = function(world) {
 
 var Hairballistics = function() {
     var worldState = WorldState();
-    var detector = CollisionDetector(worldState);
-    var ticker = Ticker(worldState);
 
     var world = {
         worldState: worldState,
