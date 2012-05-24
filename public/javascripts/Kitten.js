@@ -6,6 +6,7 @@ var Kitten = function(x, y, properties) {
     }
     resetPower();
     var fainted = false;
+    var score = 0;
 
     return {
         position: Point(x, y),
@@ -33,6 +34,12 @@ var Kitten = function(x, y, properties) {
         },
         fainted: function() {
             return fainted;
+        },
+        score: function() {
+            return score;
+        },
+        scoredHit: function() {
+            score += 1;
         },
         rotateTargetingLineClockwise: function() {
             angle = angle - 1;

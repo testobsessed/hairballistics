@@ -55,6 +55,7 @@ var Hairballistics = function() {
         tick: function() {
             if (hairball) {
                 if (detectCollision(hairball, opponentKitten())) {
+                    currentKitten().scoredHit();
                     opponentKitten().faint();
                 }
             }

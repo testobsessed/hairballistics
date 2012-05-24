@@ -71,6 +71,14 @@ var Renderer = function(container, world) {
         kineticImages[filename].setY(y);
         kineticImages[filename].show();
     };
+    
+    var setCurrentPlayer = function(name) {
+        document.getElementById('current_player').innerHTML = name;
+    };
+    
+    var setScoreMessage = function(score) {
+        document.getElementById('scores').innerHTML = score;
+    };
 
     var Animator = function() {
         var DELAY = 10;
@@ -160,6 +168,8 @@ var Renderer = function(container, world) {
 
     return {
         redraw: function() {
+            setCurrentPlayer(world.currentKitten().properties.headImage);
+            setScoreMessage(world.currentKitten().score());
             world.withHairball(drawHairball);
             world.withKittens(drawKitten);
             drawTargettingLine(world.currentKitten());

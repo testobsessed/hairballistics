@@ -142,6 +142,19 @@ describe('Hairballistics', function() {
             expect(world.currentKitten()).toBe(kitten1);
         });
     });
+    
+    describe("scores", function() {
+        it("registers kitty score on direct hit", function() {
+            var kitten1 = Kitten(0, 0, someProperties);
+            var kitten2 = Kitten(0, 0, someProperties);
+            world.setCurrentKitten(kitten1);
+            world.setOpponentKitten(kitten2);
+            world.launchHairball(Point(0, 1));
+            world.tick(); // hairball hits floor immediately because kitten is at y=0 
+            expect(kitten1.score()).toEqual(1);
+        });
+    });
+    
 });
 
 describe('Physics', function() {
