@@ -22,19 +22,32 @@ var Renderer = function(container, world) {
     }
 
     var Animator = function() {
+        var DELAY = 10;
         var animations = {};
+
+        var incrementAnimation = function(id) {
+            var animation = animations[id];
+            animation.counter += 1;
+            if (animation.counter > DELAY) {
+                animation.counter = 0;
+                animation.imageNumber += 1;
+                animation.imageNumber %= animation.numFrames;
+                animation.imageNumber += 1;
+            }
+        };
+
         return {
             addAnimation: function(id, numFrames) {
                 animations[id] = {
                     id: id,
                     numFrames: numFrames,
-                    counter: 0
+                    counter: 0,
+                    imageNumber: 1,
                 };
             },
             draw: function(id, x, y) {
-                animations[id].counter += 1;
-                animations[id].counter = (animations[id].counter % 80) + 1;
-                drawImage(id + '_0' + (Math.floor(animations[id].counter/10)) + '.png', x, y);
+                incrementAnimation(id);
+                drawImage(id + '_0' + animations[id].imageNumber + '.png', x, y);
             },
         };
     };
