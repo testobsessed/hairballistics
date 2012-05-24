@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Exit script if any command fails
+set -e
+
 release_message="$1"
 archive_filename="release.tar.gz"
 directory_to_release_from="public"

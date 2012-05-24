@@ -1,3 +1,8 @@
+var someProperties = {
+    targettingLine: Point(0, 0),
+    mouthOffset: Point(0, 0),
+};
+
 describe('Hairballistics', function() {
     var world;
     beforeEach(function() {
@@ -59,8 +64,8 @@ describe('Hairballistics', function() {
         });
 
         it("faints the opponent kitten when it hits it", function() {
-            var kitten1 = Kitten(1,1,'orange');
-            var kitten2 = Kitten(1,1,'black');
+            var kitten1 = Kitten(1, 1, someProperties);
+            var kitten2 = Kitten(1, 1, someProperties);
             world.setCurrentKitten(kitten1);
             world.setOpponentKitten(kitten2);
             world.setHairball(Hairball(kitten2.position,Point(1,1)));
@@ -69,7 +74,7 @@ describe('Hairballistics', function() {
         });
 
         it("kitten not fainted if not hairball launched", function() {
-            var newKitten = Kitten(1,1,'black');
+            var newKitten = Kitten(1, 1, someProperties);
             world.setHairball(Hairball(newKitten.position,Point(1,1)));
             world.setOpponentKitten(newKitten);
             expect(newKitten.fainted()).toBeFalsy();
@@ -115,6 +120,26 @@ describe('Hairballistics', function() {
             var hairball = world.hairballs()[0]
             expect(hairball).toBeDefined();
             expect(hairball).not.toBeNull();
+        });
+    });
+
+    describe("turns", function() {
+        it("changes after launched hairball hits something", function() {
+            var kitten1 = Kitten(0, 0, someProperties);
+            var kitten2 = Kitten(0, 0, someProperties);
+            world.setCurrentKitten(kitten1);
+            world.setOpponentKitten(kitten2);
+            world.launchHairball(Point(0, 1));
+            world.tick(); // hairball hits floor immediately because kitten is at y=0
+            expect(world.currentKitten()).toBe(kitten2);
+        });
+        it("does not change until hairball hits something", function() {
+            var kitten1 = Kitten(0, 0, someProperties);
+            var kitten2 = Kitten(0, 0, someProperties);
+            world.setCurrentKitten(kitten1);
+            world.setOpponentKitten(kitten2);
+            world.launchHairball(Point(1, 1));
+            expect(world.currentKitten()).toBe(kitten1);
         });
     });
 });
