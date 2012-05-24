@@ -6,6 +6,7 @@ var Kitten = function(x, y, properties) {
     }
     resetPower();
     var fainted = false;
+    var score = 0;
 
     return {
         position: Point(x, y),
@@ -34,15 +35,19 @@ var Kitten = function(x, y, properties) {
         fainted: function() {
             return fainted;
         },
+        score: function() {
+            return score;
+        },
+        scoredHit: function() {
+            score += 1;
+        },
+        rotateTargetingLineCounterClockwise: function() {
+            angle = angle + 1;
+            targettingLine = Vector.turnToDegrees(targettingLine, angle);
+        },
         rotateTargetingLineClockwise: function() {
             angle = angle - 1;
-
-            distance = Vector.magnitude(targettingLine);
-
-            angleInPi = angle/180*Math.PI;
-            var newX = distance * Math.cos(angleInPi);
-            var newY = distance * Math.sin(angleInPi);
-            targettingLine = Point(newX, newY);
+            targettingLine = Vector.turnToDegrees(targettingLine, angle);
         },
     };
 };

@@ -55,6 +55,7 @@ var Hairballistics = function() {
         tick: function() {
             if (hairball) {
                 if (detectCollision(hairball, opponentKitten())) {
+                    currentKitten().scoredHit();
                     opponentKitten().faint();
                 }
             }
@@ -81,9 +82,13 @@ var Hairballistics = function() {
             fn(kitten2);
         },
         keyDownHandler: function(event) {
+            var LEFT_ARROW = 37;
+            var RIGHT_ARROW = 39;
             if (event.keyCode == 32) {
                 spacePressed = true;
-            } else if (event.keyCode == 39) {
+            } else if (event.keyCode == LEFT_ARROW) {
+                currentKitten().rotateTargetingLineCounterClockwise();
+            } else if (event.keyCode == RIGHT_ARROW) {
                 currentKitten().rotateTargetingLineClockwise();
             }
         },
