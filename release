@@ -4,7 +4,7 @@
 set -e
 
 release_message="$1"
-archive_filename="release.tar.gz"
+archive_path="/tmp/hairballistics.tar.gz"
 directory_to_release_from="public"
 release_branch="gh-pages"
 directory_to_release_to="game"
@@ -17,7 +17,7 @@ function require_release_message() {
 }
 
 function create_release_archive() {
-    tar czf "$archive_filename" "$directory_to_release_from"
+    tar czf "$archive_path" "$directory_to_release_from"
 }
 
 function clean_up_release_branch() {
@@ -29,8 +29,8 @@ function extract_archive_on_release_branch() {
     git checkout "$release_branch"
     clean_up_release_branch
     git pull origin "$release_branch"
-    tar xzf "$archive_filename"
-    rm "$archive_filename"
+    tar xzf "$archive_path"
+    rm "$archive_path"
     mv "$directory_to_release_from" "$directory_to_release_to"
 }
 
