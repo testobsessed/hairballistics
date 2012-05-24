@@ -68,26 +68,13 @@ var Renderer = function(container, world) {
         layer.add(line);
     };
 
-    var kittenProperties = {
-        yellow: {
-            headImage: "orange_head.png",
-            bodyImage: "orange_body.png",
-            headOffset: Point(25, 20),
-        },
-        gray: {
-            headImage: "black_head.png",
-            bodyImage: "black_body.png",
-            headOffset: Point(0, 20),
-        },
-    };
-
     var drawHairball = function(hairball) {
         var pos = convertToCanvasCoords(hairball.position);
         drawImage('hairball.png', pos.x, pos.y);
     };
 
     var drawKitten = function(kitten) {
-        var prop = kittenProperties[kitten.color];
+        var prop = kitten.properties;
         var bodyPos = convertToCanvasCoords(kitten.position);
         drawImage(prop.bodyImage, bodyPos.x, bodyPos.y);
 
