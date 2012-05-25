@@ -21,18 +21,23 @@ describe('Hairballistics', function() {
     };
 
     var splatHairBallToward = function(point) {
-      // point value will determine number of ticks needed to splat
-      // hairball hits floor immediately if kitten is at y=0
-      world.launchHairball(point);
-      advanceWorld();
+        // point value will determine number of ticks needed to splat
+        // hairball hits floor immediately if kitten is at y=0
+        world.launchHairball(point);
+        advanceWorld();
     };
 
     var setUpDefaultGame = function() {
-      kitten1 = Kitten(0, 0, someProperties);
-      kitten2 = Kitten(0, 0, someProperties);
-      world.setCurrentKitten(kitten1);
-      world.setOpponentKitten(kitten2);
+        kitten1 = Kitten(0, 0, someProperties);
+        kitten2 = Kitten(0, 0, someProperties);
+        world.setCurrentKitten(kitten1);
+        world.setOpponentKitten(kitten2);
     }
+
+    var pressKey = function(which) {
+        keyHandler.keyDownHandler({ keyCode: which });
+        keyHandler.keyUpHandler({ keyCode: which });
+    };
 
     beforeEach(function() {
         world = World();
@@ -41,13 +46,88 @@ describe('Hairballistics', function() {
         keyHandler = KeyHandler(world);
     });
 
+    describe('cheat mode', function() {
+        beforeEach(function() {
+            givenWorldInGameState();
+        });
+        it('is disabled by default', function() {
+            expect(world.inCheatMode).toBeFalsy();
+        });
+        describe('when disabled', function() {
+            beforeEach(function() {
+                world.inCheatMode = false;
+            });
+            it('is enabled after c is pressed', function() {
+                pressKey(KEYS.C);
+                expect(world.inCheatMode).toBeTruthy();
+            });
+
+            it('does not allow movement via cheat keys', function() {
+                world.launchHairball(Point(1, 1));
+                var hairballPos = world.hairball.position;
+                pressKey(KEYS.L);
+                var newPosition = world.hairball.position;
+                expect(newPosition).toEqual(hairballPos);
+            });
+        });
+        describe("When enabled", function() {
+            beforeEach(function() {
+                world.inCheatMode = true;
+            });
+            it('disables after c is pressed', function() {
+                pressKey(KEYS.C);
+                expect(world.inCheatMode).toBeFalsy();
+            });
+
+            it("disables gravity", function() {
+                world.launchHairball(Point(1, 1));
+                var hairballPos = world.hairball.position;
+                ticker.tick();
+                var nextPosition = world.hairball.position;
+                expect(hairballPos).toEqual(nextPosition);
+            });
+
+            describe('moving the hairball with keys', function() {
+                var hairballPos;
+                beforeEach(function() {
+                    world.launchHairball(Point(1, 1));
+                    hairballPos = world.hairball.position;
+                });
+
+                it('Moves up on k', function() {
+                    pressKey(KEYS.K);
+                    var newPosition = world.hairball.position;
+                    expect(newPosition).toEqual(Point(hairballPos.x, hairballPos.y + 10));
+                });
+
+                it('moves down on j', function() {
+                    pressKey(KEYS.J);
+                    var newPosition = world.hairball.position;
+                    expect(newPosition).toEqual(Point(hairballPos.x, hairballPos.y - 10));
+                });
+
+                it('moves left on h', function() {
+                    pressKey(KEYS.H);
+                    var newPosition = world.hairball.position;
+                    expect(newPosition).toEqual(Point(hairballPos.x - 10, hairballPos.y));
+                });
+
+                it('moves right on l', function() {
+                    pressKey(KEYS.L);
+                    var newPosition = world.hairball.position;
+                    expect(newPosition).toEqual(Point(hairballPos.x + 10, hairballPos.y));
+                });
+
+            });
+        });
+    });
+
     describe('intro screen', function() {
         it('is visible at start of game', function() {
             expect(world.introScreenVisible).toBeTruthy();
         });
         it('is invisible after any keypress', function() {
-            var anyKey = { keyCode: 22 };
-            keyHandler.keyUpHandler(anyKey);
+            pressKey(22);
             expect(world.introScreenVisible).toBeFalsy();
         });
     });
@@ -125,7 +205,7 @@ describe('Hairballistics', function() {
         });
 
         it("does not launch while holding space", function() {
-            keyHandler.keyDownHandler({ keyCode: 32 })
+            keyHandler.keyDownHandler({ keyCode: KEYS.SPACE })
             expect(world.hairballsExist()).toBeFalsy();
         });
 
@@ -133,14 +213,14 @@ describe('Hairballistics', function() {
             spyOn(world, 'getHairball').andReturn({splatted: function() { false; }});
             spyOn(world, 'launchHairball');
 
-            keyHandler.keyUpHandler({ keyCode: 32 });
+            pressKey(KEYS.SPACE);
 
             expect(world.launchHairball).not.toHaveBeenCalled();
         });
 
         it("increases power while space is pressed", function() {
             oldMagnitude = Vector.magnitude(world.currentPower())
-            keyHandler.keyDownHandler({ keyCode: 32 })
+            keyHandler.keyDownHandler({ keyCode: KEYS.SPACE })
             advanceWorld();
             expect(Vector.magnitude(world.currentPower())).toBeGreaterThan(oldMagnitude);
         });
@@ -153,17 +233,16 @@ describe('Hairballistics', function() {
 
         it("resets the power when space is released", function() {
             var oldPower = Vector.magnitude(world.currentPower());
-            keyHandler.keyDownHandler({ keyCode: 32 })
+            keyHandler.keyDownHandler({ keyCode: KEYS.SPACE })
             _(10).times(function() {
               advanceWorld();
             })
-            keyHandler.keyUpHandler({ keyCode: 32 })
+            pressKey(KEYS.SPACE);
             expect(Vector.magnitude(world.currentPower())).toEqual(oldPower);
         });
 
         it("launches after holding and then releasing space", function() {
-            keyHandler.keyDownHandler({ keyCode: 32 })
-            keyHandler.keyUpHandler({ keyCode: 32 })
+            pressKey(KEYS.SPACE);
             expect(world.hairballsExist()).toBeTruthy();
         });
 

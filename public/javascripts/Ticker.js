@@ -1,7 +1,7 @@
 var Ticker = function(world) {
     return {
         tick: function() {
-            if(world.hairball && !world.hairball.splatted()) {
+            if(world.hairball && !world.hairball.splatted() && !world.inCheatMode) {
                 world.hairball = world.hairball.tick();
             }
             if(world.spacePressed) {
