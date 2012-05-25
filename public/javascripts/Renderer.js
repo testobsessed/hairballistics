@@ -136,7 +136,7 @@ var Renderer = function(container, world) {
         drawImage('hairball.png', pos.x, pos.y);
 
         var r = hairball.boundingRectangle();
-        var screenPos = convertToCanvasCoords(Point(r.x, r.y));
+        var screenPos = Point(r.x, r.y);
         boundingBoxes.hairball.setX(screenPos.x);
         boundingBoxes.hairball.setY(screenPos.y);
         boundingBoxes.hairball.setWidth(r.w);
@@ -164,7 +164,7 @@ var Renderer = function(container, world) {
         }
 
         var r = kitten.boundingRectangle();
-        var screenPos = convertToCanvasCoords(Point(r.x, r.y));
+        var screenPos = Point(r.x, r.y);
         boundingBoxes[kitten.properties.headImage].setX(screenPos.x);
         boundingBoxes[kitten.properties.headImage].setY(screenPos.y);
         boundingBoxes[kitten.properties.headImage].setWidth(r.w);
