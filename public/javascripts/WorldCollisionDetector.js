@@ -12,7 +12,7 @@ var WorldCollisionDetector = function(world) {
             }
 
             if(world.hairball && !world.hairball.splatted()) {
-                if(world.hairball.position.y <= (floor + margin) || world.hairball.position.x >= (right_wall - margin)) {
+                if(world.hairball.position.y <= (world.floor + world.margin) || world.hairball.position.x >= (world.right_wall - world.margin)) {
                     world.hairball.splat();
                     world.switchPlayer();
                 }

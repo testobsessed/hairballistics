@@ -1,8 +1,18 @@
 var World = function() {
+    var kittenWidth = 59;
+    var margin = 25;
+    var left_wall = margin;
+    var right_wall = WIDTH - margin;
+    var floor = margin;
+    var positioningFudgeFactor = 30;
+
     var getHairball = function() {
         return stateObject.hairball;
     };
     var stateObject = {
+        margin: margin,
+        floor: floor,
+        right_wall: right_wall,
         hairball: null,
         spacePressed: false,
         introScreenVisible: true,
