@@ -27,8 +27,7 @@ var WorldCollisionDetector = function(world) {
 
             if(world.hairball && !world.hairball.splatted()) {
                 if(detectCollisionWithBoundaries(world.hairball)) {
-                    world.hairball.splat();
-                    world.switchPlayer();
+                    world.hairballSplat();
                 }
             }
         }

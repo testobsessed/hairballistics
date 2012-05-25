@@ -16,10 +16,9 @@ var Animator = function(renderer, kineticImages) {
         var animation = animations[id];
         animation.counter += 1;
         if (animation.counter > DELAY) {
-            animation.counter = 0;
+            animation.counter = 1;
             animation.imageNumber += 1;
             animation.imageNumber %= animation.numFrames;
-            animation.imageNumber += 1;
         }
     };
 
@@ -28,6 +27,13 @@ var Animator = function(renderer, kineticImages) {
             kineticImages[path].hide();
         });
     };
+
+    var showAll = function() {
+        _.each(STAR_IMAGES, function(path) {
+            kineticImages[path].show();
+        });
+    };
+    var visible = false;
 
     return {
         addAnimation: function(id, numFrames) {
@@ -39,10 +45,17 @@ var Animator = function(renderer, kineticImages) {
             };
         },
         hideAll: hideAll,
+        showAll: showAll,
+        show: function() { visible = true; },
+        hide: function() { visible = false; },
         draw: function(id, x, y) {
             hideAll();
             incrementAnimation(id);
-            renderer.drawImage(id + '_0' + animations[id].imageNumber + '.png', x, y);
+            var animation = animations[id];
+            var imageFilename = STAR_IMAGES[animation.imageNumber];
+            if(visible) {
+                renderer.drawImage(imageFilename, x, y);
+            }
         },
     };
 };

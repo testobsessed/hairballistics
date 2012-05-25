@@ -82,6 +82,11 @@ var Renderer = function(container, world) {
         });
     };
 
+    var moveImage = function(filename, x, y) {
+        kineticImages[filename].setX(x);
+        kineticImages[filename].setY(y);
+    };
+
     var drawImage = function(filename, x, y) {
         kineticImages[filename].setX(x);
         kineticImages[filename].setY(y);
@@ -156,6 +161,8 @@ var Renderer = function(container, world) {
 
         drawImage(prop.headImage, headPos.x, headPos.y);
 
+        animator.draw("stars", bodyPos.x, bodyPos.y - 20);
+
         var r = kitten.boundingRectangle();
         var screenPos = Point(r.x, r.y);
         boundingBoxes[kitten.properties.headImage].setX(screenPos.x);
@@ -221,10 +228,11 @@ var Renderer = function(container, world) {
             toggleBoundingBoxes(world.inCheatMode);
         },
         drawImage: drawImage,
+        moveImage: moveImage,
         rotateKittenHeadClockwise: rotateKittenHeadClockwise,
         rotateKittenHeadCounterClockwise: rotateKittenHeadCounterClockwise,
         hideStars: function() {
-            animator.hideAll();
+            animator.hide();
         },
         hideBam: function() {
             kineticImages['bam.png'].hide();
@@ -233,6 +241,7 @@ var Renderer = function(container, world) {
             var bodyPos = convertToCanvasCoords(kitten.position);
             var bamPos = Vector.add(bodyPos, kitten.properties.bamOffset);
             drawImage('bam.png', bamPos.x, bamPos.y);
+            animator.show();
             animator.draw("stars", bodyPos.x, bodyPos.y - 20);
         },
     };

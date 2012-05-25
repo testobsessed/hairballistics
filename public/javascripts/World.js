@@ -57,6 +57,13 @@ var World = function() {
         onFaintKitten: function(callback) {
             $(this).on('faintEvent', callback);
         },
+        hairballSplat: function() {
+            stateObject.hairball.splat();
+            $(this).trigger('splatEvent');
+        },
+        onHairballSplat: function(callback) {
+            $(this).on('splatEvent', callback);
+        },
         launchHairball: function(vector) {
             var hairballPos = stateObject.currentKitten().headPosition();
             var hairballOffset = Point(-15, 15);
