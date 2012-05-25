@@ -21,6 +21,7 @@ var World = function() {
             bodyImage: "orange_body.png",
             headOffset: Point(39, 0),
             mouthOffset: Point(50, 25),
+            bamOffset: Point(80, -90),
             targetingLine: Point(2, 1),
         }),
         kitten2: Kitten(right_wall-kittenWidth - positioningFudgeFactor, 70, {
@@ -28,6 +29,7 @@ var World = function() {
             bodyImage: "black_body.png",
             headOffset: Point(12, 0),
             mouthOffset: Point(-10, 25),
+            bamOffset: Point(-155, -90),
             targetingLine: Point(-2, 1),
         }),
         switchPlayer: function() {
