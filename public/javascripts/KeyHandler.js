@@ -65,8 +65,7 @@ var KeyHandler = function(world) {
     var cheatCode = function(key,offset) {
         keyDownEvents[key] = function() {
             if(!world.inCheatMode) { return; }
-            var pos = world.hairball.position;
-            world.hairball.position = Point(pos.x + offset.x, pos.y + offset.y);
+            world.hairball.position = Vector.add(world.hairball.position, offset);
         }
     }
     cheatCode(KEYS.K, Point(0,10));
