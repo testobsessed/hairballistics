@@ -35,7 +35,7 @@ describe('Hairballistics', function() {
     }
 
     beforeEach(function() {
-        world = WorldState();
+        world = World();
         ticker = Ticker(world);
         detector = CollisionDetector(world);
         keyHandler = KeyHandler(world, function() {});
