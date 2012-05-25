@@ -3,6 +3,7 @@ var Hairball = function(position, velocity) {
         return Point(position.x + velocity.x, position.y + velocity.y);
     };
     var splatted = false;
+    var splattedKitten = false;
 
     return {
         boundingRectangle: function() {
@@ -24,8 +25,14 @@ var Hairball = function(position, velocity) {
             return Hairball(newPosition, newVelocity);
         },
         splatted: function() {
-          return splatted;
+            return splatted;
         },
+        splatKitten: function() {
+            splattedKitten = true;
+        },
+        hasNotSplattedAKitten: function(){
+            return !splattedKitten;
+        }
     }
 };
 

@@ -18,10 +18,11 @@ var WorldCollisionDetector = function(world) {
     };
     return {
         checkCollisions: function() {
-            if (world.hairball) {
+            if (world.hairball && world.hairball.hasNotSplattedAKitten()) {
                 if (detectCollision(world.hairball, world.opponentKitten())) {
                     world.currentKitten().scoredHit();
-                    world.faintKitten();
+                    world.opponentKitten().faint();
+                    world.hairball.splatKitten();
                 }
             }
 
