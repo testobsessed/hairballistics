@@ -180,7 +180,7 @@ describe('Hairballistics', function() {
             });
         });
 
-        it("splats when it hits the wall", function() {
+        it("splats when it hits the right wall", function() {
             world.launchHairball(Point(490,900));
             _(10).times(function() {
               advanceWorld();
