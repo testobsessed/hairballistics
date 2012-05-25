@@ -2,24 +2,25 @@ var WIDTH = 1000;
 var HEIGHT = 500;
 
 $(document).ready(function() {
-    var world = Hairballistics();
-    var ticker = Ticker(world.worldState);
-    var detector = CollisionDetector(world.worldState);
+    var world = World();
+    var keyHandler = KeyHandler(world);
+    var ticker = Ticker(world);
+    var detector = WorldCollisionDetector(world);
 
-    $(document).on('keydown', world.keyDownHandler);
-    $(document).on('keyup', world.keyUpHandler);
+    $(document).on('keydown', keyHandler.keyDownHandler);
+    $(document).on('keyup', keyHandler.keyUpHandler);
     // If we are in test, do not set the game loop/create a renderer
     if(document.getElementById('game')) {
 
-        var renderer = Renderer("game", world.worldState);
+        var renderer = Renderer("game", world);
 
         var redraw = function() {
             detector.checkCollisions();
             ticker.tick();
             renderer.redraw();
         };
-        world.onRotateClockwise(renderer.rotateKittenHeadClockwise);
-        world.onRotateCounterClockwise(renderer.rotateKittenHeadCounterClockwise);
+        keyHandler.onRotateClockwise(renderer.rotateKittenHeadClockwise);
+        keyHandler.onRotateCounterClockwise(renderer.rotateKittenHeadCounterClockwise);
         setInterval(redraw, 24); // ~48 fps
     }
 });

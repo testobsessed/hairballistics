@@ -1,5 +1,6 @@
 var Renderer = function(container, world) {
     var IMAGES_ARRAY = [
+        'bam.png',
         'black_body.png',
         'black_head.png',
         'hairbaillistics_roomBG.png',
@@ -167,6 +168,8 @@ var Renderer = function(container, world) {
         drawImage(prop.headImage, headPos.x, headPos.y);
 
         if (kitten.fainted()) {
+            var bamPos = Vector.add(bodyPos, prop.bamOffset);
+            drawImage('bam.png', bamPos.x, bamPos.y);
             animator.draw("stars", bodyPos.x, bodyPos.y - 20);
         }
     };
