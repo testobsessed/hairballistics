@@ -173,7 +173,7 @@ var Renderer = function(container, world) {
 
     var drawTerrain = function(terrain) {
         _.each(terrain, function(height, idx) {
-            var pos = convertToCanvasCoords(Point(60*idx + world.left_wall + world.positioningFudgeFactor, 0));
+            var pos = convertToCanvasCoords(Point(60*idx + world.leftWall + world.positioningFudgeFactor, 0));
 
             if (height === 1) {
                 var image = addImage('terrain_low.png');

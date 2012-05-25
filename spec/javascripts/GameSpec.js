@@ -170,26 +170,6 @@ describe('Hairballistics', function() {
           });
         });
 
-        it("splats when it hits the floor", function() {
-            world.launchHairball(Point(10,10));
-            _(10000).times(function() {
-              advanceWorld();
-            });
-            world.withHairball(function(hairball) {
-              expect(hairball.splatted()).toBeTruthy();
-            });
-        });
-
-        it("splats when it hits the right wall", function() {
-            world.launchHairball(Point(490,900));
-            _(10).times(function() {
-              advanceWorld();
-            });
-            world.withHairball(function(hairball) {
-              expect(hairball.splatted()).toBeTruthy();
-            });
-        });
-
     });
 
     describe("launching a hairball", function() {

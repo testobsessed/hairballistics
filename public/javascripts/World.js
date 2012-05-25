@@ -1,8 +1,8 @@
 var World = function() {
     var kittenWidth = 59;
     var margin = 25;
-    var left_wall = margin;
-    var right_wall = WIDTH - margin;
+    var leftWall = margin;
+    var rightWall = WIDTH - margin;
     var floor = margin;
     var positioningFudgeFactor = 30;
 
@@ -12,13 +12,13 @@ var World = function() {
     var stateObject = {
         margin: margin,
         floor: floor,
-        left_wall: left_wall,
-        right_wall: right_wall,
+        leftWall: leftWall,
+        rightWall: rightWall,
         positioningFudgeFactor: positioningFudgeFactor,
         hairball: null,
         spacePressed: false,
         introScreenVisible: true,
-        kitten1: Kitten(left_wall + positioningFudgeFactor, 70, {
+        kitten1: Kitten(leftWall + positioningFudgeFactor, 70, {
             headImage: "orange_head.png",
             bodyImage: "orange_body.png",
             headOffset: Point(39, 0),
@@ -26,7 +26,7 @@ var World = function() {
             bamOffset: Point(80, -90),
             targetingLine: Point(2, 1),
         }),
-        kitten2: Kitten(right_wall-kittenWidth - positioningFudgeFactor, 70, {
+        kitten2: Kitten(rightWall-kittenWidth - positioningFudgeFactor, 70, {
             headImage: "black_head.png",
             bodyImage: "black_body.png",
             headOffset: Point(12, 0),

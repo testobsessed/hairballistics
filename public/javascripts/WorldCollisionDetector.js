@@ -1,19 +1,16 @@
 var WorldCollisionDetector = function(world) {
-
-    var detectCollisionWithFloor = function(hairball) {
-        return hairball.position().y <= (world.floor + world.margin);
-    }
-
-    var detectCollisionWithRightWall = function(hairball) {
-        return hairball.position().x >= (world.right_wall - world.margin);
-    }
-
-    var detectCollisionWithLeftWall = function(hairball) {
-        return hairball.position().x <= (world.left_wall + world.margin);
+    var boundaries = {
+        left: world.leftWall + world.margin,
+        right: world.rightWall - world.margin,
+        bottom: world.floor + world.margin,
     }
 
     var detectCollisionWithBoundaries = function(hairball) {
-        return detectCollisionWithFloor(hairball) || detectCollisionWithRightWall(hairball) || detectCollisionWithLeftWall(hairball);
+        var position = hairball.position();
+
+        return position.y <= boundaries.bottom ||
+               position.x <= boundaries.left ||
+               position.x >= boundaries.right;
 
     }
     var detectCollision = function(object1, object2) {
