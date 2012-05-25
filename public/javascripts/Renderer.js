@@ -27,21 +27,23 @@ var Renderer = function(container, world) {
     var layer = null;
     var line = null;
     var kineticImages = null;
+    
+    var addImage = function(filename) {
+        var image = new Image();
+        image.src = 'images/' + filename;
+        var kineticImage = new Kinetic.Image({
+            image: image,
+        });
+        layer.add(kineticImage);
+        return kineticImage;
+    };
 
-    initializeImages = function() {
+    var initializeImages = function() {
         var kineticImages = {};
         _.each(IMAGES_ARRAY, function(filename) {
-            var imageObj = new Image();
-            imageObj.src = 'images/' + filename;
-
-            var image = new Kinetic.Image({
-                image: imageObj,
-            });
-
+            var image = addImage(filename);
             kineticImages[filename] = image;
             image.hide();
-
-            layer.add(image);
         });
 
         return kineticImages;
