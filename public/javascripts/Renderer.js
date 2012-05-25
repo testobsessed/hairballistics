@@ -133,11 +133,36 @@ var Renderer = function(container, world) {
         }
     };
 
+    var drawTerrain = function(terrain) {
+        // 0, 0, 0, 1
+
+        var terrain = [0, 0, 0, 1, 2, 3, 2];
+        _.each(terrain, function(height, idx) {
+            var pos = convertToCanvasCoords(Point(60*idx + world.left_wall + world.positioningFudgeFactor, 0));
+
+            if (height === 1) {
+                var image = addImage('terrain_low.png');
+                image.setX(pos.x);
+                image.setY(pos.y-33-world.floor);
+            }
+            if (height === 2) {
+                var image = addImage('terrain_medium.png');
+                image.setX(pos.x);
+                image.setY(pos.y-60-world.floor);
+            }
+            if (height === 3) {
+                var image = addImage('terrain_high.png');
+                image.setX(pos.x);
+                image.setY(pos.y-93-world.floor);
+            }
+        });
+    };
+
     var rotateKittenHead = function(degrees) {
         var kitten = world.currentKitten();
 
         kineticImages[kitten.properties.headImage].rotate(Math.degreeInRadians(degrees));
-    }
+    };
 
     var rotateKittenHeadClockwise = function() {
         rotateKittenHead(1);
@@ -148,6 +173,11 @@ var Renderer = function(container, world) {
     };
 
     initializeCanvas();
+
+    if (FEATURE_FLAGS.terrain) {
+        world.withTerrain(drawTerrain);
+    }
+
     var renderer = {
         redraw: function() {
             setCurrentPlayer(world.currentKitten().properties.headImage);
