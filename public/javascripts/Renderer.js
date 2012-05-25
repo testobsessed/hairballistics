@@ -27,7 +27,6 @@ var Renderer = function(container, world) {
     var layer = null;
     var line = null;
     var kineticImages = null;
-    
     var addImage = function(filename) {
         var image = new Image();
         image.src = 'images/' + filename;
@@ -37,6 +36,7 @@ var Renderer = function(container, world) {
         layer.add(kineticImage);
         return kineticImage;
     };
+    var boundingBoxes = {};
 
     var initializeImages = function() {
         var kineticImages = {};
@@ -68,6 +68,18 @@ var Renderer = function(container, world) {
         });
 
         layer.add(line);
+        _(['black_head.png','orange_head.png','hairball']).each(function(name) {
+            var n = new Kinetic.Rect({
+                x: 0,
+                y: 0,
+                width: 10,
+                height: 10,
+                stroke: "black",
+                strokeWidth: 1,
+            });
+            layer.add(n);
+            boundingBoxes[name] = n;
+        });
     };
 
     var drawImage = function(filename, x, y) {
@@ -88,6 +100,18 @@ var Renderer = function(container, world) {
     var convertToCanvasCoords = function(pos) {
         return Point(pos.x, HEIGHT-pos.y);
     };
+    var toggleBoundingBoxes = function(enabled) {
+        if(enabled) {
+            _.each(boundingBoxes, function(box) {
+                box.show();
+            })
+        } else {
+            _.each(boundingBoxes, function(box) {
+                box.hide();
+            })
+
+        }
+    }
 
     var drawTargettingLine = function(kitten) {
         var endPos = Vector.add(
@@ -110,6 +134,13 @@ var Renderer = function(container, world) {
     var drawHairball = function(hairball) {
         var pos = convertToCanvasCoords(hairball.position());
         drawImage('hairball.png', pos.x, pos.y);
+
+        var r = hairball.boundingRectangle();
+        var screenPos = convertToCanvasCoords(Point(r.x, r.y));
+        boundingBoxes.hairball.setX(screenPos.x);
+        boundingBoxes.hairball.setY(screenPos.y);
+        boundingBoxes.hairball.setWidth(r.w);
+        boundingBoxes.hairball.setHeight(r.h);
     };
 
     var drawKitten = function(kitten) {
@@ -131,6 +162,13 @@ var Renderer = function(container, world) {
             drawImage('bam.png', bamPos.x, bamPos.y);
             animator.draw("stars", bodyPos.x, bodyPos.y - 20);
         }
+
+        var r = kitten.boundingRectangle();
+        var screenPos = convertToCanvasCoords(Point(r.x, r.y));
+        boundingBoxes[kitten.properties.headImage].setX(screenPos.x);
+        boundingBoxes[kitten.properties.headImage].setY(screenPos.y);
+        boundingBoxes[kitten.properties.headImage].setWidth(r.w);
+        boundingBoxes[kitten.properties.headImage].setHeight(r.h);
     };
 
     var drawTerrain = function(terrain) {
@@ -187,6 +225,7 @@ var Renderer = function(container, world) {
             drawTargettingLine(world.currentKitten());
             drawIntroScreen();
             layer.draw();
+            toggleBoundingBoxes(world.inCheatMode);
         },
         drawImage: drawImage,
         rotateKittenHeadClockwise: rotateKittenHeadClockwise,
