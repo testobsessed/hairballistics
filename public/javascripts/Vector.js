@@ -10,34 +10,32 @@ var Vector = {
         return Point(v1.x + v2.x, v1.y + v2.y);
     },
 
+    /* Does not rely on any other Vector functions */
     magnitude: function(v1) {
         return Math.sqrt(Math.pow(v1.x, 2) + Math.pow(v1.y, 2));
     },
 
+    /* Does not rely on any other Vector functions */
     scale: function(vector, scalar) {
-        return Vector.setMagnitude(vector, Vector.magnitude(vector) * scalar);
+        return Point(vector.x * scalar, vector.y * scalar);
     },
 
     setMagnitude: function(v, mag) {
-        var unitVector = Vector.unitVector(v);
-        return Point(unitVector.x * mag, unitVector.y * mag);
+        return Vector.scale(v, mag/Vector.magnitude(v));
     },
 
     unitVector: function(v) {
-        var mag = Vector.magnitude(v);
-        return Point(v.x / mag, v.y / mag);
+        return Vector.scale(v, 1/Vector.magnitude(v));
     },
 
     turnToDegrees: function(v, degrees) {
-        var mag = Vector.magnitude(v);
         var angleInRadians = Math.degreeInRadians(degrees);
-        var newX = mag * Math.cos(angleInRadians);
-        var newY = mag * Math.sin(angleInRadians);
-        return Point(newX, newY);
+        var unitVector = Point(Math.cos(angleInRadians), Math.sin(angleInRadians));
+        return Vector.scale(unitVector, Vector.magnitude(v));
     },
 
     angleInDegrees: function(v) {
-        return Math.atan2(v.y, v.x)/Math.PI*180;
+        return Math.radiansInDegrees(Math.atan2(v.y, v.x));
     },
 };
 
