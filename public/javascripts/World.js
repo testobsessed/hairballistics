@@ -62,7 +62,8 @@ var World = function() {
             fn(stateObject.kitten2);
         },
         withTerrain: function(fn) {
-            fn([1, 2, 3]);
+            var terrain = [0, 0, 0, 1, 2, 3, 2];
+            fn(terrain);
         },
         setCurrentKitten: function(newKitten) {
             stateObject.kitten1 = newKitten;
