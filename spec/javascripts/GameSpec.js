@@ -64,9 +64,9 @@ describe('Hairballistics', function() {
 
             it('does not allow movement via cheat keys', function() {
                 world.launchHairball(Point(1, 1));
-                var hairballPos = world.hairball.position;
+                var hairballPos = world.hairball.position();
                 pressKey(KEYS.L);
-                var newPosition = world.hairball.position;
+                var newPosition = world.hairball.position();
                 expect(newPosition).toEqual(hairballPos);
             });
         });
@@ -81,9 +81,9 @@ describe('Hairballistics', function() {
 
             it("disables gravity", function() {
                 world.launchHairball(Point(1, 1));
-                var hairballPos = world.hairball.position;
+                var hairballPos = world.hairball.position();
                 ticker.tick();
-                var nextPosition = world.hairball.position;
+                var nextPosition = world.hairball.position();
                 expect(hairballPos).toEqual(nextPosition);
             });
 
@@ -91,30 +91,30 @@ describe('Hairballistics', function() {
                 var hairballPos;
                 beforeEach(function() {
                     world.launchHairball(Point(1, 1));
-                    hairballPos = world.hairball.position;
+                    hairballPos = world.hairball.position();
                 });
 
                 it('Moves up on k', function() {
                     pressKey(KEYS.K);
-                    var newPosition = world.hairball.position;
+                    var newPosition = world.hairball.position();
                     expect(newPosition).toEqual(Point(hairballPos.x, hairballPos.y + 10));
                 });
 
                 it('moves down on j', function() {
                     pressKey(KEYS.J);
-                    var newPosition = world.hairball.position;
+                    var newPosition = world.hairball.position();
                     expect(newPosition).toEqual(Point(hairballPos.x, hairballPos.y - 10));
                 });
 
                 it('moves left on h', function() {
                     pressKey(KEYS.H);
-                    var newPosition = world.hairball.position;
+                    var newPosition = world.hairball.position();
                     expect(newPosition).toEqual(Point(hairballPos.x - 10, hairballPos.y));
                 });
 
                 it('moves right on l', function() {
                     pressKey(KEYS.L);
-                    var newPosition = world.hairball.position;
+                    var newPosition = world.hairball.position();
                     expect(newPosition).toEqual(Point(hairballPos.x + 10, hairballPos.y));
                 });
 
@@ -160,7 +160,7 @@ describe('Hairballistics', function() {
             var oldHairball = world.launchHairball(Point(10,10));
             advanceWorld();
             world.withHairball(function(newHairball) {
-                expect(newHairball.position).toNotEqual(oldHairball.position);
+                expect(newHairball.position()).toNotEqual(oldHairball.position());
             });
         });
         it('does not splat before it hits anything', function() {

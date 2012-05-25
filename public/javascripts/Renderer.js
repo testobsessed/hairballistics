@@ -106,7 +106,7 @@ var Renderer = function(container, world) {
     };
 
     var drawHairball = function(hairball) {
-        var pos = convertToCanvasCoords(hairball.position);
+        var pos = convertToCanvasCoords(hairball.position());
         drawImage('hairball.png', pos.x, pos.y);
     };
 
