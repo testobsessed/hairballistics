@@ -80,10 +80,28 @@ var World = function() {
             fn(stateObject.kitten1);
             fn(stateObject.kitten2);
         },
+
+        terrainRectangles: [
+            Rect(60*3 + leftWall + positioningFudgeFactor,
+                    floor, 60, 33),
+            Rect(60*4 + leftWall + positioningFudgeFactor,
+                    floor, 60, 60),
+            Rect(60*5 + leftWall + positioningFudgeFactor,
+                    floor, 60, 93),
+            Rect(60*6 + leftWall + positioningFudgeFactor,
+                    floor, 60, 60),
+        ],
         withTerrain: function(fn) {
             var terrain = [0, 0, 0, 1, 2, 3, 2];
             fn(terrain);
         },
+        setTerrain: function(terrainRectangles) {
+            stateObject.terrainRectangles = terrainRectangles;
+        },
+        getTerrain: function() {
+            return stateObject.terrainRectangles;
+        },
+
         setCurrentKitten: function(newKitten) {
             stateObject.kitten1 = newKitten;
         },

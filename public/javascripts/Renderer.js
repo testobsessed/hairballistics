@@ -211,10 +211,7 @@ var Renderer = function(container, world) {
     };
 
     initializeCanvas();
-
-    if (FEATURE_FLAGS.terrain) {
-        world.withTerrain(drawTerrain);
-    }
+    world.withTerrain(drawTerrain);
 
     var renderer = {
         redraw: function() {
