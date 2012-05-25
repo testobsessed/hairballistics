@@ -23,6 +23,12 @@ var Animator = function(renderer, kineticImages) {
         }
     };
 
+    var hideAll = function() {
+        _.each(STAR_IMAGES, function(path) {
+            kineticImages[path].hide();
+        });
+    };
+
     return {
         addAnimation: function(id, numFrames) {
             animations[id] = {
@@ -32,12 +38,11 @@ var Animator = function(renderer, kineticImages) {
                 imageNumber: 1,
             };
         },
-            draw: function(id, x, y) {
-                _.each(STAR_IMAGES, function(path) {
-                    kineticImages[path].hide();
-                });
-                incrementAnimation(id);
-                renderer.drawImage(id + '_0' + animations[id].imageNumber + '.png', x, y);
-            },
+        hideAll: hideAll,
+        draw: function(id, x, y) {
+            hideAll();
+            incrementAnimation(id);
+            renderer.drawImage(id + '_0' + animations[id].imageNumber + '.png', x, y);
+        },
     };
 };

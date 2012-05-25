@@ -9,6 +9,10 @@ var World = function() {
     var getHairball = function() {
         return stateObject.hairball;
     };
+
+    var opponentKitten = function() {
+        return stateObject.kitten2;
+    };
     var stateObject = {
         margin: margin,
         floor: floor,
@@ -38,12 +42,20 @@ var World = function() {
             var tmp = stateObject.kitten1;
             stateObject.kitten1 = stateObject.kitten2;
             stateObject.kitten2 = tmp;
+            $(this).trigger('switchPlayerEvent');
+        },
+        onSwitchPlayer: function(callback) {
+            $(this).on('switchPlayerEvent', callback);
         },
         currentKitten: function() {
             return stateObject.kitten1;
         },
-        opponentKitten: function() {
-            return stateObject.kitten2;
+        opponentKitten: opponentKitten,
+        faintKitten: function() {
+            $(this).trigger('faintEvent', opponentKitten());
+        },
+        onFaintKitten: function(callback) {
+            $(this).on('faintEvent', callback);
         },
         launchHairball: function(vector) {
             var hairballPos = stateObject.currentKitten().headPosition();

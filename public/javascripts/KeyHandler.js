@@ -9,24 +9,32 @@ var KEYS = {
     L: 76,
 }
 var KeyHandler = function(world) {
-    var keyUpEvents = {};
-    var keyDownEvents = {};
+    var enabled = true;
+    var upEvents = {};
+    var downEvents = {};
+
+    var keyUpEvents = function() { return upEvents; };
+    var keyDownEvents = function() { return downEvents; };
 
     var keyHandler = {
         keyDownHandler: function(event) {
-            if (world.introScreenVisible) {
-                return;
-            }
-            if (keyDownEvents[event.keyCode]) {
-                keyDownEvents[event.keyCode]();
+            if (enabled) {
+                if (world.introScreenVisible) {
+                    return;
+                }
+                if (downEvents[event.keyCode]) {
+                    downEvents[event.keyCode]();
+                }
             }
         },
         keyUpHandler: function(event) {
-            if (world.introScreenVisible) {
-                world.introScreenVisible = false;
-            } else {
-                if (keyUpEvents[event.keyCode]) {
-                    keyUpEvents[event.keyCode]();
+            if (enabled) {
+                if (world.introScreenVisible) {
+                    world.introScreenVisible = false;
+                } else {
+                    if (upEvents[event.keyCode]) {
+                        upEvents[event.keyCode]();
+                    }
                 }
             }
         },
@@ -36,12 +44,21 @@ var KeyHandler = function(world) {
         onRotateCounterClockwise: function(handler) {
             $(keyHandler).on('rotateCounterClockwise', handler);
         },
+        suspend: function() {
+            enabled = false;
+        },
+        resume: function() {
+            enabled = true;
+        },
+
+        setKeyUpEvents: function(value) { upEvents = value },
+        setKeyDownEvents: function(value) { downEvents = value },
     };
 
-    keyDownEvents[KEYS.SPACE] = function() {
+    downEvents[KEYS.SPACE] = function() {
         world.spacePressed = true;
     };
-    keyUpEvents[KEYS.SPACE] = function() {
+    upEvents[KEYS.SPACE] = function() {
         world.spacePressed = false;
         if (!world.getHairball() || world.getHairball().splatted()) {
             world.launchHairball(world.currentKitten().targetingLine());
@@ -49,21 +66,21 @@ var KeyHandler = function(world) {
         world.currentKitten().resetPower();
     };
 
-    keyDownEvents[KEYS.LEFT_ARROW] = function() {
+    downEvents[KEYS.LEFT_ARROW] = function() {
         $(keyHandler).trigger({ type: 'rotateCounterClockwise'});
         world.currentKitten().rotateTargetingLineCounterClockwise();
     };
-    keyDownEvents[KEYS.RIGHT_ARROW] = function() {
+    downEvents[KEYS.RIGHT_ARROW] = function() {
         $(keyHandler).trigger({ type: 'rotateClockwise' });
         world.currentKitten().rotateTargetingLineClockwise();
     };
 
-    keyDownEvents[KEYS.C] = function() {
+    downEvents[KEYS.C] = function() {
         world.inCheatMode = world.inCheatMode ? false : true;
     };
 
     var cheatCode = function(key,offset) {
-        keyDownEvents[key] = function() {
+        downEvents[key] = function() {
             if(!world.inCheatMode) { return; }
             world.hairball.setPosition(Vector.add(world.hairball.position(), offset));
         }

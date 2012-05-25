@@ -227,16 +227,7 @@ describe('Hairballistics', function() {
         });
 
         it("faints the opponent kitten when it hits it", function() {
-            setUpDefaultGame();
-            splatHairBallToward(Point(1,1));
-            expect(kitten2.fainted()).toBeTruthy();
-        });
 
-        it("kitten not fainted if not hairball launched", function() {
-            var newKitten = Kitten(1, 1, someProperties);
-            world.setHairball(Hairball(newKitten.position,Point(1,1)));
-            world.setOpponentKitten(newKitten);
-            expect(newKitten.fainted()).toBeFalsy();
         });
     });
 

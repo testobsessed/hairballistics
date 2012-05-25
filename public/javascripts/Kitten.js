@@ -7,7 +7,6 @@ var Kitten = function(x, y, properties) {
                 properties.targetingLine, angle);
     }
     resetPower();
-    var fainted = false;
     var score = 0;
 
     var updateTargetingLine = function() {
@@ -38,9 +37,6 @@ var Kitten = function(x, y, properties) {
         resetPower: resetPower,
         faint: function() {
             fainted = true;
-        },
-        fainted: function() {
-            return fainted;
         },
         score: function() {
             return score;

@@ -21,7 +21,7 @@ var WorldCollisionDetector = function(world) {
             if (world.hairball) {
                 if (detectCollision(world.hairball, world.opponentKitten())) {
                     world.currentKitten().scoredHit();
-                    world.opponentKitten().faint();
+                    world.faintKitten();
                 }
             }
 

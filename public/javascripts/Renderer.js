@@ -96,7 +96,6 @@ var Renderer = function(container, world) {
         document.getElementById('scores').innerHTML = score;
     };
 
-
     var convertToCanvasCoords = function(pos) {
         return Point(pos.x, HEIGHT-pos.y);
     };
@@ -156,12 +155,6 @@ var Renderer = function(container, world) {
         var headPos = convertToCanvasCoords(kitten.headPosition());
 
         drawImage(prop.headImage, headPos.x, headPos.y);
-
-        if (kitten.fainted()) {
-            var bamPos = Vector.add(bodyPos, prop.bamOffset);
-            drawImage('bam.png', bamPos.x, bamPos.y);
-            animator.draw("stars", bodyPos.x, bodyPos.y - 20);
-        }
 
         var r = kitten.boundingRectangle();
         var screenPos = Point(r.x, r.y);
@@ -230,6 +223,18 @@ var Renderer = function(container, world) {
         drawImage: drawImage,
         rotateKittenHeadClockwise: rotateKittenHeadClockwise,
         rotateKittenHeadCounterClockwise: rotateKittenHeadCounterClockwise,
+        hideStars: function() {
+            animator.hideAll();
+        },
+        hideBam: function() {
+            kineticImages['bam.png'].hide();
+        },
+        faintKitten: function(event, kitten) {
+            var bodyPos = convertToCanvasCoords(kitten.position);
+            var bamPos = Vector.add(bodyPos, kitten.properties.bamOffset);
+            drawImage('bam.png', bamPos.x, bamPos.y);
+            animator.draw("stars", bodyPos.x, bodyPos.y - 20);
+        },
     };
     var animator = Animator(renderer, kineticImages);
     animator.addAnimation("stars", 8);
