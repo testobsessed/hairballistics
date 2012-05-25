@@ -8,6 +8,8 @@ var Renderer = function(container, world) {
         'its_full_of_stars.gif',
         'orange_body.png',
         'orange_head.png',
+        'black-kitteh-turn.png',
+        'orange-kitteh-turn.png',
         'splat.gif',
         'stars_01.png',
         'stars_02.png',
@@ -258,5 +260,7 @@ var Renderer = function(container, world) {
     };
     var animator = Animator(renderer, kineticImages);
     animator.addAnimation("stars", 8);
+
+    //drawImage('orange-kitteh-turn.png', 150, 320);
     return renderer;
 };
