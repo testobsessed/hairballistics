@@ -12,7 +12,9 @@ var World = function() {
     var stateObject = {
         margin: margin,
         floor: floor,
+        left_wall: left_wall,
         right_wall: right_wall,
+        positioningFudgeFactor: positioningFudgeFactor,
         hairball: null,
         spacePressed: false,
         introScreenVisible: true,
@@ -58,6 +60,10 @@ var World = function() {
         withKittens: function(fn) {
             fn(stateObject.kitten1);
             fn(stateObject.kitten2);
+        },
+        withTerrain: function(fn) {
+            var terrain = [0, 0, 0, 1, 2, 3, 2];
+            fn(terrain);
         },
         setCurrentKitten: function(newKitten) {
             stateObject.kitten1 = newKitten;

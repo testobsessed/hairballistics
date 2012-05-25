@@ -20,7 +20,7 @@ var Kitten = function(x, y, properties) {
         position: position,
         properties: properties,
         boundingRectangle: function() {
-            return Rect(x, y+20, 60, 70);
+            return Rect(x, y-20, 60, 70);
         },
         mouthPosition: function() {
             return Point(x+properties.mouthOffset.x, y+properties.mouthOffset.y);

@@ -5,12 +5,17 @@ var Hairball = function(position, velocity) {
     var splatted = false;
 
     return {
-        position: position,
         boundingRectangle: function() {
             return Rect(position.x, position.y, 28, 28);
         },
         splat: function() {
           splatted = true;
+        },
+        setPosition: function(newPosition) {
+            position = newPosition;
+        },
+        position: function() {
+            return position;
         },
         tick: function() {
             if(splatted) { return this }
