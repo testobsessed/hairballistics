@@ -5,7 +5,7 @@ $(document).ready(function() {
     var world = World();
     var keyHandler = KeyHandler(world);
     var ticker = Ticker(world);
-    var detector = CollisionDetector(world);
+    var detector = WorldCollisionDetector(world);
 
     $(document).on('keydown', keyHandler.keyDownHandler);
     $(document).on('keyup', keyHandler.keyUpHandler);
