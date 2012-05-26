@@ -77,6 +77,12 @@ var KeyHandler = function(world) {
 
     downEvents[KEYS.C] = function() {
         world.inCheatMode = world.inCheatMode ? false : true;
+        if (world.inCheatMode) {
+          $("#game").css("background-image", "url('../public/images/matrix.png')");
+        }
+        else {
+          $("#game").css("background-image", "url('../public/images/hairbaillistics_roomBG.png')");
+        }
     };
 
     var cheatCode = function(key,offset) {

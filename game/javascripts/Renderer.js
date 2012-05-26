@@ -8,6 +8,8 @@ var Renderer = function(container, world) {
         'its_full_of_stars.gif',
         'orange_body.png',
         'orange_head.png',
+        'black-kitteh-turn.png',
+        'orange-kitteh-turn.png',
         'splat.gif',
         'stars_01.png',
         'stars_02.png',
@@ -76,7 +78,7 @@ var Renderer = function(container, world) {
                 y: 0,
                 width: 10,
                 height: 10,
-                stroke: "black",
+                stroke: "white",
                 strokeWidth: 1,
             });
             layer.add(n);
@@ -258,5 +260,21 @@ var Renderer = function(container, world) {
     };
     var animator = Animator(renderer, kineticImages);
     animator.addAnimation("stars", 8);
+
+    var showArrow = function() {
+      var kitteh = world.currentKitten();
+      var properties = kitteh.properties;
+      var pos = convertToCanvasCoords(Vector.add(kitteh.position, properties.arrowOffset));
+      drawImage(properties.arrowImage, pos.x, pos.y);
+    };
+
+    var hideArrow = function() {
+      var kitteh = world.currentKitten();
+      kineticImages[kitteh.properties.arrowImage].hide();
+    };
+
+    world.onSwitchPlayer(showArrow);
+    world.onLaunchHairball(hideArrow);
+
     return renderer;
 };
