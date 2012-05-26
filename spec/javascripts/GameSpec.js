@@ -231,23 +231,6 @@ describe('Hairballistics', function() {
         });
     });
 
-    describe("turns", function() {
-
-        beforeEach(function(){
-          setUpDefaultGame();
-        })
-
-        it("changes after launched hairball hits something", function() {
-            splatHairBallToward(Point(0,1))
-            expect(world.currentKitten()).toBe(kitten2);
-        });
-
-        it("does not change until hairball hits something", function() {
-            world.launchHairball(Point(1, 1));
-            expect(world.currentKitten()).toBe(kitten1);
-        });
-    });
-
     describe("scores", function() {
 
         beforeEach(function(){
