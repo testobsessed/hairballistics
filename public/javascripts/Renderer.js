@@ -17,9 +17,11 @@ var Renderer = function(container, world) {
         'stars_06.png',
         'stars_07.png',
         'stars_08.png',
-        'terrain_high.png',
-        'terrain_low.png',
-        'terrain_medium.png',
+        'terrain1.png',
+        'terrain2.png',
+        'terrain3.png',
+        'terrain4.png',
+        'terrain5.png',
         'hairballistics_intro.png',
     ];
 
