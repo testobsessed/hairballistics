@@ -32,7 +32,7 @@ var Kitten = function(x, y, properties) {
         },
         incrementPower: function() {
            mag = Vector.magnitude(targetingLine);
-           targetingLine = Vector.setMagnitude(targetingLine, ((mag + .2) % 50) + 1);
+           targetingLine = Vector.setMagnitude(targetingLine, ((mag + .2) % properties.MAX_POWER) + 1);
         },
         resetPower: resetPower,
         faint: function() {

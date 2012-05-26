@@ -5,6 +5,7 @@ var World = function() {
     var rightWall = WIDTH - margin;
     var floor = margin;
     var positioningFudgeFactor = 30;
+    var MAX_POWER = 50;
 
     var getHairball = function() {
         return stateObject.hairball;
@@ -29,6 +30,7 @@ var World = function() {
             mouthOffset: Point(50, 25),
             bamOffset: Point(80, -90),
             targetingLine: Point(2, 1),
+            MAX_POWER: MAX_POWER,
         }),
         kitten2: Kitten(rightWall-kittenWidth - positioningFudgeFactor, 70, {
             headImage: "black_head.png",
@@ -37,6 +39,7 @@ var World = function() {
             mouthOffset: Point(-10, 25),
             bamOffset: Point(-155, -90),
             targetingLine: Point(-2, 1),
+            MAX_POWER: MAX_POWER,
         }),
         switchPlayer: function() {
             var tmp = stateObject.kitten1;
@@ -107,6 +110,7 @@ var World = function() {
         currentPower: function() {
             return stateObject.currentKitten().targetingLine();
         },
+        MAX_POWER: MAX_POWER,
     };
     _.each([0, 1, 2, 5, 3, 2, 1, 4, 5, 2, 4, 3, 1], function(height, i) {
         var heights = {
