@@ -45,33 +45,44 @@ var World = function() {
             var tmp = stateObject.kitten1;
             stateObject.kitten1 = stateObject.kitten2;
             stateObject.kitten2 = tmp;
-            $(this).trigger('switchPlayerEvent');
+            $(stateObject).trigger('switchPlayerEvent');
         },
         onSwitchPlayer: function(callback) {
-            $(this).on('switchPlayerEvent', callback);
+            $(stateObject).on('switchPlayerEvent', callback);
         },
         currentKitten: function() {
             return stateObject.kitten1;
         },
         opponentKitten: opponentKitten,
         faintKitten: function() {
-            $(this).trigger('faintEvent', opponentKitten());
+            $(stateObject).trigger('faintEvent', opponentKitten());
         },
         onFaintKitten: function(callback) {
-            $(this).on('faintEvent', callback);
+            $(stateObject).on('faintEvent', callback);
         },
         hairballSplat: function() {
             stateObject.hairball.splat();
-            $(this).trigger('splatEvent');
+            $(stateObject).trigger('splatEvent');
         },
         onHairballSplat: function(callback) {
-            $(this).on('splatEvent', callback);
+            $(stateObject).on('splatEvent', callback);
+        },
+        onEndOfTurn: function(callback) {
+          $(stateObject).on('endOfTurnEvent', callback);
+        },
+        endOfTurn: function() {
+          $(stateObject).trigger('endOfTurnEvent');
+          stateObject.switchPlayer();
+        },
+        onLaunchHairball: function(callback) {
+          $(stateObject).on("launchHairballEvent", callback);
         },
         launchHairball: function(vector) {
             var hairballPos = stateObject.currentKitten().headPosition();
             var hairballOffset = Point(-15, 15);
 
             stateObject.hairball = Hairball(Vector.add(hairballPos, hairballOffset), vector);
+            $(stateObject).trigger("launchHairballEvent");
             return stateObject.hairball;
         },
         withHairball: function(fn) {
@@ -112,6 +123,7 @@ var World = function() {
         },
         MAX_POWER: MAX_POWER,
     };
+
     _.each([0, 1, 2, 5, 3, 2, 1, 4, 5, 2, 4, 3, 1], function(height, i) {
         var heights = {
             0: 0,

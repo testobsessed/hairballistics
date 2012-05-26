@@ -27,12 +27,6 @@ var Hairball = function(position, velocity) {
         splatted: function() {
             return splatted;
         },
-        splatKitten: function() {
-            splattedKitten = true;
-        },
-        hasNotSplattedAKitten: function(){
-            return !splattedKitten;
-        }
     }
 };
 

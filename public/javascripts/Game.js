@@ -25,7 +25,7 @@ $(document).ready(function() {
             setTimeout(keyHandler.resume, 2000);
             setTimeout(renderer.hideStars, 2000);
             setTimeout(renderer.hideBam, 2000);
-            setTimeout(world.switchPlayer, 2000);
+            setTimeout(world.endOfTurn, 2000);
         };
 
         world.onHairballSplat(suspendAndResume);

@@ -13,7 +13,7 @@ describe('Collisions in the world:', function() {
     });
     it('hairball colliding with terrain switchesPlayer', function() {
         var world = World();
-        spyOn(world, 'switchPlayer');
+        spyOn(world, 'hairballSplat');
         var detector = WorldCollisionDetector(world);
 
         world.setHairball(Hairball(Point(100, 100)));
@@ -22,11 +22,11 @@ describe('Collisions in the world:', function() {
         ]);
 
         detector.checkCollisions();
-        expect(world.switchPlayer).toHaveBeenCalled();
+        expect(world.hairballSplat).toHaveBeenCalled();
     });
     it('hairball colliding with terrain switches player only once', function() {
         var world = World();
-        spyOn(world, 'switchPlayer');
+        spyOn(world, 'hairballSplat');
         var detector = WorldCollisionDetector(world);
 
         world.setHairball(Hairball(Point(100, 100)));
@@ -36,6 +36,6 @@ describe('Collisions in the world:', function() {
 
         detector.checkCollisions();
         detector.checkCollisions();
-        expect(world.switchPlayer.callCount).toEqual(1);
+        expect(world.hairballSplat.callCount).toEqual(1);
     });
 });
