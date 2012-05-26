@@ -7,7 +7,6 @@ var Kitten = function(x, y, properties) {
                 properties.targetingLine, angle);
     }
     resetPower();
-    var fainted = false;
     var score = 0;
 
     var updateTargetingLine = function() {
@@ -33,14 +32,11 @@ var Kitten = function(x, y, properties) {
         },
         incrementPower: function() {
            mag = Vector.magnitude(targetingLine);
-           targetingLine = Vector.setMagnitude(targetingLine, ((mag + .2) % 50) + 1);
+           targetingLine = Vector.setMagnitude(targetingLine, ((mag + .2) % properties.MAX_POWER) + 1);
         },
         resetPower: resetPower,
         faint: function() {
             fainted = true;
-        },
-        fainted: function() {
-            return fainted;
         },
         score: function() {
             return score;

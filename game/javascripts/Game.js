@@ -19,6 +19,18 @@ $(document).ready(function() {
             ticker.tick();
             renderer.redraw();
         };
+
+        var suspendAndResume = function() {
+            keyHandler.suspend();
+            setTimeout(keyHandler.resume, 2000);
+            setTimeout(renderer.hideStars, 2000);
+            setTimeout(renderer.hideBam, 2000);
+            setTimeout(world.endOfTurn, 2000);
+        };
+
+        world.onHairballSplat(suspendAndResume);
+        world.onFaintKitten(renderer.faintKitten);
+
         keyHandler.onRotateClockwise(renderer.rotateKittenHeadClockwise);
         keyHandler.onRotateCounterClockwise(renderer.rotateKittenHeadCounterClockwise);
         setInterval(redraw, 24); // ~48 fps

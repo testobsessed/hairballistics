@@ -13,6 +13,9 @@ var Rect = function(x, y, w, h) {
 
 var Collision = {
     overlap: function(r1, r2) {
+        if (!(r1 && r2)) {
+            return false;
+        }
         if (r2.bottom > r1.top) {
             return false;
         } else if (r2.top < r1.bottom) {

@@ -1,40 +1,63 @@
 var WorldCollisionDetector = function(world) {
-
-    var detectCollisionWithFloor = function(hairball) {
-        return hairball.position().y <= (world.floor + world.margin);
-    }
-
-    var detectCollisionWithRightWall = function(hairball) {
-        return hairball.position().x >= (world.right_wall - world.margin);
-    }
-
-    var detectCollisionWithLeftWall = function(hairball) {
-        return hairball.position().x <= (world.left_wall + world.margin);
+    var boundaries = {
+        left: world.leftWall + world.margin,
+        right: world.rightWall - world.margin,
+        bottom: world.floor + world.margin,
     }
 
     var detectCollisionWithBoundaries = function(hairball) {
-        return detectCollisionWithFloor(hairball) || detectCollisionWithRightWall(hairball) || detectCollisionWithLeftWall(hairball);
+        if (!hairball) {
+            return false;
+        }
+        var position = hairball.position();
+
+        return position.y <= boundaries.bottom ||
+               position.x <= boundaries.left ||
+               position.x >= boundaries.right;
 
     }
     var detectCollision = function(object1, object2) {
+        if(!(object1 && object2)) {
+            return false;
+        }
         return Collision.overlap(object1.boundingRectangle(), object2.boundingRectangle());
     };
+    var enabled = true;
+
+    var disable = function() {
+        enabled = false;
+    };
+
+    var enable = function() {
+        enabled = true;
+    };
+
+    world.onLaunchHairball(enable);
+
     return {
         checkCollisions: function() {
-            if (world.hairball) {
-                if (detectCollision(world.hairball, world.opponentKitten())) {
-                    world.currentKitten().scoredHit();
-                    world.opponentKitten().faint();
-                }
+            if (!enabled) { return; }
+
+            if (detectCollision(world.hairball, world.opponentKitten())) {
+                world.currentKitten().scoredHit();
+                world.hairballSplat();
+                world.faintKitten();
+                disable();
             }
 
-            if(world.hairball && !world.hairball.splatted()) {
-                if(detectCollisionWithBoundaries(world.hairball)) {
-                    world.hairball.splat();
-                    world.switchPlayer();
+            var terrain = world.getTerrain();
+            _.each(terrain, function(terrainPiece) {
+                if (detectCollision({ boundingRectangle: function() { return terrainPiece }}, world.hairball)) {
+                    world.hairballSplat();
+                    disable();
                 }
+            });
+
+            if(detectCollisionWithBoundaries(world.hairball)) {
+                world.hairballSplat();
+                disable();
             }
-        }
+        },
     };
 };
 

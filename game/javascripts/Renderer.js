@@ -17,9 +17,11 @@ var Renderer = function(container, world) {
         'stars_06.png',
         'stars_07.png',
         'stars_08.png',
-        'terrain_high.png',
-        'terrain_low.png',
-        'terrain_medium.png',
+        'terrain1.png',
+        'terrain2.png',
+        'terrain3.png',
+        'terrain4.png',
+        'terrain5.png',
         'hairballistics_intro.png',
     ];
 
@@ -82,6 +84,11 @@ var Renderer = function(container, world) {
         });
     };
 
+    var moveImage = function(filename, x, y) {
+        kineticImages[filename].setX(x);
+        kineticImages[filename].setY(y);
+    };
+
     var drawImage = function(filename, x, y) {
         kineticImages[filename].setX(x);
         kineticImages[filename].setY(y);
@@ -95,7 +102,6 @@ var Renderer = function(container, world) {
     var setScoreMessage = function(score) {
         document.getElementById('scores').innerHTML = score;
     };
-
 
     var convertToCanvasCoords = function(pos) {
         return Point(pos.x, HEIGHT-pos.y);
@@ -157,11 +163,7 @@ var Renderer = function(container, world) {
 
         drawImage(prop.headImage, headPos.x, headPos.y);
 
-        if (kitten.fainted()) {
-            var bamPos = Vector.add(bodyPos, prop.bamOffset);
-            drawImage('bam.png', bamPos.x, bamPos.y);
-            animator.draw("stars", bodyPos.x, bodyPos.y - 20);
-        }
+        animator.draw("stars", bodyPos.x, bodyPos.y - 20);
 
         var r = kitten.boundingRectangle();
         var screenPos = Point(r.x, r.y);
@@ -173,24 +175,36 @@ var Renderer = function(container, world) {
 
     var drawTerrain = function(terrain) {
         _.each(terrain, function(height, idx) {
-            var pos = convertToCanvasCoords(Point(60*idx + world.left_wall + world.positioningFudgeFactor, 0));
+            var pos = convertToCanvasCoords(Point(60*idx + world.leftWall + world.positioningFudgeFactor, 0));
 
             if (height === 1) {
-                var image = addImage('terrain_low.png');
+                var image = addImage('terrain1.png');
                 image.setX(pos.x);
                 image.setY(pos.y-33-world.floor);
                 image.setZIndex(-1000);
             }
             if (height === 2) {
-                var image = addImage('terrain_medium.png');
+                var image = addImage('terrain2.png');
                 image.setX(pos.x);
                 image.setY(pos.y-60-world.floor);
                 image.setZIndex(-1000);
             }
             if (height === 3) {
-                var image = addImage('terrain_high.png');
+                var image = addImage('terrain3.png');
                 image.setX(pos.x);
                 image.setY(pos.y-93-world.floor);
+                image.setZIndex(-1000);
+            }
+            if (height === 4) {
+                var image = addImage('terrain4.png');
+                image.setX(pos.x);
+                image.setY(pos.y-117-world.floor);
+                image.setZIndex(-1000);
+            }
+            if (height === 5) {
+                var image = addImage('terrain5.png');
+                image.setX(pos.x);
+                image.setY(pos.y-141-world.floor);
                 image.setZIndex(-1000);
             }
         });
@@ -211,10 +225,7 @@ var Renderer = function(container, world) {
     };
 
     initializeCanvas();
-
-    if (FEATURE_FLAGS.terrain) {
-        world.withTerrain(drawTerrain);
-    }
+    world.withTerrain(drawTerrain);
 
     var renderer = {
         redraw: function() {
@@ -228,8 +239,22 @@ var Renderer = function(container, world) {
             toggleBoundingBoxes(world.inCheatMode);
         },
         drawImage: drawImage,
+        moveImage: moveImage,
         rotateKittenHeadClockwise: rotateKittenHeadClockwise,
         rotateKittenHeadCounterClockwise: rotateKittenHeadCounterClockwise,
+        hideStars: function() {
+            animator.hide();
+        },
+        hideBam: function() {
+            kineticImages['bam.png'].hide();
+        },
+        faintKitten: function(event, kitten) {
+            var bodyPos = convertToCanvasCoords(kitten.position);
+            var bamPos = Vector.add(bodyPos, kitten.properties.bamOffset);
+            drawImage('bam.png', bamPos.x, bamPos.y);
+            animator.show();
+            animator.draw("stars", bodyPos.x, bodyPos.y - 20);
+        },
     };
     var animator = Animator(renderer, kineticImages);
     animator.addAnimation("stars", 8);
