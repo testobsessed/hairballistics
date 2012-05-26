@@ -261,6 +261,20 @@ var Renderer = function(container, world) {
     var animator = Animator(renderer, kineticImages);
     animator.addAnimation("stars", 8);
 
-    //drawImage('orange-kitteh-turn.png', 150, 320);
+    var showArrow = function() {
+      var kitteh = world.currentKitten();
+      var properties = kitteh.properties;
+      var pos = convertToCanvasCoords(Vector.add(kitteh.position, properties.arrowOffset));
+      drawImage(properties.arrowImage, pos.x, pos.y);
+    };
+
+    var hideArrow = function() {
+      var kitteh = world.currentKitten();
+      kineticImages[kitteh.properties.arrowImage].hide();
+    };
+
+    world.onSwitchPlayer(showArrow);
+    world.onLaunchHairball(hideArrow);
+
     return renderer;
 };
