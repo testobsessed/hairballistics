@@ -78,7 +78,7 @@ var Renderer = function(container, world) {
                 y: 0,
                 width: 10,
                 height: 10,
-                stroke: "black",
+                stroke: "white",
                 strokeWidth: 1,
             });
             layer.add(n);
