@@ -78,10 +78,10 @@ var KeyHandler = function(world) {
     downEvents[KEYS.C] = function() {
         world.inCheatMode = world.inCheatMode ? false : true;
         if (world.inCheatMode) {
-          $("#game").css("background-image", "url('../public/images/matrix.png')");
+          $("#game").css("background-image", "url('images/matrix.png')");
         }
         else {
-          $("#game").css("background-image", "url('../public/images/hairbaillistics_roomBG.png')");
+          $("#game").css("background-image", "url('images/hairbaillistics_roomBG.png')");
         }
     };
 
