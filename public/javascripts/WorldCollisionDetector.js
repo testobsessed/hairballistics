@@ -21,7 +21,8 @@ var WorldCollisionDetector = function(world) {
             if (world.hairball && world.hairball.hasNotSplattedAKitten()) {
                 if (detectCollision(world.hairball, world.opponentKitten())) {
                     world.currentKitten().scoredHit();
-                    world.opponentKitten().faint();
+                    world.faintKitten();
+                    world.hairballSplat();
                     world.hairball.splatKitten();
                 }
             }
@@ -30,7 +31,7 @@ var WorldCollisionDetector = function(world) {
                 var terrain = world.getTerrain();
                 _.each(terrain, function(terrainPiece) {
                     if (Collision.overlap(terrainPiece, world.hairball.boundingRectangle())) {
-                        world.hairball.splat();
+                        world.hairballSplat();
                         world.switchPlayer();
                     }
                 });
