@@ -176,21 +176,33 @@ var Renderer = function(container, world) {
             var pos = convertToCanvasCoords(Point(60*idx + world.leftWall + world.positioningFudgeFactor, 0));
 
             if (height === 1) {
-                var image = addImage('terrain_low.png');
+                var image = addImage('terrain1.png');
                 image.setX(pos.x);
                 image.setY(pos.y-33-world.floor);
                 image.setZIndex(-1000);
             }
             if (height === 2) {
-                var image = addImage('terrain_medium.png');
+                var image = addImage('terrain2.png');
                 image.setX(pos.x);
                 image.setY(pos.y-60-world.floor);
                 image.setZIndex(-1000);
             }
             if (height === 3) {
-                var image = addImage('terrain_high.png');
+                var image = addImage('terrain3.png');
                 image.setX(pos.x);
                 image.setY(pos.y-93-world.floor);
+                image.setZIndex(-1000);
+            }
+            if (height === 4) {
+                var image = addImage('terrain4.png');
+                image.setX(pos.x);
+                image.setY(pos.y-117-world.floor);
+                image.setZIndex(-1000);
+            }
+            if (height === 5) {
+                var image = addImage('terrain5.png');
+                image.setX(pos.x);
+                image.setY(pos.y-141-world.floor);
                 image.setZIndex(-1000);
             }
         });

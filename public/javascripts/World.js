@@ -81,18 +81,9 @@ var World = function() {
             fn(stateObject.kitten2);
         },
 
-        terrainRectangles: [
-            Rect(60*3 + leftWall + positioningFudgeFactor,
-                    floor, 60, 33),
-            Rect(60*4 + leftWall + positioningFudgeFactor,
-                    floor, 60, 60),
-            Rect(60*5 + leftWall + positioningFudgeFactor,
-                    floor, 60, 93),
-            Rect(60*6 + leftWall + positioningFudgeFactor,
-                    floor, 60, 60),
-        ],
+        terrainRectangles: [],
         withTerrain: function(fn) {
-            var terrain = [0, 0, 0, 1, 2, 3, 2];
+            var terrain = [0, 1, 2, 5, 3, 2, 1, 4, 5, 2, 4, 3, 1];
             fn(terrain);
         },
         setTerrain: function(terrainRectangles) {
@@ -117,5 +108,21 @@ var World = function() {
             return stateObject.currentKitten().targetingLine();
         },
     };
+    _.each([0, 1, 2, 5, 3, 2, 1, 4, 5, 2, 4, 3, 1], function(height, i) {
+        var heights = {
+            0: 0,
+            1: 33,
+            2: 60,
+            3: 93,
+            4: 117,
+            5: 141,
+        };
+        stateObject.terrainRectangles.push(
+            Rect(
+                60*i + leftWall + positioningFudgeFactor,
+                floor,
+                60,
+                heights[height]));
+    });
     return stateObject;
 };
